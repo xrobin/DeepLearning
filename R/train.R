@@ -1,0 +1,62 @@
+#' @title Fine-tunes the Deep Belief Net
+#' @description Performs fine-tuning on the DBN network with backpropagation.
+#' @param x the DBN
+#' @param data the training data
+#' @param miniters,maxiters minimum and maximum number of iterations to perform
+#' @param batchsize the size of the batches on which error & gradients are averaged
+#' @param continue.function that can stop the training between miniters and maxiters if it returns \code{FALSE}. 
+#' By default, \code{\link{continue.function.exponential}} will be used. An alternative is to use \code{\code{continue.function.always}} that will always return true and thus carry on with the training until maxiters is reached.
+#' A user-supplied function must accept \code{(error, iter, batchsize)} as input and return a \code{\link{logical}} of length 1. The training is stopped when it returns \code{FALSE}.
+#' @param continue.function.frequency the frequency at which continue.function will be assessed.
+#' @param continue.stop.limit the number of consecutive times \code{continue.function} must return \code{FALSE} before the training is stopped. For example, \code{1} will stop as soon as \code{continue.function} returns \code{FALSE}, whereas \code{Inf} will ensure the result of \code{continue.function} is never enforced (but the function is still executed). The default is \code{3} so the training will continue until 3 consecutive calls of \code{continue.function} returned \code{FALSE}, giving more robustness to the decision.
+#' @param optim.control control arguments for the optim function that are not typically changed for normal operation. The parameters are:
+#' maxit, type, trace, steplength, stepredn, acctol, reltest, abstol, intol, setstep. Their default value is defined in TrainParameters.h.
+#' @param diag,diag.rate,diag.data diagnmostic specifications. See \code{\link{pretrain}} for more details
+#' @param n.proc number of cores to be used for Eigen computations
+#' @return the fine-tuned DBN
+#' @export
+train <- function(x, data, 
+                  miniters = 100, maxiters = 1000, 
+				  continue.function = continue.function.exponential, continue.function.frequency = 100, continue.stop.limit = 3,
+				  batchsize = 100,
+				  optim.control = list(),
+				  diag = list(rate = diag.rate, data=diag.data), diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
+				  n.proc = detectCores() - 1
+				  ) {
+	if (!x$unrolled)
+		stop("DBN must be unrolled before it can be trained")
+	
+	ensure.data.validity(data, x[[1]]$input)
+	
+	# Check diagnostic 
+	if (is.null(diag.data)) {
+		# If no diag.data was provided, take it from the training set
+		sample.size <- nrow(data)
+		diag.data <- data[sample(seq_len(sample.size), min(sample.size, 100)), ]
+	}
+	diag$rate <- match.arg(diag$rate, c("none", "each", "accelerate"))
+	
+	# Check content of optim.control
+	optim.names <- c("maxit", "type", "trace", "steplength", "stepredn", "acctol", "reltest", "abstol", "intol", "setstep")
+	allowed.names <- names(optim.control) %in% optim.names
+	if (any(!allowed.names)) {
+		warning(paste("Elements were ignored in optim.control: ", paste(names(optim.control)[!allowed.names], collapse=", ")))
+	}
+	
+	# Training parameters 
+	train.control <- list(
+		miniters = miniters,
+		maxiters = maxiters,
+		continue.function = continue.function,
+		continue.function.frequency = continue.function.frequency,
+		continue.stop.limit = continue.stop.limit,
+		batchsize = batchsize,
+		n.proc = n.proc,
+		optim.control = optim.control
+	)
+
+	x <- trainDbnCpp(x, data, train.control, diag)
+	
+	x$finetuned <- TRUE
+	return(x)
+}

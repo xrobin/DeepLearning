@@ -1,0 +1,5 @@
+library(methods)
+library(testthat)
+library(DeepLearning)
+test_file("inst/testthat/gradient_checks.R")
+test_package("DeepLearning")

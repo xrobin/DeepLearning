@@ -1,0 +1,1551 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Deep Learning
+\end_layout
+
+\begin_layout Standard
+While deep neural network architectures have been out for many years, they
+ were difficult to train with backpropagation algorithms - the errors would
+ blur after a few layers.
+ Hinton
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hinton_fast_2006"
+
+\end_inset
+
+ introduced a way to pre-train the network weights based on Restricted Bolzman
+ Machines (RBMs).
+ An RBM converts an input vector of length 
+\begin_inset Formula $n$
+\end_inset
+
+ into a hidden layer vector of length 
+\begin_inset Formula $m$
+\end_inset
+
+.
+ Hinton provides a general introduction and Matlab code
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hinton_fast_2006"
+
+\end_inset
+
+.
+ Bengio 
+\shape italic
+et al.
+
+\shape default
+ provide detailed algorithms and a proper handling of unit continuous input
+ layers
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bengio_greedy_2007"
+
+\end_inset
+
+.
+ Bengio also provides an in-depth overview of deep learning
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bengio_learning_2009"
+
+\end_inset
+
+.
+ Once it is pre-trained, the nework is unrolled and fine-tuned with standard
+ backpropagation.
+\end_layout
+
+\begin_layout Section
+General definitions
+\end_layout
+
+\begin_layout Subsection
+Energy function
+\end_layout
+
+\begin_layout Standard
+For an RBM, the energy is calculated as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{equation}
+E(\bar{f},\bar{h})=-\sum_{i}b_{i}f_{i}-\sum_{j}c_{j}h_{j}-\sum_{ij}W_{ji}f_{i}h_{j}\label{eq:energy}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Where 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\bar{f}=(f_{1},\ldots,f_{n})$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ is the input feature vector, 
+\begin_inset Formula $\bar{b}$
+\end_inset
+
+ the biases on 
+\begin_inset Formula $\bar{f}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{h}$
+\end_inset
+
+ is the hidden features vector and 
+\begin_inset Formula $\bar{c}$
+\end_inset
+
+ the biases of 
+\begin_inset Formula $\bar{h}$
+\end_inset
+
+, and 
+\begin_inset Formula $W$
+\end_inset
+
+ is the weight matrix where 
+\begin_inset Formula $W_{ij}$
+\end_inset
+
+ is the weight between 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $h_{j}$
+\end_inset
+
+.
+ Hereafter, the vector versions of 
+\begin_inset Formula $\bar{f}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{h}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{b}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{c}$
+\end_inset
+
+ will be noted 
+\begin_inset Formula $f$
+\end_inset
+
+, 
+\begin_inset Formula $h$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ respectively.
+\end_layout
+
+\begin_layout Standard
+For the whole deep network, given a gaussian input, the following can be
+ computed:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{equation}
+E(\bar{f})=-\sum_{i}\frac{1}{2}b_{i}f_{i}^{2}-\sum_{l=1}^{N}\left(\sum_{i}b_{i}^{l}h_{i}^{l-1}-\sum_{j}c_{j}^{l}h_{j}^{l}-\sum_{ij}W_{ji}^{l}h_{i}^{l-1}h_{j}^{l}\right)\label{eq:energy-whole-net}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Activation function
+\end_layout
+
+\begin_layout Standard
+The activation function transforms the activations 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ into activities 
+\begin_inset Formula $z$
+\end_inset
+
+.
+ For a given layer 
+\begin_inset Formula $l$
+\end_inset
+
+ of the network, we can define:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+z_{j}^{(l)}=h^{(l)}(\alpha_{j}^{(l)})
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For a sigmoid binary layer, the following function is used:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sigma_{b}(\alpha)=h_{b}(\alpha)=\frac{1}{1+e^{-\alpha}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and its derivative is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sigma_{b}^{'}(\alpha)=h_{b}^{'}(\alpha)=\frac{e^{-\alpha}}{(1+e^{-\alpha})^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And for a continuous sigmoid layer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sigma_{c}(\alpha)=h_{c}(\alpha)=\frac{e^{\alpha}(1-\frac{1}{\alpha})+\frac{1}{\alpha}}{e^{\alpha}-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\]
+
+\end_inset
+
+
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+This value for the limit of the second derivative was estabished by testing
+ with R on a 64bits MacOS X system.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\sigma_{c}^{'}(\alpha)=h{}_{c}^{'}(\alpha)=\begin{cases}
+\frac{1}{\alpha^{2}}-\frac{1}{e^{\alpha}+e^{-\alpha}-2}, & \alpha\neq0\\
+\frac{1}{12}-\frac{\alpha^{2}}{240}, & |\alpha|<10^{-5}
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In our setup we should not need its derivative.
+\end_layout
+
+\begin_layout Standard
+Finally for a gaussian layer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sigma_{g}(\alpha)=h_{g}(\alpha)=\alpha
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and its derivative:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\sigma_{g}^{'}(\alpha)=h_{g}^{'}(\alpha)=1
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The activations for layer 
+\begin_inset Formula $l$
+\end_inset
+
+ are defined as
+\begin_inset Formula 
+\begin{equation}
+\alpha_{j}^{(l)}=\sum_{\tilde{i}}W_{j\tilde{i}}^{(l)}z_{\tilde{i}}^{(l-1)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here 
+\begin_inset Formula $\tilde{i}$
+\end_inset
+
+ is a dummy index on the 
+\begin_inset Formula $i$
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+i.e it has an effect only when 
+\begin_inset Formula $\tilde{i}=j$
+\end_inset
+
+ where 
+\begin_inset Formula $j$
+\end_inset
+
+ is now the indices on the layer 
+\begin_inset Formula $l-1$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
+ See also the next section for a slightly different definition of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, where the biases are separated from the weights.
+\end_layout
+
+\begin_layout Standard
+An equivalent form with separate biases 
+\begin_inset Formula $b$
+\end_inset
+
+ is used during the contrasted divergence:
+\begin_inset Formula 
+\begin{equation}
+\alpha_{j}^{(l)}=b_{j}^{(l)}+W_{j\tilde{i}}^{(l)}z_{\tilde{i}}^{(l-1)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Pre-training of the RBM
+\end_layout
+
+\begin_layout Standard
+The RBM can be pre-trained by sampling the hidden node in a positive phase,
+ then resampling a feature vector and a new hidden layer, and using the
+ reconstruction error to compute an update of the weights of the RBM.
+\end_layout
+
+\begin_layout Subsection
+Computation of hidden layer and feature vector reconstruction
+\end_layout
+
+\begin_layout Standard
+\noindent
+One can derive several probabilities from the energy function 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:energy"
+
+\end_inset
+
+.
+ The relationship is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P(h,f)=\frac{1}{z}e^{-E(f,h)}\label{eq:energy_to_p}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $Z$
+\end_inset
+
+ is a normalization constant.
+\end_layout
+
+\begin_layout Standard
+\noindent
+With a sigmoid activation function, the probability of the hidden layer,
+ given the data f is then expressed as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P(h_{j}|f)=\frac{e^{\alpha_{j}h_{j}}}{1+e^{\alpha_{j}}}\label{eq:p(h|f)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\langle h\rangle_{|f}=P(h_{j}=1|f)=\frac{1}{1+e^{-\alpha_{j}}}\label{eq:p(h=1|f)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\alpha_{j}=c_{j}+\underset{i}{\sum}W_{ij}f_{i}\label{eq:alpha}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+For a binary visible layer, the probability is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{b}(f_{i}=1|h)=\frac{1}{1+e^{-\beta_{i}}}\label{eq:Pb(f|h)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\begin_inset Formula 
+\begin{equation}
+\beta_{i}=b_{i}+\underset{j}{\sum}W_{ij}h_{j}\label{eq:beta}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+For a unit continuous visible layer, the one must in addition pass an 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{c}(f_{i}|h)=\frac{\beta_{i}}{e^{\beta_{i}}-1}e^{\beta_{i}f_{i}}\label{Pc(f|h)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The expectation value is then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\langle h\rangle_{|f}=\frac{e^{\alpha_{i}}(1-\frac{1}{\alpha_{i}})+\frac{1}{\alpha_{i}}}{e^{\alpha_{i}}-1}\label{Expectation_continuous}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hinton
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hinton_fast_2006"
+
+\end_inset
+
+ doesn't describe it in detail, but he trains gaussian layers as gaussian
+ (see Matlab code).
+ Those layers have the following expectation value:
+\end_layout
+
+\begin_layout Standard
+The expectation value is then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\langle h\rangle_{|f}=\alpha\label{Expectation_gaussian}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Updating rule
+\end_layout
+
+\begin_layout Standard
+We use gradient descent to update the weight and biases 
+\begin_inset Formula $W$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ For this, one must compute the following update terms for each data point
+ 
+\begin_inset Formula $f^{0}$
+\end_inset
+
+ iteratively:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+W'=W+\tanh(\epsilon_{W}(h^{0^{T}}f^{0}-h^{1^{T}}f^{1}))\label{eq:update_W}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+b'=b+\tanh(\epsilon_{b}(f^{0}-f^{1}))\label{eq:update_b}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c'=c+\tanh(\epsilon_{c}(h^{0}-h^{1}))\label{eq:update_c}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $\epsilon_{x}$
+\end_inset
+
+ is the learning rate for 
+\begin_inset Formula $W$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+, and 
+\begin_inset Formula $W$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ are initially filled with 0.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $h^{0}$
+\end_inset
+
+ is the hidden vector sampled from 
+\begin_inset Formula $f^{0}$
+\end_inset
+
+ with 
+\begin_inset Formula $P(h=1|f)$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f^{1}$
+\end_inset
+
+ is the expectation value of 
+\begin_inset Formula $f$
+\end_inset
+
+ given 
+\begin_inset Formula $h^{0}$
+\end_inset
+
+ (
+\begin_inset Formula $P(f|h^{0})$
+\end_inset
+
+ for binary and unit continuous inputs, 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ for gaussian inputs), and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $h^{1}$
+\end_inset
+
+ is the expectation value of 
+\begin_inset Formula $h$
+\end_inset
+
+ given 
+\begin_inset Formula $f^{1}$
+\end_inset
+
+ (
+\begin_inset Formula $P(h=1|f)$
+\end_inset
+
+ for binary and unit continuous outputs, 
+\begin_inset Formula $\beta$
+\end_inset
+
+ for gaussian outputs).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+Bengio 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bengio_greedy_2007"
+
+\end_inset
+
+ uses 
+\begin_inset Formula $P(h=1|f^{1})$
+\end_inset
+
+ directly (he calls that 
+\begin_inset Formula $Q$
+\end_inset
+
+), instead of 
+\begin_inset Formula $h^{1}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sampling
+\end_layout
+
+\begin_layout Standard
+To resample a hidden unit from a unit continuous feature vector 
+\begin_inset Formula $f$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+h_{j}=y_{j}<P(h_{j}=1|f)\label{eq:sample_P(h|f)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $y_{j}$
+\end_inset
+
+ is a random number drawn from a uniform distribution between 0 and 1.
+\end_layout
+
+\begin_layout Standard
+\noindent
+To resample a binary feature vector from the hidden unit 
+\begin_inset Formula $h$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+f_{i}=y_{i}<P_{b}(f_{i}=1|h)\label{eq:sample_P(f_binary|h)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+To resample a unit continuous feature vector:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Formula 
+\begin{equation}
+f_{i}\sim P_{c}(f_{i}|h)\label{eq:sample_f_from_P(f_continuous|h)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f_{i}=\begin{cases}
+\frac{1}{\beta_{i}}\log(y_{i}(e^{\beta_{i}}-1)+1) & \beta_{i}\neq0\\
+y_{i} & |\beta_{i}|<10^{-6}
+\end{cases}\label{eq:sample_P(f_continuous|h)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ is a random number drawn from a uniform distribution between 0 and 1, and
+ 
+\begin_inset Formula $\beta_{i}\simeq0$
+\end_inset
+
+ when 
+\begin_inset Formula $|\beta_{i}|<10^{6}$
+\end_inset
+
+
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+This value was estabished by testing with R on a 64bits MacOS X system.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Finally to resample a gaussian feature vector we use:
+\begin_inset Formula 
+\begin{equation}
+f_{i}=\beta_{i}+z_{i}\label{eq:sample_P(f_gaussian|h)-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ randomly drawn from a standard normal distribution.
+\end_layout
+
+\begin_layout Subsection
+Penalization
+\end_layout
+
+\begin_layout Standard
+Penalization or weight-decay prevents the weights 
+\begin_inset Formula $W$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ from becoming too large over the training.
+ Hinton 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hinton_fast_2006"
+
+\end_inset
+
+ penalizes only the weights 
+\begin_inset Formula $W$
+\end_inset
+
+, however in our experience we still observed some drift of 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+, so they are penalized as well.
+\end_layout
+
+\begin_layout Subsubsection
+L1
+\end_layout
+
+\begin_layout Standard
+With L1 penalization a few weights will be allowed to become quite large,
+ but most of them will be kept very small.
+ This favors sparsity for the network 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "pp. 145, 146"
+key "bishop_pattern_2006"
+
+\end_inset
+
+.
+ L1 penalizes 
+\begin_inset Formula $|W|$
+\end_inset
+
+, 
+\begin_inset Formula $|b|$
+\end_inset
+
+ and 
+\begin_inset Formula $|c|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The updating rules in equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update_W"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update_b"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update_c"
+
+\end_inset
+
+) are modified as follow:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+W'=W+\tanh(\epsilon_{W}(h^{0^{T}}f^{0}-h^{1^{T}}f^{1})-\lambda_{w}sign(W))\label{eq:update_W_L1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+b'=b+\tanh(\epsilon_{b}(f^{0}-f^{1})-\lambda_{b}sign(b))\label{eq:update_b_L1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c'=c+\tanh(\epsilon_{c}(h^{0}-h^{1})-\lambda_{c}sign(c))\label{eq:update_c_L1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the penalty for large weights 
+\begin_inset Formula $W$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+L2
+\end_layout
+
+\begin_layout Standard
+L2 penalizes 
+\begin_inset Formula $W^{2}$
+\end_inset
+
+, 
+\begin_inset Formula $b^{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $c^{2}$
+\end_inset
+
+.
+ Weights will not be allowed to become large, but they will not be penalized
+ if they are only slightly different from 0.
+\end_layout
+
+\begin_layout Standard
+The updating rules in equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update_W"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update_b"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:update_c"
+
+\end_inset
+
+) are modified as follow:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+W'=W+\tanh(\epsilon_{W}(h^{0^{T}}f^{0}-h^{1^{T}}f^{1})-\lambda_{w}W)\label{eq:update_W_L2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+b'=b+\tanh(\epsilon_{b}(f^{0}-f^{1})-\lambda_{b}b)\label{eq:update_b_L2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c'=c+\tanh(\epsilon_{c}(h^{0}-h^{1})-\lambda_{c}c)\label{eq:update_c_L2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Momentum
+\end_layout
+
+\begin_layout Standard
+We decided not to use momentum.
+ This is basically useless with weight-decay because the weights are already
+ constrained.
+\end_layout
+
+\begin_layout Subsection
+Convergence and stopping
+\end_layout
+
+\begin_layout Standard
+We still have to figure out when to stop the pre-training.
+ 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+Hopefully we can say we only need to see 
+\begin_inset Formula $n$
+\end_inset
+
+ cases before we have a reasonable fit - anyway we'll backpropagate in the
+ end.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Early stopping (i.e.
+ after going through all or a given number of the cases in the training
+ sample)
+\end_layout
+
+\begin_layout Itemize
+Error convergence (slow)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $log(P_{m}(X_{data}))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Parallel tempering
+\end_layout
+
+\begin_layout Section
+From Restricted Bolzman Machine to Deep Belief Networks
+\end_layout
+
+\begin_layout Standard
+A Deep Belief Networks (DBN) is a sequential stack of 
+\begin_inset Formula $l$
+\end_inset
+
+ RBMs, where the output of layer 
+\begin_inset Formula $l-1$
+\end_inset
+
+ becomes the input of layer 
+\begin_inset Formula $l$
+\end_inset
+
+ and 
+\begin_inset Formula $l$
+\end_inset
+
+ is relatively large.
+ It is defined by the vector of weights 
+\begin_inset Formula $\bar{W}=\{W^{(1)},W^{(2)},...,W^{(l)}\}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The DBM, can be unrolled, i.e.
+ the encoder DBM (that was just pre-trained) is duplicated into a decoder
+ that is reversed (inputs become outputs, 
+\begin_inset Formula $W$
+\end_inset
+
+ is transposed and 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ biases are exchanged) and added on top of the encoder into an 
+\shape italic
+autoencoder
+\shape default
+.
+ As a result the autoencoder has the same output as its input, 
+\begin_inset Formula $2l$
+\end_inset
+
+ layers.
+\end_layout
+
+\begin_layout Section
+Backpropagation and fine-tuning
+\end_layout
+
+\begin_layout Standard
+Once the DBN is pre-trained and unrolled, it can be fine-tuned with backpropagat
+ion.
+ The idea is to compute the error 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ of the prediction, and use the gradient of this error 
+\begin_inset Formula $\partial\varepsilon$
+\end_inset
+
+ to update the weights
+\end_layout
+
+\begin_layout Subsection
+Error computation
+\end_layout
+
+\begin_layout Standard
+In an unrolled autoencoder, the target of the output is the input itself.
+ Thus, if 
+\begin_inset Formula $x$
+\end_inset
+
+ is the data (noted 
+\begin_inset Formula $f$
+\end_inset
+
+ in the previous section), 
+\begin_inset Formula $y$
+\end_inset
+
+ is the output and 
+\begin_inset Formula $t$
+\end_inset
+
+ is the target we can write 
+\begin_inset Formula $t=f$
+\end_inset
+
+, and the quadratic error of a unit continuous output becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\varepsilon(y,t)=\frac{1}{2}\sum_{\tilde{j}}(y_{\tilde{j}}-t)_{\tilde{j}}^{2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For a categorical output with 
+\begin_inset Formula $k$
+\end_inset
+
+ categories:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\varepsilon_{n}=-\sum_{k=1}^{k}t_{nk}ln(y_{nk})
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula $\tilde{j}$
+\end_inset
+
+ as a dummy index.
+ We can express the gradient of the activation 
+\begin_inset Formula $j$
+\end_inset
+
+ of the last layer 
+\begin_inset Formula $L$
+\end_inset
+
+ as a function of the error at the last layer 
+\begin_inset Formula $L$
+\end_inset
+
+ as:
+\begin_inset Formula 
+\begin{equation}
+\delta_{j}^{(L)}=\frac{\partial\epsilon}{\partial y_{j}}\left[h^{(L)}\right]^{'}\left(\alpha_{j}^{(L)}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the case of a quadratic error function, we then have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\delta_{j}^{(L)}=(y_{j}-t_{j})\left[h^{(L)}\right]^{'}\left(\alpha_{j}^{(L)}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and for a categorical error function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\delta_{j}^{(L)}=\frac{-t_{j}}{y_{j}}\left[h^{(L)}\right]^{'}\left(\alpha_{j}^{(L)}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From this, we can backpropagate the gradient to the previous layers, for
+ instance 
+\begin_inset Formula $l=L-1$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\delta_{j}^{(L-1)}=\left[h^{(L-1)}\right]^{'}\left(\alpha_{j}^{(L-1)}\right)\sum_{i}W_{ji}^{(L)}\delta_{i}^{(L)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or more generally for any layer 
+\begin_inset Formula $l\neq L$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\delta_{j}^{(l-1)}=\left[h^{(l-1)}\right]^{'}\left(\alpha_{j}^{(l-1)}\right)\sum_{i}W_{ji}^{(l)}\delta_{i}^{(l)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can now use this gratient of the activations to compute the gradient
+ of the weights:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\epsilon}{\partial W_{ji}^{(l)}}=\delta_{j}^{(l)}z_{i}^{(l-1)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The biases are handled similarly, however they don't depend on lower layers
+ and simplify to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\epsilon}{\partial c_{j}}=\delta_{j}^{(l)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From this an optimal update of the weights can be computed with a method
+ such as conjugate gradient optimization.
+ The following map:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\epsilon}{\partial W_{ji}^{(l)}}=\frac{\partial\epsilon}{\partial W_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "biblio,biblio2,biblio3"
+options "naturemag"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

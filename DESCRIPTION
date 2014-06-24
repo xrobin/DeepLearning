@@ -1,0 +1,19 @@
+Package: DeepLearning
+Type: Package
+Title: Deep Learning of neural networks
+Version: 0.2
+Date: 2014-05-26
+Author: Xavier Robin
+Encoding: UTF-8
+Maintainer: Xavier Robin <xavier@cbs.dtu.dk>
+Description: Deep Learning of neural networks
+License: GPL (>= 2)
+Depends:
+    R (>= 3.1.0)
+Imports:
+    methods,
+    Rcpp (>= 0.10.6),
+    plotrix
+Roxygen: list(wrap = FALSE)
+LinkingTo: Rcpp, RcppEigen (>= 0.3.2.0), BH
+SystemRequirements: C++11
