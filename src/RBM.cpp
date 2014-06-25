@@ -260,7 +260,7 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 
 
 ArrayX1d RBM::error(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const {
-	return (reconstructions.array() - data.array()).square().colwise().sum();
+	return (reconstructions.array() - data.array()).square().colwise().sum().sqrt();
 }
 
 double RBM::errorSum(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const {
