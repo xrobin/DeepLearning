@@ -15,28 +15,44 @@ class DeepBeliefNet;
  * 
  *
  * In PretrainProgress, the following members must be implemented:
- * - virtual void operator()(RBM& x, unsigned int i); // i = batch number
+ * - virtual void operator()(const RBM&, const Eigen::MatrixXd& b, const unsigned int i); // b = batch; i = batch number
  * - virtual void setLayer(const size_t); // Keep track of the layer when pre-training a DBN
+ * - virtual void setBatchSize(const size_t); // Keep track of the batch size
+ * - virtual void setMaxIters(const unsigned int); // Keep track of the layer max # iterations
  * - virtual void setData(const Eigen::MatrixXd&); // Test dataset
  * - virtual void propagateData(const RBM&); // When a layer is trained, this function is called and updates the test data so that it can be used in the next layer
+ * - virtual void setFunction(const pretrainDiagFunctionType&); // a function to evaluate
+ * - virtual void reset(); // restarts the counter if any
  * 
  * In TrainProgress:
- * - virtual void operator()(DeepBeliefNet& x, unsigned int i); // i = batch number
+ * - virtual void operator()(const DeepBeliefNet&, const Eigen::MatrixXd& b, const unsigned int i); // b = batch; i = batch number
+ * - virtual void setBatchSize(const size_t); // Keep track of the batch size
+ * - virtual void setMaxIters(const unsigned int); // Keep track of the layer max # iterations
  * - virtual void setData(const Eigen::MatrixXd&); // Test dataset
+ * - virtual void setFunction(const trainDiagFunctionType&); // a function to evaluate
+ * - virtual void reset(); // restarts the counter if any
  */
-
+                                                 
 class PretrainProgress {
 	public:
-    virtual void operator()(RBM&, unsigned int) = 0;
+    virtual void operator()(const RBM&, const Eigen::MatrixXd&, const unsigned int) = 0;
     virtual void setLayer(const size_t) = 0;
+    virtual void setBatchSize(const size_t) = 0;
+    virtual void setMaxIters(const unsigned int) = 0;
     virtual void setData(const Eigen::MatrixXd&) = 0;
+    virtual void setFunction(const pretrainDiagFunctionType&) = 0;
     virtual void propagateData(const RBM&) = 0; 
+    virtual void reset() = 0; 
 };
 
 class TrainProgress {
 	public:
-    virtual void operator()(DeepBeliefNet&, unsigned int) = 0;
+    virtual void operator()(const DeepBeliefNet&, const Eigen::MatrixXd&, const unsigned int) = 0;
+    virtual void setBatchSize(const size_t) = 0;
+    virtual void setMaxIters(const unsigned int) = 0;
     virtual void setData(const Eigen::MatrixXd&) = 0;
+    virtual void setFunction(const trainDiagFunctionType&) = 0;
+    virtual void reset() = 0; 
 };
 
 /** NoOpPretrainProgress and NoOpTrainProgress are no-op implementations of PretrainProgress and TrainProgress.
@@ -45,10 +61,14 @@ class TrainProgress {
 
 class NoOpPretrainProgress: public PretrainProgress {
 	public:
-    void operator()(RBM&, unsigned int) {return;}
+    void operator()(const RBM&, const Eigen::MatrixXd&, const unsigned int) {return;}
     void setLayer(const size_t) {return;}
+    void setBatchSize(const size_t) {return;}
+    void setMaxIters(const unsigned int) {return;}
     void setData(const Eigen::MatrixXd&) {return;}
-    virtual void propagateData(const RBM&) {return;}
+    void propagateData(const RBM&) {return;}
+    void setFunction(const pretrainDiagFunctionType&) {return;}
+    void reset() {return;}
     static NoOpPretrainProgress& getInstance() {
     	static NoOpPretrainProgress anInstance;
     	return anInstance;
@@ -57,19 +77,17 @@ class NoOpPretrainProgress: public PretrainProgress {
 
 class NoOpTrainProgress: public TrainProgress {
 	public:
-    void operator()(DeepBeliefNet&, unsigned int) {return;}
+    void operator()(const DeepBeliefNet&, const Eigen::MatrixXd&, const unsigned int) {return;};
+    void setBatchSize(const size_t) {return;}
+    void setMaxIters(const unsigned int) {return;}
     void setData(const Eigen::MatrixXd&) {return;}
+    void setFunction(const trainDiagFunctionType&) {return;}
+    void reset() {return;}
     static NoOpTrainProgress& getInstance() {
     	static NoOpTrainProgress anInstance;
     	return anInstance;
    	}
 };
-
-
-/** PretrainProgressDo and TrainProgressDo are the functions that actually do something */
-void PretrainProgressDo(RBM& anRBM, Eigen::MatrixXd& aTestData, unsigned int aBatch, size_t currentLayer, std::ostream& anOutputStream);
-void TrainProgressDo(DeepBeliefNet& aDBN, Eigen::MatrixXd& aTestData, unsigned int aBatch, std::ostream& anOutputStream);
-
 
 /** AcceleratePretrainProgress and AccelerateTrainProgress make less and less of the output as the (pre-)training progresses
  */
@@ -78,51 +96,51 @@ class AcceleratePretrainProgress: public PretrainProgress {
 	private:
 	double storeImage;
 	unsigned int maxIters;
-	size_t currentLayer;
-	std::ofstream myOutput;
+	size_t currentLayer, batchSize;
 	Eigen::MatrixXd testData;
+	pretrainDiagFunctionType function;
 	constexpr static const double InitialStoreImage = 1; // initialize storeImage to 1
-	//AcceleratePretrainProgress(AcceleratePretrainProgress&) = delete;
 	
-	public:
-	explicit AcceleratePretrainProgress(const char* aFileName = "pretrainProgress.txt"): storeImage(InitialStoreImage), maxIters(0), currentLayer(0), myOutput(aFileName) {};
-	explicit AcceleratePretrainProgress(unsigned int aMaxIters, const char* aFileName = "pretrainProgress.txt"): storeImage(InitialStoreImage), maxIters(aMaxIters), currentLayer(0), myOutput(aFileName) {};
-	explicit AcceleratePretrainProgress(size_t aLayer, const char* aFileName = "pretrainProgress.txt"): storeImage(InitialStoreImage), maxIters(0), currentLayer(aLayer), myOutput(aFileName) {};
-	explicit AcceleratePretrainProgress(size_t aLayer, unsigned int aMaxIters, const char* aFileName = "pretrainProgress.txt"): storeImage(InitialStoreImage), maxIters(aMaxIters), currentLayer(aLayer), myOutput(aFileName) {};
-	
-    void operator()(RBM& anRBM, unsigned int aBatch) {
-    	if (storeImage >= 1 || aBatch == maxIters) {
-    		PretrainProgressDo(anRBM, testData, aBatch, currentLayer, myOutput);
-    		storeImage = 100.0 / aBatch;
+	public:	
+    void operator()(const RBM& anRBM, const Eigen::MatrixXd& aBatch, const unsigned int iter) {
+    	if (storeImage >= 1 || iter == maxIters) {
+    		function(anRBM, aBatch, testData, iter, batchSize, maxIters, currentLayer);
+    		storeImage = 100.0 / iter;
     	}
-    	storeImage += 100.0 / aBatch;
+    	storeImage += 100.0 / iter;
     }
-    void setLayer(const size_t aLayer) {currentLayer = aLayer; storeImage = InitialStoreImage;}
+    void setLayer(const size_t aLayer) {currentLayer = aLayer;}
     void setData(const Eigen::MatrixXd& aTestData) {testData = aTestData;}
     void propagateData(const RBM& anRBM);
+    void setBatchSize(const size_t aBatchSize) {batchSize = aBatchSize;}
+    void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
+    void setFunction(const pretrainDiagFunctionType& aFunction) {function = aFunction;}
+    void reset() {storeImage = InitialStoreImage;};
 };
 
 class AccelerateTrainProgress: public TrainProgress {
 	private:
 	double storeImage;
 	unsigned int maxIters;
-	std::ofstream myOutput;
+	size_t batchSize;
 	Eigen::MatrixXd testData;
+	trainDiagFunctionType function;
 	constexpr static const double InitialStoreImage = 1; // initialize storeImage to 1
 	//AccelerateTrainProgress(AccelerateTrainProgress&) = delete;
 	
-	public:
-	explicit AccelerateTrainProgress(const char* aFileName = "trainProgress.txt"): storeImage(InitialStoreImage), maxIters(0), myOutput(aFileName) {};
-	explicit AccelerateTrainProgress(unsigned int aMaxIters, const char* aFileName = "trainProgress.txt"): storeImage(InitialStoreImage), maxIters(aMaxIters), myOutput(aFileName) {};
-	
-    void operator()(DeepBeliefNet& aDBN, unsigned int aBatch) {
-    	if (storeImage >= 1 || aBatch == maxIters) {
-    		TrainProgressDo(aDBN, testData, aBatch, myOutput);
-    		storeImage = 100.0 / aBatch;
+	public:	
+    void operator()(const DeepBeliefNet& aDBN, const Eigen::MatrixXd &aBatch, unsigned int iter) {
+    	if (storeImage >= 1 || iter == maxIters) {
+    		function(aDBN, aBatch, testData, iter, batchSize, maxIters);
+    		storeImage = 100.0 / iter;
     	}
-    	storeImage += 100.0 / aBatch;
+    	storeImage += 100.0 / iter;
     }
     void setData(const Eigen::MatrixXd& aTestData) {testData = aTestData;}
+    void setBatchSize(const size_t aBatchSize) {batchSize = aBatchSize;}
+    void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
+    void setFunction(const trainDiagFunctionType& aFunction) {function = aFunction;}
+    void reset() {storeImage = InitialStoreImage;};
 };
 
 
@@ -130,53 +148,39 @@ class AccelerateTrainProgress: public TrainProgress {
  */
 class EachStepPretrainProgress: public PretrainProgress {
 	private:
-	size_t currentLayer;
-	std::ofstream myOutput;
+	unsigned int maxIters;
+	size_t currentLayer, batchSize;
 	Eigen::MatrixXd testData;
-	//EachStepPretrainProgress(EachStepPretrainProgress&) = delete; // no copy - or we'll run into trouble!
+	pretrainDiagFunctionType function;
 	
 	public:
-	explicit EachStepPretrainProgress(const char* aFileName = "pretrainProgress.txt"): currentLayer(0), myOutput(aFileName) {};
-	explicit EachStepPretrainProgress(size_t aLayer, const char* aFileName = "trainProgress.txt"): currentLayer(aLayer), myOutput(aFileName) {};
-	
-    void operator()(RBM& anRBM, unsigned int aBatch) {
-    	PretrainProgressDo(anRBM, testData, aBatch, currentLayer, myOutput);
+	void operator()(const RBM& anRBM, const Eigen::MatrixXd& aBatch, const unsigned int iter) {
+    	function(anRBM, aBatch, testData, iter, batchSize, maxIters, currentLayer);
     }
+    
     void setLayer(const size_t aLayer) {currentLayer = aLayer;}
+    void setBatchSize(const size_t aBatchSize) {batchSize = aBatchSize;}
+    void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
     void setData(const Eigen::MatrixXd& aTestData) {testData = aTestData;}
     void propagateData(const RBM& anRBM);
+    void setFunction(const pretrainDiagFunctionType& aFunction) {function = aFunction;}
+    void reset() {return;};
 };
 
 class EachStepTrainProgress: public TrainProgress {
 	private:
-	std::ofstream myOutput;
+	unsigned int maxIters;
+	size_t batchSize;
 	Eigen::MatrixXd testData;
-	//EachStepTrainProgress(EachStepTrainProgress&) = delete; // no copy - or we'll run into trouble!
+	trainDiagFunctionType function;
 
 	public:
-	explicit EachStepTrainProgress(const char* aFileName = "trainProgress.txt"): myOutput(aFileName) {};
-    void operator()(DeepBeliefNet& aDBN, unsigned int aBatch) {
-    	TrainProgressDo(aDBN, testData, aBatch, myOutput);
+    void operator()(const DeepBeliefNet& aDBN, const Eigen::MatrixXd &aBatch, unsigned int iter) {
+    	function(aDBN, aBatch, testData, iter, batchSize, maxIters);
     }
+    void setBatchSize(const size_t aBatchSize) {batchSize = aBatchSize;}
+    void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
     void setData(const Eigen::MatrixXd& aTestData) {testData = aTestData;}
+    void setFunction(const trainDiagFunctionType& aFunction) {function = aFunction;}
+    void reset() {return;};
 };
-
-template<class T>
-void GenericProgressDo(T& aNetwork, Eigen::MatrixXd& aTestData, std::string aDiagString, std::ostream& anOutputStream) {
-	// Predict && determine error:
-	const Eigen::MatrixXd predictions = aNetwork.predict(aTestData);
-	const double error = aNetwork.errorSum(aTestData, aNetwork.reverse_predict(predictions));
-	// Get size of predictions
-	const Eigen_size_type predictSize = predictions.size();
-	
-	// Print
-	anOutputStream <<  aDiagString << ", " << error;
-	if (predictSize < 1000) {
-		anOutputStream << ", " << predictSize << ": ";
-		const double *predictData = predictions.data();
-		for (Eigen_size_type i = 0; i < predictSize; ++i) {
-			anOutputStream << predictData[i] << ", ";
-		}
-	}
-	anOutputStream << std::endl;
-}

@@ -199,9 +199,6 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	vector<double> errors;
 	errors.reserve(maxIters);
 	
-	// Start with a null batch progress
-	aProgressFunctor(*this, 0);
-	
 	// This is the RcppProgress that will display a progress bar / handle user interrupts
 	//Progress p(maxIters, true);
 
@@ -209,14 +206,17 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	unsigned int stopCounter = 0;
 	unsigned int i = 0;
 	
+	// Modify the batch in place
+	batchRand.setBatch(data, batch);	
+	
+	// Start with a null batch progress
+	aProgressFunctor(*this, batch, i);
+	
 	Rcpp::Rcout << "Pre-training until stopCounter reaches " << aContinueFunction.limit << std::endl;
 	while (stopCounter < aContinueFunction.limit && i < maxIters) {
 		++i;
-		Rcpp::Rcout << "Pretrain iteration " << i << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << std::endl;
+		//Rcpp::Rcout << "Pretrain iteration " << i << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << std::endl;
         Rcpp::checkUserInterrupt();
-
-		// Modify the batch in place
-		batchRand.setBatch(data, batch);
 		
 		// Set Alpha (in-place modification)
 		forwardsDataToActivationsInPlace(batch, Alpha);
@@ -261,12 +261,17 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 		errors.push_back(errorSum(batch, Beta));
 		
 		// Report progress
-		aProgressFunctor(*this, i);
+		aProgressFunctor(*this, batch, i);
 		
 		// Do we continue?
 		if (i >= params.minIters && i % aContinueFunction.frequency == 0) {
 			Rcpp::Rcout << "Executing continue function" << std::endl;
 			aContinueFunction(errors, i, params.batchSize, maxIters) ? stopCounter = 0 : ++stopCounter;
+		}
+		
+		if (stopCounter < aContinueFunction.limit && i < maxIters) {
+			// Modify the batch in place
+			batchRand.setBatch(data, batch);	
 		}
 	}
 	this->pretrained = true;

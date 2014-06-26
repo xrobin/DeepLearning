@@ -273,47 +273,72 @@ namespace Rcpp {
 	// TrainProgress
 	template <> unique_ptr<TrainProgress> as(SEXP aDiag) {
 		const List aDiagList(as<List>(aDiag));
-		const string aDiagType(as<string>(aDiagList["rate"]));
-		if (aDiagType == "none") {
+		const string aDiagRate(as<string>(aDiagList["rate"]));
+		
+		if (aDiagRate == "none") {
 			return unique_ptr<TrainProgress>(new NoOpTrainProgress());
 		}		
 		
-		const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
-		if (aDiagType == "each") {
-			unique_ptr<TrainProgress> ptr(new EachStepTrainProgress());
-			ptr->setData(aTestData.transpose());
-			return ptr;
+		unique_ptr<TrainProgress> ptr;
+		if (aDiagRate == "each") {
+			ptr.reset(new EachStepTrainProgress());
 		}
-		else if (aDiagType == "accelerate") {
-			unique_ptr<TrainProgress> ptr(new AccelerateTrainProgress());
-			ptr->setData(aTestData.transpose());
-			return ptr;
+		else if (aDiagRate == "accelerate") {
+			ptr.reset(new AccelerateTrainProgress());
 		}
-		stop("Invalid 'diag' argument");
-		throw runtime_error("Critical error: R's stop() didn;'t work!");
+		else {
+			stop("invalid value for diag.rate");
+		}
+
+		if (aDiagList.containsElementNamed("data")) {
+			const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
+			ptr->setData(aTestData);
+		}
+		if (aDiagList.containsElementNamed("f")) {
+			const Rcpp::Function myRFunction = as<Rcpp::Function>(aDiagList["f"]);
+			ptr->setFunction(
+				[myRFunction](const DeepBeliefNet& aDBN, const Eigen::MatrixXd& batch, const Eigen::MatrixXd& data, const unsigned int iter, const size_t batchsize, const unsigned int maxiters) -> void {
+					myRFunction(aDBN, batch.transpose(), data, iter, batchsize, maxiters);
+				}
+			);
+		}
+		return ptr;
 	}
 	
 	// PretrainProgress
 	template <> unique_ptr<PretrainProgress> as(SEXP aDiag) {
 		const List aDiagList(as<List>(aDiag));
-		const string aDiagType(as<string>(aDiagList["rate"]));
-		if (aDiagType == "none") {
+		const string aDiagRate(as<string>(aDiagList["rate"]));
+		
+		if (aDiagRate == "none") {
 			return unique_ptr<PretrainProgress>(new NoOpPretrainProgress());
-		}		
+		}
+		
+		unique_ptr<PretrainProgress> ptr;
+		if (aDiagRate == "each") {
+			ptr.reset(new EachStepPretrainProgress());
+		}
+		else if (aDiagRate == "accelerate") {
+			ptr.reset(new AcceleratePretrainProgress());
+		}
+		else {
+			stop("invalid value for diag.rate");
+		}
 
-		const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
-		if (aDiagType == "each") {
-			unique_ptr<PretrainProgress> ptr(new EachStepPretrainProgress());
-			ptr->setData(aTestData.transpose());
-			return ptr;
+		if (aDiagList.containsElementNamed("data") && !Rf_isNull(aDiagList["data"])) {
+			const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
+			ptr->setData(aTestData);
 		}
-		else if (aDiagType == "accelerate") {
-			unique_ptr<PretrainProgress> ptr(new AcceleratePretrainProgress());
-			ptr->setData(aTestData.transpose());
-			return ptr;
+		if (aDiagList.containsElementNamed("f")) {
+			const Rcpp::Function myRFunction = as<Rcpp::Function>(aDiagList["f"]);
+			ptr->setFunction(
+				[myRFunction](const RBM& anRBM, const Eigen::MatrixXd& batch, const Eigen::MatrixXd& data, const unsigned int iter, const size_t batchsize, const unsigned int maxiters, const size_t layer) -> void {
+					myRFunction(anRBM, batch.transpose(), data, iter, batchsize, maxiters, layer);
+				}
+			);
 		}
-		stop("Invalid 'diag' argument");
-		throw runtime_error("Critical error: R's stop() didn;'t work!");
+		
+		return ptr;
 	}
 
 	// ContinueFunction

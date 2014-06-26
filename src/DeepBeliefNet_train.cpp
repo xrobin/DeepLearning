@@ -169,21 +169,21 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	
 	applyDataIfNeeded(trainingData); // Apply the best weights to the DBN
 	
+	// Get random batch
+	batchRand.setBatch(data, batch);
+		
 	//bool continueTraining = true;
 	unsigned int stopCounter = 0;
 	unsigned int iter = 0;
+
+	// Report progress
+	aProgressFunctor(*this, batch, iter);
 	
 	cout << "Training until stopCounter reaches " << aContinueFunction.limit << endl;
 	while (stopCounter < aContinueFunction.limit && iter < params.maxIters) {
 		++iter;
         Rcpp::checkUserInterrupt();
-		cout << "Backprop iteration " << iter << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << endl;
-		
-		// Get random batch
-		batchRand.setBatch(data, batch);
-		
-		//double start_error = errorSum(batch);
-		//cout << "start_error = " << start_error << std::endl;
+		//cout << "Backprop iteration " << iter << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << endl;
 
 		cgmin(
 			trainingDBN.getData().size(), // n, nb arguments
@@ -203,11 +203,16 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 		errors.push_back(*Fmin);
 
 		// Report progress
-		aProgressFunctor(*this, iter);
+		aProgressFunctor(*this, batch, iter);
 		
 		// Do we continue?
 		if (iter >= params.minIters && iter % aContinueFunction.frequency == 0) {
 			aContinueFunction(errors, iter, params.batchSize, params.maxIters) ? stopCounter = 0 : ++stopCounter;
+		}
+		
+		if (stopCounter < aContinueFunction.limit && iter < params.maxIters) {
+			// Get random batch
+			batchRand.setBatch(data, batch);
 		}
 	}
 

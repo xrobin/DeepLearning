@@ -6,8 +6,9 @@
 train(x, data, miniters = 100, maxiters = 1000, batchsize = 100,
   optim.control = list(), continue.function = continue.function.exponential,
   continue.function.frequency = 100, continue.stop.limit = 3,
-  diag = list(rate = diag.rate, data = diag.data), diag.rate = c("none",
-  "each", "accelerate"), diag.data = NULL, n.proc = detectCores() - 1, ...)
+  diag = list(rate = diag.rate, data = diag.data, f = diag.function),
+  diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
+  diag.function = NULL, n.proc = detectCores() - 1, ...)
 }
 \arguments{
 \item{x}{the DBN}
@@ -29,7 +30,7 @@ A user-supplied function must accept \code{(error, iter, batchsize)} as input an
 \item{optim.control}{control arguments for the optim function that are not typically changed for normal operation. The parameters are:
 maxit, type, trace, steplength, stepredn, acctol, reltest, abstol, intol, setstep. Their default values are defined in TrainParameters.h.}
 
-\item{diag,diag.rate,diag.data}{diagnmostic specifications. See \code{\link{pretrain}} for more details}
+\item{diag,diag.rate,diag.data,diag.function}{diagnmostic specifications. See \code{\link{pretrain}} for more details}
 
 \item{n.proc}{number of cores to be used for Eigen computations}
 }

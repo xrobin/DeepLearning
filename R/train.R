@@ -11,7 +11,7 @@
 #' @param continue.stop.limit the number of consecutive times \code{continue.function} must return \code{FALSE} before the training is stopped. For example, \code{1} will stop as soon as \code{continue.function} returns \code{FALSE}, whereas \code{Inf} will ensure the result of \code{continue.function} is never enforced (but the function is still executed). The default is \code{3} so the training will continue until 3 consecutive calls of \code{continue.function} returned \code{FALSE}, giving more robustness to the decision.
 #' @param optim.control control arguments for the optim function that are not typically changed for normal operation. The parameters are:
 #' maxit, type, trace, steplength, stepredn, acctol, reltest, abstol, intol, setstep. Their default values are defined in TrainParameters.h.
-#' @param diag,diag.rate,diag.data diagnmostic specifications. See \code{\link{pretrain}} for more details
+#' @param diag,diag.rate,diag.data,diag.function diagnmostic specifications. See \code{\link{pretrain}} for more details
 #' @param n.proc number of cores to be used for Eigen computations
 #' @return the fine-tuned DBN
 #' @export
@@ -19,7 +19,7 @@ train <- function(x, data,
                   miniters = 100, maxiters = 1000, batchsize = 100,
 				  optim.control = list(),
 				  continue.function = continue.function.exponential, continue.function.frequency = 100, continue.stop.limit = 3,
-				  diag = list(rate = diag.rate, data=diag.data), diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
+				  diag = list(rate = diag.rate, data = diag.data, f = diag.function), diag.rate = c("none", "each", "accelerate"), diag.data = NULL, diag.function = NULL,
 				  n.proc = detectCores() - 1, ...) {
 	if (!x$unrolled)
 		stop("DBN must be unrolled before it can be trained")

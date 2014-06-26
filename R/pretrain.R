@@ -14,7 +14,7 @@
 #'  or 0.001 (for layers with gaussian input or output).
 #' @param epsilon.b,epsilon.c,epsilon.W separate learning rates for \code{b}s, \code{c}s and \code{W}s. Take precedence over \code{epsilon}.
 #' @param train.b,train.c whether (\code{\link{RestrictedBolzmannMachine}}) or on which layers (\code{\link{DeepBeliefNet}}) to update the \code{b}s and \code{c}s. For a \code{\link{RestrictedBolzmannMachine}}, must be a logical of length 1. For a \code{\link{DeepBeliefNet}} must be a logical (can be recycled) or numeric index of layers.
-#' @param diag,diag.rate,diag.data diagnmostic specifications.
+#' @param diag,diag.rate,diag.data,diag.function diagnmostic specifications. See details.
 #' @param n.proc number of cores to be used for Eigen computations
 #' @param ... ignored
 #' @section Pretraining Layers of the Deep Belief Net with Different Parameters:
@@ -33,6 +33,10 @@
 #' of RestrictedBolzmannMachines to pretrain,
 #' and they will be interpreted per layer as described above.
 #' 
+#' @section Diagnostic specifications:
+#' The specifications can be passed directly in a list with elements \code{rate}, \code{data} and \code{f}, or separately with parameters \code{diag.rate}, \code{diag.data} and \code{diag.function}. The function must take the following parameters:
+#' function(rbm, batch, data, iter, batchsize, maxiters, layer);
+#' 
 #' @return pre-trained object with the \code{pretrained} switch set to \code{TRUE}.
 #' @export
 pretrain <- function(x, data, ...)
@@ -47,7 +51,7 @@ pretrain.RestrictedBolzmannMachine <- function(x, data, miniters = 100, maxiters
 						 epsilon = ifelse(x$output$type == "gaussian", 0.001, 0.1), epsilon.b = epsilon, epsilon.c = epsilon, epsilon.W = epsilon,
 						 train.b = TRUE, train.c = TRUE,
 						 continue.function = continue.function.exponential, continue.function.frequency = 100, continue.stop.limit = 3,
-						 diag = list(rate = diag.rate, data=diag.data), diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
+						 diag = list(rate = diag.rate, data = diag.data, f = diag.function), diag.rate = c("none", "each", "accelerate"), diag.data = NULL, diag.function = NULL,
 						 n.proc = detectCores() - 1, ...) {
 	sample.size <- nrow(data)
 	

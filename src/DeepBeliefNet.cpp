@@ -141,8 +141,10 @@ DeepBeliefNet& DeepBeliefNet::pretrainModifyingData(MatrixXd& data, const vector
 			            << myRBMs[i].getOutput().getSize() << "-" << myRBMs[i].getOutput().getTypeAsString() << " RBM " << std::endl;
 		}
 		else {
-			aProgressFunctor.setLayer(i);
-			aContinueFunction.setLayer(i);
+			aProgressFunctor.setBatchSize(params[i].batchSize);
+			aProgressFunctor.setMaxIters(params[i].maxIters);
+			aProgressFunctor.setLayer(i + 1);
+			aContinueFunction.setLayer(i + 1);
 			// Pretrain each layer
 			myRBMs[i].pretrain(data, params[i], aProgressFunctor, aContinueFunction);	
 		}
