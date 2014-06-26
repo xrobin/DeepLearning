@@ -292,13 +292,13 @@ namespace Rcpp {
 
 		if (aDiagList.containsElementNamed("data")) {
 			const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
-			ptr->setData(aTestData);
+			ptr->setData(aTestData.transpose());
 		}
 		if (aDiagList.containsElementNamed("f")) {
 			const Rcpp::Function myRFunction = as<Rcpp::Function>(aDiagList["f"]);
 			ptr->setFunction(
 				[myRFunction](const DeepBeliefNet& aDBN, const Eigen::MatrixXd& batch, const Eigen::MatrixXd& data, const unsigned int iter, const size_t batchsize, const unsigned int maxiters) -> void {
-					myRFunction(aDBN, batch.transpose(), data, iter, batchsize, maxiters);
+					myRFunction(aDBN, batch.transpose(), data.transpose(), iter, batchsize, maxiters);
 				}
 			);
 		}
@@ -327,13 +327,13 @@ namespace Rcpp {
 
 		if (aDiagList.containsElementNamed("data") && !Rf_isNull(aDiagList["data"])) {
 			const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
-			ptr->setData(aTestData);
+			ptr->setData(aTestData.transpose());
 		}
 		if (aDiagList.containsElementNamed("f")) {
 			const Rcpp::Function myRFunction = as<Rcpp::Function>(aDiagList["f"]);
 			ptr->setFunction(
 				[myRFunction](const RBM& anRBM, const Eigen::MatrixXd& batch, const Eigen::MatrixXd& data, const unsigned int iter, const size_t batchsize, const unsigned int maxiters, const size_t layer) -> void {
-					myRFunction(anRBM, batch.transpose(), data, iter, batchsize, maxiters, layer);
+					myRFunction(anRBM, batch.transpose(), data.transpose(), iter, batchsize, maxiters, layer);
 				}
 			);
 		}
