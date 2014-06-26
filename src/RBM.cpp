@@ -265,7 +265,6 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 		
 		// Do we continue?
 		if (i >= params.minIters && i % aContinueFunction.frequency == 0) {
-			Rcpp::Rcout << "Executing continue function" << std::endl;
 			aContinueFunction(errors, i, params.batchSize, maxIters) ? stopCounter = 0 : ++stopCounter;
 		}
 		
