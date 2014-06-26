@@ -56,5 +56,10 @@ namespace Rcpp {
 	template <> std::unique_ptr<TrainProgress> as(SEXP diag);
 	// no need to return so no wrap
 	// template <> SEXP wrap(const TrainProgress &diag);
+	
+	// ContinueFunction
+	template <> ContinueFunction as(SEXP cont);
+	// no need to return so no wrap
+	// template <> SEXP wrap(const ContinueFunction &diag);
 }
 

@@ -144,7 +144,7 @@ void DeepBeliefNet::getGradient(const MatrixXd& data, vector<RBM>& gradientRBMs,
 	}
 }
 
-DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters& params, TrainProgress& aProgressFunctor) {
+DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters& params, TrainProgress& aProgressFunctor, const ContinueFunction& aContinueFunction) {
 	/* Running eigen threaded? */
 	Eigen::setNbThreads(params.nbThreads);
 	
@@ -173,8 +173,8 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	unsigned int stopCounter = 0;
 	unsigned int iter = 0;
 	
-	cout << "Training until stopCounter reaches " << params.continueStopLimit << endl;
-	while (stopCounter < params.continueStopLimit && iter < params.maxIters) {
+	cout << "Training until stopCounter reaches " << aContinueFunction.limit << endl;
+	while (stopCounter < aContinueFunction.limit && iter < params.maxIters) {
 		++iter;
         Rcpp::checkUserInterrupt();
 		cout << "Backprop iteration " << iter << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << endl;
@@ -206,8 +206,8 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 		aProgressFunctor(*this, iter);
 		
 		// Do we continue?
-		if (iter >= params.minIters && iter % params.continueFunctionFrequency == 0) {
-			params.continueFunction(errors, iter, params.batchSize) ? stopCounter = 0 : ++stopCounter;
+		if (iter >= params.minIters && iter % aContinueFunction.frequency == 0) {
+			aContinueFunction(errors, iter, params.batchSize, params.maxIters) ? stopCounter = 0 : ++stopCounter;
 		}
 	}
 

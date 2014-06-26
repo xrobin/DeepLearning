@@ -199,8 +199,8 @@ namespace Rcpp {
 		if (paramList.containsElementNamed("epsilon.b")) params.setEpsilonB(as<double>(paramList["epsilon.b"]));
 		if (paramList.containsElementNamed("epsilon.c")) params.setEpsilonC(as<double>(paramList["epsilon.c"]));
 		if (paramList.containsElementNamed("epsilon.W")) params.setEpsilonW(as<double>(paramList["epsilon.W"]));
-		if (paramList.containsElementNamed("train.b")) params.setTrainB(as<double>(paramList["train.b"]));
-		if (paramList.containsElementNamed("train.c")) params.setTrainC(as<double>(paramList["train.c"]));
+		if (paramList.containsElementNamed("train.b")) params.setTrainB(as<bool>(paramList["train.b"]));
+		if (paramList.containsElementNamed("train.c")) params.setTrainC(as<bool>(paramList["train.c"]));
 
 		if (paramList.containsElementNamed("momentum")) { // we have a momentum
 			const SEXP parasexp = paramList["momentum"];
@@ -217,8 +217,9 @@ namespace Rcpp {
 			}
 		}
 		
-		if (paramList.containsElementNamed("maxiters")) params.setMaxiters(as<unsigned int>(paramList["maxiters"]));
-		if (paramList.containsElementNamed("batchsize")) params.setBatchsize(as<unsigned int>(paramList["batchsize"]));
+		if (paramList.containsElementNamed("miniters")) params.setMinIters(as<unsigned int>(paramList["miniters"]));
+		if (paramList.containsElementNamed("maxiters")) params.setMaxIters(as<unsigned int>(paramList["maxiters"]));
+		if (paramList.containsElementNamed("batchsize")) params.setBatchSize(as<size_t>(paramList["batchsize"]));
 		if (paramList.containsElementNamed("n.proc")) params.setNbThreads(as<unsigned int>(paramList["n.proc"]));
 		params.ensureValidity();
 		return params;
@@ -243,21 +244,6 @@ namespace Rcpp {
 		if (paramList.containsElementNamed("n.proc")) params.setNbThreads(as<int>(paramList["n.proc"]));
 		if (paramList.containsElementNamed("miniters")) params.setMinIters(as<unsigned int>(paramList["miniters"]));
 		if (paramList.containsElementNamed("maxiters")) params.setMaxIters(as<unsigned int>(paramList["maxiters"]));
-		
-		if (paramList.containsElementNamed("continue.function.frequency")) params.setContinueFunctionFrequency(as<unsigned int>(paramList["continue.function.frequency"]));
-		if (paramList.containsElementNamed("continue.stop.limit")) params.setContinueStopLimit(as<unsigned int>(paramList["continue.stop.limit"]));
-		
-		if (paramList.containsElementNamed("continue.function")) {
-			Rcpp::Function myRFunction = as<Rcpp::Function>(paramList["continue.function"]);
-			params.setContinueFunction(
-				[myRFunction](std::vector<double> error, unsigned int iter, size_t batchsize) -> bool {
-					bool ret = as<bool>(myRFunction(error, iter, batchsize));
-					//std::cout << "In RcppConversions' lambda, ret = " << ret << std::endl;
-					return ret;
-					//return myRFunction(error, iter, batchsize);
-				}
-			);
-		}
 
 		if (paramList.containsElementNamed("optim.control")) {
 			params.setCgMinParams(as<CgMinParams>(paramList["optim.control"]));
@@ -265,7 +251,7 @@ namespace Rcpp {
 		
 		return params;
 	}
-		
+	
 	template <> CgMinParams as(SEXP someParams) {
 		List paramList(as<List>(someParams));
 		CgMinParams params;
@@ -328,5 +314,23 @@ namespace Rcpp {
 		}
 		stop("Invalid 'diag' argument");
 		throw runtime_error("Critical error: R's stop() didn;'t work!");
+	}
+
+	// ContinueFunction
+	template <> ContinueFunction as(SEXP aCont) {
+		const List aContList(as<List>(aCont));
+		ContinueFunction cf;
+		if (aContList.containsElementNamed("continue.function.frequency")) cf.setFrequency(as<unsigned int>(aContList["continue.function.frequency"]));
+		if (aContList.containsElementNamed("continue.stop.limit")) cf.setLimit(as<unsigned int>(aContList["continue.stop.limit"]));
+		if (aContList.containsElementNamed("continue.function")) {
+			Rcpp::Function myRFunction = as<Rcpp::Function>(aContList["continue.function"]);
+			cf.setContinueFunction(
+				[myRFunction](std::vector<double> error, unsigned int iter, size_t batchsize, unsigned int maxiters, size_t layer) -> bool {
+					bool ret = as<bool>(myRFunction(error, iter, batchsize, maxiters, layer));
+					return ret;
+				}
+			);
+		}
+		return cf;
 	}
 }

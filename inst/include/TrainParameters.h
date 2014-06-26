@@ -92,23 +92,14 @@ struct TrainParameters {
 	CgMinParams myCgMinParams;
 	size_t batchSize;
 	int nbThreads;
-	unsigned int minIters, maxIters, continueFunctionFrequency, continueStopLimit;
-	continueFunctionType continueFunction;
+	unsigned int minIters, maxIters;
 
 	TrainParameters& setCgMinParams(const CgMinParams& newcgMinParams) {myCgMinParams = newcgMinParams; return *this;}
 	TrainParameters& setBatchSize(size_t newBatchSize) {batchSize = newBatchSize; return *this;}
 	TrainParameters& setNbThreads(int newNbThreads) {nbThreads = newNbThreads; return *this;}
 	TrainParameters& setMinIters(unsigned int newMinIters) {minIters = newMinIters; return *this;}
 	TrainParameters& setMaxIters(unsigned int newMaxIters) {maxIters = newMaxIters; return *this;}
-	TrainParameters& setContinueFunctionFrequency(unsigned int newContinueFunctionFrequency) {continueFunctionFrequency = newContinueFunctionFrequency; return *this;}
-	TrainParameters& setContinueStopLimit(unsigned int newContinueStopLimit) {continueStopLimit = newContinueStopLimit; return *this;}
-	TrainParameters& setContinueFunction(continueFunctionType newContinueFunction) {continueFunction = newContinueFunction; return *this;}
 
-	TrainParameters() : myCgMinParams(), batchSize(100), nbThreads(0), minIters(100), maxIters(1000), continueFunctionFrequency(100), continueStopLimit(3),
-	continueFunction([](std::vector<double> errors, unsigned int iter, size_t batchsize) {
-		UNUSED(errors); UNUSED(iter); UNUSED(batchsize);
-		return true;
-	})
-	{};
+	TrainParameters() : myCgMinParams(), batchSize(100), nbThreads(0), minIters(100), maxIters(1000) {};
 };
 

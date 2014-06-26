@@ -1,7 +1,7 @@
 #' @title Pre-trains the DeepBeliefNet or RestrictedBolzmannMachine. A contrastive divergence method is used to train each layer sequentially.
 #' @param x the \code{\link{DeepBeliefNet}} or \code{\link{RestrictedBolzmannMachine}} object
 #' @param data the dataset, either as matrix or data.frame. The number of columns must match the number of nodes of the network input
-#' @param maxiters the max number of iterations to perform
+#' @param miniters,maxiters minimum and maximum number of iterations to perform
 #' @param batchsize the size of the minibatches
 #' @param skip numeric vector of the RestrictedBolzmannMachine of the DeepBeliefNet to be skipped.
 #' @param momentum the momentum, between 0 (no momentum) and 1 (no training). See the Momentums section below.
@@ -41,14 +41,21 @@ pretrain <- function(x, data, ...)
 
 #' @rdname pretrain
 #' @export
-pretrain.RestrictedBolzmannMachine <- function(x, data, maxiters = floor(dim(data)[1] / batchsize), batchsize = 100, 
+pretrain.RestrictedBolzmannMachine <- function(x, data, miniters = 100, maxiters = floor(dim(data)[1] / batchsize), batchsize = 100, 
 						 momentum = 0, penalization = c("l1", "l2", "none"),
 						 lambda = 0, lambda.b = lambda, lambda.c = lambda, lambda.W = lambda,
 						 epsilon = ifelse(x$output$type == "gaussian", 0.001, 0.1), epsilon.b = epsilon, epsilon.c = epsilon, epsilon.W = epsilon,
 						 train.b = TRUE, train.c = TRUE,
+						 continue.function = continue.function.exponential, continue.function.frequency = 100, continue.stop.limit = 3,
 						 diag = list(rate = diag.rate, data=diag.data), diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
 						 n.proc = detectCores() - 1, ...) {
 	sample.size <- nrow(data)
+	
+	# Check for ignored arguments
+	ignored.args <- names(list(...))
+	if (length(ignored.args) > 0) {
+		warning(paste("The following arguments were ignored in pretrain.RestrictedBolzmannMachine:", paste(ignored.args, collapse=", ")))
+	}
 	
 	# Validate and prepare the momentums, learning rates and penalizations
 	momentum <- make.momentum(momentum, maxiters)
@@ -67,23 +74,31 @@ pretrain.RestrictedBolzmannMachine <- function(x, data, maxiters = floor(dim(dat
 	
 	penalization <- match.arg(penalization)
 	
-	# Check diagnostic 
-	if (is.null(diag.data)) {
-		# If no diag.data was provided, take it from the training set
-		diag.data <- data[sample(seq_len(sample.size), min(sample.size, 100)), ]
+	# Build diagnostic function
+	if (is.null(diag.data) && is.null(diag.function)) {
+		diag$rate <- "none"
 	}
-	diag$rate <- match.arg(diag$rate, c("none", "each", "accelerate"))
+	else {
+		diag$rate <- match.arg(diag$rate, c("none", "each", "accelerate"))
+	}
+	
+	# Build continue function
+	continue.function <- list(
+		continue.function = continue.function,
+		continue.function.frequency = continue.function.frequency,
+		continue.stop.limit = continue.stop.limit
+	)
 
 	ensure.data.validity(data, x$input)
 
 	pretrainParams <- list(
-		maxiters = maxiters, batchsize = batchsize,
+		maxiters = maxiters, miniters = miniters, batchsize = batchsize,
 		momentum = momentum, penalization = penalization,
 		lambda.b = lambda.b, lambda.c = lambda.c, lambda.W = lambda.W,
 		epsilon.b = epsilon.b, epsilon.c = epsilon.c, epsilon.W = epsilon.W,
 		train.b = train.b, train.c = train.c,
 		n.proc = n.proc)
-	ret <- pretrainRbmCpp(x, data, pretrainParams, diag)
+	ret <- pretrainRbmCpp(x, data, pretrainParams, diag, continue.function)
 
 # Below is a block of legacy pre-c++ code that we can probably safely remove.
 # 		# Execute the diag function
@@ -123,17 +138,24 @@ pretrain.RestrictedBolzmannMachine <- function(x, data, maxiters = floor(dim(dat
 #' @export
 pretrain.DeepBeliefNet <- function(x, data, 
 						 # Arguments for rbm.pretrain(_with_diagnostics)
-						 maxiters = floor(dim(data)[1] / batchsize), batchsize = 100,
+						 miniters = 100, maxiters = floor(dim(data)[1] / batchsize), batchsize = 100,
 						 skip = numeric(0),
 						 # Arguments for rbm.update
 						 momentum = 0, penalization = "l1", 
 						 lambda = 0.0002, lambda.b = lambda, lambda.c = lambda, lambda.W = lambda,
 						 epsilon = 0.1, epsilon.b = epsilon, epsilon.c = epsilon, epsilon.W = epsilon,
 						 train.b = TRUE, train.c = length(x) - 1,
-						 diag = list(rate = diag.rate, data=diag.data), diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
+						 continue.function = continue.function.exponential, continue.function.frequency = 100, continue.stop.limit = 3,
+						 diag = list(rate = diag.rate, data = diag.data, f = diag.function), diag.rate = c("none", "each", "accelerate"), diag.data = NULL, diag.function = NULL,
 						 n.proc = detectCores() - 1,
 						 ...) {
 	sample.size <- dim(data)[1]
+	
+	# Check for ignored arguments
+	ignored.args <- names(list(...))
+	if (length(ignored.args) > 0) {
+		warning(paste("The following arguments were ignored in pretrain.DeepBeliefNet:", paste(ignored.args, collapse=", ")))
+	}
 	
 	ensure.data.validity(data, x[[1]]$input)
 	
@@ -168,6 +190,7 @@ pretrain.DeepBeliefNet <- function(x, data,
 	}
 	
 	parameters <- data.frame(
+		miniters = rep(miniters, length.out = len),
 		maxiters = rep(maxiters, length.out = len),
 		batchsize = rep(batchsize, length.out = len),
 		penalization = rep(sapply(penalization, match.arg, choices = c("l1", "l2", "none"), several.ok=TRUE), length.out = len),
@@ -182,12 +205,20 @@ pretrain.DeepBeliefNet <- function(x, data,
 		stringsAsFactors = FALSE
 	)
 	
-	# Check diagnostic 
-	if (is.null(diag.data)) {
-		# If no diag.data was provided, take it from the training set
-		diag.data <- data[sample(seq_len(sample.size), min(sample.size, 100)), ]
+	# Build diagnostic function
+	if (is.null(diag.data) && is.null(diag.function)) {
+		diag$rate <- "none"
 	}
-	diag$rate <- match.arg(diag$rate, c("none", "each", "accelerate"))
+	else {
+		diag$rate <- match.arg(diag$rate, c("none", "each", "accelerate"))
+	}
+	
+	# Build continue function
+	continue.function <- list(
+		continue.function = continue.function,
+		continue.function.frequency = continue.function.frequency,
+		continue.stop.limit = continue.stop.limit
+	)
 	
 	if (is.list(momentum)) {
 		if (length(momentum) != len) {
@@ -210,7 +241,7 @@ pretrain.DeepBeliefNet <- function(x, data,
 
 	parameters <- split(parameters, rownames(parameters))
 	
-	pretrained <- pretrainDbnCpp(x, data, parameters, diag, skip)
+	pretrained <- pretrainDbnCpp(x, data, parameters, diag, continue.function, skip)
 
 	return(pretrained)
 }

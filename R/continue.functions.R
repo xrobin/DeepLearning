@@ -116,10 +116,12 @@ prettyFormat.matrix <- function(x, digits=3) {
 #' 
 #' @param error a vector of the errors along the training
 #' @param iter,batchsize current iteration number and batchsize.
+#' @param maxiters maximum number of iterations
+#' @param layer during RBM pre-training, which layer is being pre-trained. Otherwise, 0.
 #' @return boolean (see description)
 #' @importFrom plotrix addtable2plot
 #' @export
-continue.function.exponential <- function(error, iter, batchsize, ic = AIC) {
+continue.function.exponential <- function(error, iter, batchsize, maxiters, layer = 0, ic = AIC) {
 
 	x <- data.frame(error = error, t = seq_along(error))
 	
@@ -268,19 +270,19 @@ continue.function.exponential <- function(error, iter, batchsize, ic = AIC) {
 
 #' @rdname continue.functions
 #' @export
-continue.function.always <- function(error, iter, batchsize) {
+continue.function.always <- function(error, iter, batchsize, maxiters, layer = 0) {
 	return(TRUE)
 }
 
 #' @rdname continue.functions
 #' @export
-continue.function.exponential.aic <- function(error, iter, batchsize) {
+continue.function.exponential.aic <- function(error, iter, batchsize, maxiters, layer = 0) {
 	continue.function.exponential(error, iter, batchsize, AIC)
 }
 
 #' @rdname continue.functions
 #' @export
-continue.function.exponential.bic <- function(error, iter, batchsize) {
+continue.function.exponential.bic <- function(error, iter, batchsize, maxiters, layer = 0) {
 	continue.function.exponential(error, iter, batchsize, BIC)
 }
 
@@ -313,7 +315,7 @@ continue.function.exponential.bic <- function(error, iter, batchsize) {
 
 #' @rdname continue.functions
 #' @export
-continue.function.random <- function(error, iter, batchsize) {
+continue.function.random <- function(error, iter, batchsize, maxiters, layer = 0) {
 	r <- as.logical(round(runif(1)))
 	print(r)
 	return(r)

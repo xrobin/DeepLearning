@@ -25,16 +25,16 @@ reconstructDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_reconstructDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
 
-pretrainRbmCpp <- function(anRBM, aDataMatrix, params, diag) {
-    .Call('DeepLearning_pretrainRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix, params, diag)
+pretrainRbmCpp <- function(anRBM, aDataMatrix, params, diag, cont) {
+    .Call('DeepLearning_pretrainRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix, params, diag, cont)
 }
 
-pretrainDbnCpp <- function(aDBN, aDataMatrix, params, diag, aSkip) {
-    .Call('DeepLearning_pretrainDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix, params, diag, aSkip)
+pretrainDbnCpp <- function(aDBN, aDataMatrix, params, diag, cont, aSkip) {
+    .Call('DeepLearning_pretrainDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix, params, diag, cont, aSkip)
 }
 
-trainDbnCpp <- function(aDBN, aDataMatrix, trainParams, diag) {
-    .Call('DeepLearning_trainDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix, trainParams, diag)
+trainDbnCpp <- function(aDBN, aDataMatrix, trainParams, diag, cont) {
+    .Call('DeepLearning_trainDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix, trainParams, diag, cont)
 }
 
 reverseRbmCpp <- function(anRBM) {

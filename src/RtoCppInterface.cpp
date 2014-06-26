@@ -48,15 +48,15 @@ Eigen::MatrixXd reconstructDbnCpp(const DeepBeliefNet& aDBN, const Eigen::Map<Ei
 /* PRETRAIN */
 
 // [[Rcpp::export]]
-RBM pretrainRbmCpp(RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const PretrainParameters& params, const std::unique_ptr<PretrainProgress>& diag) {
-	anRBM.pretrain(aDataMatrix.transpose(), params, *diag);
+RBM pretrainRbmCpp(RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const PretrainParameters& params, const std::unique_ptr<PretrainProgress>& diag, const ContinueFunction& cont) {
+	anRBM.pretrain(aDataMatrix.transpose(), params, *diag, cont);
 	return anRBM;
 }
 
 // [[Rcpp::export]]
-DeepBeliefNet pretrainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const std::vector<PretrainParameters>& params, const std::unique_ptr<PretrainProgress>& diag, const Rcpp::IntegerVector& aSkip) {
+DeepBeliefNet pretrainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const std::vector<PretrainParameters>& params, const std::unique_ptr<PretrainProgress>& diag, ContinueFunction& cont, const Rcpp::IntegerVector& aSkip) {
 	const std::vector<size_t> skip(as<std::vector<size_t>>(aSkip));
-	aDBN.pretrain(aDataMatrix.transpose(), params, *diag, skip);
+	aDBN.pretrain(aDataMatrix.transpose(), params, *diag, cont, skip);
 	return aDBN;
 }
 
@@ -64,8 +64,8 @@ DeepBeliefNet pretrainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::Matrix
 /* TRAIN */
 
 // [[Rcpp::export]]
-DeepBeliefNet trainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const TrainParameters& trainParams, const std::unique_ptr<TrainProgress>& diag) {
-	aDBN.train(aDataMatrix.transpose(), trainParams, *diag);
+DeepBeliefNet trainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const TrainParameters& trainParams, const std::unique_ptr<TrainProgress>& diag, const ContinueFunction& cont) {
+	aDBN.train(aDataMatrix.transpose(), trainParams, *diag, cont);
 	return aDBN;
 }
 

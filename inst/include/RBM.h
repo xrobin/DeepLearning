@@ -8,6 +8,7 @@
 
 #include "Layer.h"
 #include "PretrainParameters.h"
+#include "ContinueFunction.h"
 #include "shared_array_ptr.h"
 #include "typedefs.h"
 #include "Progress.h"
@@ -139,7 +140,7 @@ class RBM {
 		bool isPretrained() const {return pretrained;}
 		
 		/* Training the net */
-		RBM& pretrain(const Eigen::MatrixXd&, const PretrainParameters&, PretrainProgress& aProgressFunctor = NoOpPretrainProgress::getInstance());
+		RBM& pretrain(const Eigen::MatrixXd&, const PretrainParameters&, PretrainProgress& aProgressFunctor = NoOpPretrainProgress::getInstance(), const ContinueFunction& aContinueFunction = ContinueFunction::getInstance());
 		
 		/* Predictions & cie */
 		Eigen::MatrixXd predict(Eigen::MatrixXd data) const {forwardsDataToActivitiesInPlace(data);return data;}

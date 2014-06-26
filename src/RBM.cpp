@@ -148,7 +148,7 @@ void RBM::forwardsActivationsToActivitiesSampleInPlace(MatrixXd& act, ArrayXXd s
 	}
 }
 
-RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, PretrainProgress& aProgressFunctor) {
+RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, PretrainProgress& aProgressFunctor, const ContinueFunction& aContinueFunction) {
 	// assert(1 == 2); // check whether we run in debug mode
 	/* Running eigen threaded? */
 	Eigen::setNbThreads(params.nbThreads);
@@ -157,9 +157,9 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	size_t samplesize = data.cols();
 	
 	/* get pretraining parameters from params */
-	const size_t maxiters = params.maxiters;
-	const size_t batchsize = params.batchsize;
-	const double batchsizeAsDouble = static_cast<double>(batchsize);
+	const unsigned int maxIters = params.maxIters;
+	const size_t batchSize = params.batchSize;
+	const double batchSizeAsDouble = static_cast<double>(batchSize);
 	const PretrainParameters::PenalizationType penalization = params.penalization;
 	const vector<double> momentums = params.getValidMomentums();
 	const ArrayX1d lambdaBvec = ArrayX1d::Constant(b.size(), params.lambdaB);
@@ -173,37 +173,46 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	
 	// Print some output to let the user know we're doing something
 	Rcpp::Rcout << "Pre-training " << input.getSize() << "-" << input.getTypeAsString() << " x " << output.getSize() << "-" << output.getTypeAsString() << " RBM "
-	      << "with " << maxiters << " x " << batchsize << " out of " << samplesize << std::endl
+	      << "with " << maxIters << " x " << batchSize << " out of " << samplesize << std::endl
 	      << "learning rate (b, W, c) = " << epsilonB << ", " << epsilonW << ", " << epsilonC << "; "
 	      << "penalization (b, W, c) = " << PretrainParameters::PenalizationTypeToString(penalization) 
 	      << " * (" << params.lambdaB << ", " << params.lambdaW << ", " << params.lambdaC << "); "
 	      << "updating (b, c) = (" << trainB << ", " << trainC << ")" << std::endl;
 	
 	// Pre allocate variables that will be used multiple times
-	MatrixXd batch = MatrixXd::Zero(input.getSize(), batchsize);
+	MatrixXd batch = MatrixXd::Zero(input.getSize(), batchSize);
 	ArrayXXd Winc = MatrixXd::Zero(W.rows(), W.cols());
 	ArrayX1d bInc = ArrayX1d::Zero(b.size());
 	ArrayX1d cInc = ArrayX1d::Zero(c.size());
-	ArrayXXd SampleAlpha = ArrayXXd::Zero(output.getSize(), batchsize); // sample variable for h
-	MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchsize); // h.sampled
-	MatrixXd Beta = ArrayXXd::Zero(input.getSize(), batchsize); // P.f.given.h
-	MatrixXd Alpha2 = ArrayXXd::Zero(output.getSize(), batchsize); // P.h.given.f
+	ArrayXXd SampleAlpha = ArrayXXd::Zero(output.getSize(), batchSize); // sample variable for h
+	MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchSize); // h.sampled
+	MatrixXd Beta = ArrayXXd::Zero(input.getSize(), batchSize); // P.f.given.h
+	MatrixXd Alpha2 = ArrayXXd::Zero(output.getSize(), batchSize); // P.h.given.f
 	ArrayX1d deltaB, deltaC, penalizedDeltaB, penalizedDeltaC;
 	ArrayXXd deltaW, penalizedDeltaW;
 	
 	// Prepare the random number generator
 	Random sampleRand(output.getType());
 	Random batchRand("uniform_int", samplesize);
+
+	// Store error in a vector
+	vector<double> errors;
+	errors.reserve(maxIters);
 	
 	// Start with a null batch progress
 	aProgressFunctor(*this, 0);
 	
 	// This is the RcppProgress that will display a progress bar / handle user interrupts
-	//Progress p(maxiters, true);
+	//Progress p(maxIters, true);
 
 	// Loop over batches
-	for (unsigned int i = 1; i <= maxiters; ++i) {
-        //if (Progress::check_abort()) throw std::runtime_error("Aborted by user");
+	unsigned int stopCounter = 0;
+	unsigned int i = 0;
+	
+	Rcpp::Rcout << "Pre-training until stopCounter reaches " << aContinueFunction.limit << std::endl;
+	while (stopCounter < aContinueFunction.limit && i < maxIters) {
+		++i;
+		Rcpp::Rcout << "Pretrain iteration " << i << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << std::endl;
         Rcpp::checkUserInterrupt();
 
 		// Modify the batch in place
@@ -226,14 +235,14 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 		deltaW = (Alpha * batch.transpose()).array() - (Alpha2 * Beta.transpose()).array();
 		
 		if (penalization == PretrainParameters::PenalizationType::l1) {
-			if (trainB) deltaB = ((deltaB / batchsizeAsDouble) - (b > 0).select(lambdaBvec, (-1) * lambdaBvec)).eval();
-			if (trainC) deltaC = ((deltaC / batchsizeAsDouble) - (c > 0).select(lambdaCvec, (-1) * lambdaCvec)).eval();
-			deltaW = ((deltaW / batchsizeAsDouble) - (W.array() > 0).select(lambdaWarr, (-1) * lambdaWarr)).eval();
+			if (trainB) deltaB = ((deltaB / batchSizeAsDouble) - (b > 0).select(lambdaBvec, (-1) * lambdaBvec)).eval();
+			if (trainC) deltaC = ((deltaC / batchSizeAsDouble) - (c > 0).select(lambdaCvec, (-1) * lambdaCvec)).eval();
+			deltaW = ((deltaW / batchSizeAsDouble) - (W.array() > 0).select(lambdaWarr, (-1) * lambdaWarr)).eval();
 		}
 		else if (penalization == PretrainParameters::PenalizationType::l2) {
-			if (trainB) deltaB = ((deltaB / batchsizeAsDouble) - (lambdaBvec * b)).eval();
-			if (trainC) deltaC = ((deltaC / batchsizeAsDouble) - (lambdaCvec * c)).eval();
-			deltaW = ((deltaW / batchsizeAsDouble) - (lambdaWarr * W.array())).eval();
+			if (trainB) deltaB = ((deltaB / batchSizeAsDouble) - (lambdaBvec * b)).eval();
+			if (trainC) deltaC = ((deltaC / batchSizeAsDouble) - (lambdaCvec * c)).eval();
+			deltaW = ((deltaW / batchSizeAsDouble) - (lambdaWarr * W.array())).eval();
 		}
 		
 		// Compute weights increments
@@ -248,11 +257,17 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 		//c = Alpha.rowwise().sum();
 		W.array() += tanhInPlace(Winc);
 		
+		// Store error
+		errors.push_back(errorSum(batch, Beta));
+		
 		// Report progress
 		aProgressFunctor(*this, i);
 		
-		// And increment counter
-		//p.increment();
+		// Do we continue?
+		if (i >= params.minIters && i % aContinueFunction.frequency == 0) {
+			Rcpp::Rcout << "Executing continue function" << std::endl;
+			aContinueFunction(errors, i, params.batchSize, maxIters) ? stopCounter = 0 : ++stopCounter;
+		}
 	}
 	this->pretrained = true;
 	return *this;

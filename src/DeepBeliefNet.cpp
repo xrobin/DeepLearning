@@ -119,11 +119,11 @@ DeepBeliefNet DeepBeliefNet::reverse() const { // returns a reversed clone of th
 	return pretrainModifyingData(tmpdata, params);
 }*/
 
-DeepBeliefNet& DeepBeliefNet::pretrain(MatrixXd data, const vector<PretrainParameters>& params, PretrainProgress& aProgressFunctor, const vector<size_t>& skip) {
-	return pretrainModifyingData(data, params, aProgressFunctor, skip);
+DeepBeliefNet& DeepBeliefNet::pretrain(MatrixXd data, const vector<PretrainParameters>& params, PretrainProgress& aProgressFunctor, ContinueFunction& aContinueFunction, const vector<size_t>& skip) {
+	return pretrainModifyingData(data, params, aProgressFunctor, aContinueFunction, skip);
 }
 
-DeepBeliefNet& DeepBeliefNet::pretrainModifyingData(MatrixXd& data, const vector<PretrainParameters>& params, PretrainProgress& aProgressFunctor, const vector<size_t>& skip) {
+DeepBeliefNet& DeepBeliefNet::pretrainModifyingData(MatrixXd& data, const vector<PretrainParameters>& params, PretrainProgress& aProgressFunctor, ContinueFunction& aContinueFunction, const vector<size_t>& skip) {
 	// Print some output to let the user know we're doing something
 	Rcpp::Rcout << "Pre-training " << myLayers.front().getSize() << " - " << myLayers.back().getSize() << " network with " << nLayers() << " layers" << std::endl;
 
@@ -142,8 +142,9 @@ DeepBeliefNet& DeepBeliefNet::pretrainModifyingData(MatrixXd& data, const vector
 		}
 		else {
 			aProgressFunctor.setLayer(i);
+			aContinueFunction.setLayer(i);
 			// Pretrain each layer
-			myRBMs[i].pretrain(data, params[i], aProgressFunctor);	
+			myRBMs[i].pretrain(data, params[i], aProgressFunctor, aContinueFunction);	
 		}
 		// Pass the data through the layer
 		if (i < myRBMs.size() - 1) {

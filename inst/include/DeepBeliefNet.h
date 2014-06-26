@@ -8,6 +8,7 @@
 #include "Layer.h"
 #include "shared_array_ptr.h"
 #include "PretrainParameters.h"
+#include "ContinueFunction.h"
 #include "TrainParameters.h"
 #include "Progress.h"
 
@@ -93,9 +94,9 @@ class DeepBeliefNet {
 		 * 
 		 */
 		//DeepBeliefNet& pretrain(const MatrixXdMap& someData, const PretrainParameters& someParameters);
-		DeepBeliefNet& pretrain(Eigen::MatrixXd someData, const std::vector<PretrainParameters>& someParameters, PretrainProgress& aProgressFunctor = NoOpPretrainProgress::getInstance(), const std::vector<size_t>& skip = std::vector<size_t>());
-		DeepBeliefNet& pretrainModifyingData(Eigen::MatrixXd& someData, const std::vector<PretrainParameters>& params, PretrainProgress& aProgressFunctor = NoOpPretrainProgress::getInstance(), const std::vector<size_t>& skip = std::vector<size_t>());
-		DeepBeliefNet& train(const Eigen::MatrixXd& someData, const TrainParameters&, TrainProgress& aProgressFunctor = NoOpTrainProgress::getInstance());
+		DeepBeliefNet& pretrain(Eigen::MatrixXd someData, const std::vector<PretrainParameters>& someParameters, PretrainProgress& aProgressFunctor = NoOpPretrainProgress::getInstance(), ContinueFunction& aContinueFunction = ContinueFunction::getInstance(), const std::vector<size_t>& skip = std::vector<size_t>());
+		DeepBeliefNet& pretrainModifyingData(Eigen::MatrixXd& someData, const std::vector<PretrainParameters>& params, PretrainProgress& aProgressFunctor = NoOpPretrainProgress::getInstance(), ContinueFunction& aContinueFunction = ContinueFunction::getInstance(), const std::vector<size_t>& skip = std::vector<size_t>());
+		DeepBeliefNet& train(const Eigen::MatrixXd& someData, const TrainParameters&, TrainProgress& aProgressFunctor = NoOpTrainProgress::getInstance(), const ContinueFunction& aContinueFunction = ContinueFunction::getInstance());
 		
 		/** Returns the gradient of the DeepBeliefNet related with the provided data in a vector<RBM>
 		 * This gradient can be used for backpropagation or other puroposes
