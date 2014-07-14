@@ -232,7 +232,7 @@ ArrayX1d DeepBeliefNet::error(const MatrixXd& data) const {
 }
 
 ArrayX1d DeepBeliefNet::error(const MatrixXd& data, const MatrixXd& reconstructions) const {
-	return (reconstructions.array() - data.array()).square().colwise().sum().sqrt();
+	return (reconstructions.array() - data.array()).square().colwise().mean().sqrt();
 }
 
 double DeepBeliefNet::errorSum(const MatrixXd& data) const {
