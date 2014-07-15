@@ -290,7 +290,7 @@ namespace Rcpp {
 			stop("invalid value for diag.rate");
 		}
 
-		if (aDiagList.containsElementNamed("data")) {
+		if (aDiagList.containsElementNamed("data") && !Rf_isNull(aDiagList["data"])) {
 			const Eigen::Map<Eigen::MatrixXd> aTestData(as<Eigen::Map<Eigen::MatrixXd>>(aDiagList["data"]));
 			ptr->setData(aTestData.transpose());
 		}
