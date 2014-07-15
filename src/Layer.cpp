@@ -35,7 +35,5 @@ Layer::Type Layer::typeFromString(const string& typeStr) {
 	else if (typeStr == "continuous") {
 		return Layer::continuous;
 	}
-	else {
-		throw std::invalid_argument("Unknown type string: " + typeStr + "!");
-	}
+	throw std::invalid_argument("Unknown type string: " + typeStr + "!");
 }
