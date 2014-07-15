@@ -96,7 +96,7 @@ ArrayX1d energyDbnCpp(const DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixX
 /* Error */
 
 // [[Rcpp::export]]
-ArrayX1d errorRbmCpp(const DeepBeliefNet& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+ArrayX1d errorRbmCpp(const RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return anRBM.error(aDataMatrix.transpose());
 }
 

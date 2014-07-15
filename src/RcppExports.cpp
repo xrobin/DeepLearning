@@ -220,13 +220,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // errorRbmCpp
-ArrayX1d errorRbmCpp(const DeepBeliefNet& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+ArrayX1d errorRbmCpp(const RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
 RcppExport SEXP DeepLearning_errorRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< const DeepBeliefNet& >::type anRBM(anRBMSEXP );
+        Rcpp::traits::input_parameter< const RBM& >::type anRBM(anRBMSEXP );
         Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP );
         ArrayX1d __result = errorRbmCpp(anRBM, aDataMatrix);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
