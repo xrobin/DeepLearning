@@ -103,7 +103,7 @@ class AcceleratePretrainProgress: public PretrainProgress {
 	
 	public:	
     void operator()(const RBM& anRBM, const Eigen::MatrixXd& aBatch, const unsigned int iter) {
-    	if (storeImage >= 1 || iter == maxIters) {
+    	if (storeImage >= 1 || iter == maxIters || iter == 0) {
     		function(anRBM, aBatch, testData, iter, batchSize, maxIters, currentLayer);
     		storeImage = 100.0 / iter;
     	}

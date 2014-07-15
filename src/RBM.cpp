@@ -210,6 +210,8 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	batchRand.setBatch(data, batch);	
 	
 	// Start with a null batch progress
+	aProgressFunctor.setBatchSize(batchSize);
+	aProgressFunctor.setMaxIters(maxIters);
 	aProgressFunctor(*this, batch, i);
 	
 	Rcpp::Rcout << "Pre-training until stopCounter reaches " << aContinueFunction.limit << std::endl;

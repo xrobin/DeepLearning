@@ -14,7 +14,7 @@ pretrain(x, data, ...)
   "gaussian", 0.001, 0.1), epsilon.b = epsilon, epsilon.c = epsilon,
   epsilon.W = epsilon, train.b = TRUE, train.c = TRUE,
   continue.function = continue.function.exponential,
-  continue.function.frequency = 100, continue.stop.limit = 3,
+  continue.function.frequency = 1000, continue.stop.limit = 30,
   diag = list(rate = diag.rate, data = diag.data, f = diag.function),
   diag.rate = c("none", "each", "accelerate"), diag.data = NULL,
   diag.function = NULL, n.proc = detectCores() - 1, ...)
