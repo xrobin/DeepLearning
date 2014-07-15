@@ -14,6 +14,7 @@ string Layer::getTypeAsString() const {
 		case(binary): return "binary";
 		case(continuous): return "continuous";
 	};
+	throw std::runtime_error("Undefined type!");
 }
 
 unsigned int Layer::getSize() const {
