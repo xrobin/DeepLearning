@@ -170,6 +170,8 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	applyDataIfNeeded(trainingData); // Apply the best weights to the DBN
 	
 	// Get random batch
+	aProgressFunctor.setBatchSize(params.batchSize);
+	aProgressFunctor.setMaxIters(params.maxIters);
 	batchRand.setBatch(data, batch);
 		
 	//bool continueTraining = true;
@@ -216,7 +218,7 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 		}
 	}
 
-	std::cout << "Final error: " << errorSum(batch) << std::endl;
+	std::cout << "Final error: " << errorSum(batch) / params.batchSize << std::endl;
 	finetuned = true;
 	
 	return *this;

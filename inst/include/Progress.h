@@ -130,7 +130,7 @@ class AccelerateTrainProgress: public TrainProgress {
 	
 	public:	
     void operator()(const DeepBeliefNet& aDBN, const Eigen::MatrixXd &aBatch, unsigned int iter) {
-    	if (storeImage >= 1 || iter == maxIters) {
+    	if (storeImage >= 1 || iter == maxIters || iter == 0) {
     		function(aDBN, aBatch, testData, iter, batchSize, maxIters);
     		storeImage = 100.0 / iter;
     	}
