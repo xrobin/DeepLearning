@@ -99,7 +99,7 @@ class AcceleratePretrainProgress: public PretrainProgress {
 	size_t currentLayer, batchSize;
 	Eigen::MatrixXd testData;
 	pretrainDiagFunctionType function;
-	constexpr static const double InitialStoreImage = 1; // initialize storeImage to 1
+	constexpr static double InitialStoreImage = 1; // initialize storeImage to 1
 	
 	public:	
     void operator()(const RBM& anRBM, const Eigen::MatrixXd& aBatch, const unsigned int iter) {
@@ -125,7 +125,7 @@ class AccelerateTrainProgress: public TrainProgress {
 	size_t batchSize;
 	Eigen::MatrixXd testData;
 	trainDiagFunctionType function;
-	constexpr static const double InitialStoreImage = 1; // initialize storeImage to 1
+	constexpr static double InitialStoreImage = 1; // initialize storeImage to 1
 	//AccelerateTrainProgress(AccelerateTrainProgress&) = delete;
 	
 	public:	
