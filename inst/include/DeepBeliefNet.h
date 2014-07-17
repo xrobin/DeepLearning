@@ -49,14 +49,14 @@ class DeepBeliefNet {
 		}
 		DeepBeliefNet(const std::vector<Layer> &layers, std::vector<double>& aData, bool isAlreadyPretrained = false, 
 		              bool isAlreadyUnrolled = false, bool isAlreadyFinetuned = false):
-			myLayers(layers), myData(aData), pretrained(isAlreadyPretrained), unrolled(isAlreadyUnrolled),
+			myLayers(layers), myData(aData), myRBMs(), pretrained(isAlreadyPretrained), unrolled(isAlreadyUnrolled),
 			finetuned(isAlreadyFinetuned) {
 			//cleanUp = false; // aData vector will do it anyway
 			constructRBMs();
 		}
 		DeepBeliefNet(const std::vector<Layer> &layers, shared_array_ptr<double>& aData, bool isAlreadyPretrained = false, 
 		              bool isAlreadyUnrolled = false, bool isAlreadyFinetuned = false):
-			myLayers(layers), myData(aData), pretrained(isAlreadyPretrained), unrolled(isAlreadyUnrolled), 
+			myLayers(layers), myData(aData), myRBMs(), pretrained(isAlreadyPretrained), unrolled(isAlreadyUnrolled), 
 			finetuned(isAlreadyFinetuned) {
 			constructRBMs();
 		}
