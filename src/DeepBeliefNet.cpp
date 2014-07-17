@@ -244,12 +244,12 @@ double DeepBeliefNet::errorSum(const MatrixXd& data, const MatrixXd& reconstruct
 }
 
 ArrayX1d DeepBeliefNet::energy(MatrixXd data) const {
-	ArrayX1d energy = myRBMs[0].energy(data);
+	ArrayX1d theEnergy = myRBMs[0].energy(data);
 	for (size_t layer = 1; layer < myRBMs.size(); ++layer) {
 		data = myRBMs[layer - 1].predict(data);
-		energy += myRBMs[layer].predict(data).array();
+		theEnergy += myRBMs[layer].predict(data).array();
 	}
-	return energy;
+	return theEnergy;
 }
 
 double DeepBeliefNet::energySum(const MatrixXd& data) const {
