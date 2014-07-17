@@ -11,7 +11,7 @@ class Layer {
 	public:
 		enum Type {binary, gaussian, continuous};
 		Layer(unsigned int aSize, Type aType) : size(aSize), type(aType) {};
-		Layer(unsigned int, std::string);
+		Layer(unsigned int aSize, std::string aType) : size(aSize), type(typeFromString(aType)) {};
 		
 		Type getType() const;
 		std::string getTypeAsString() const;

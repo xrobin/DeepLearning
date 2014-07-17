@@ -21,11 +21,6 @@ unsigned int Layer::getSize() const {
 	return size;
 }
 
-Layer::Layer(unsigned int aSize, string typeStr) {
-	size = aSize;
-	type = typeFromString(typeStr);
-}
-
 Layer::Type Layer::typeFromString(const string& typeStr) {
 	if (typeStr == "binary") {
 		return Layer::binary; 
