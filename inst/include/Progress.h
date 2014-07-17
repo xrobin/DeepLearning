@@ -42,8 +42,10 @@ class PretrainProgress {
     virtual void setData(const Eigen::MatrixXd&) = 0;
     virtual void setFunction(const pretrainDiagFunctionType&) = 0;
     virtual void propagateData(const RBM&) = 0; 
-    virtual void reset() = 0; 
+    virtual void reset() = 0;
+    virtual ~PretrainProgress() = 0;
 };
+inline PretrainProgress::~PretrainProgress() { }
 
 class TrainProgress {
 	public:
@@ -52,8 +54,10 @@ class TrainProgress {
     virtual void setMaxIters(const unsigned int) = 0;
     virtual void setData(const Eigen::MatrixXd&) = 0;
     virtual void setFunction(const trainDiagFunctionType&) = 0;
-    virtual void reset() = 0; 
+    virtual void reset() = 0;
+    virtual ~TrainProgress() = 0;
 };
+inline TrainProgress::~TrainProgress() { }
 
 /** NoOpPretrainProgress and NoOpTrainProgress are no-op implementations of PretrainProgress and TrainProgress.
  * They just do nothing and are used as default.
