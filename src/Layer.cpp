@@ -13,8 +13,8 @@ string Layer::getTypeAsString() const {
 		case(gaussian): return "gaussian";
 		case(binary): return "binary";
 		case(continuous): return "continuous";
+		default: throw std::runtime_error("Undefined type!");
 	};
-	throw std::runtime_error("Undefined type!");
 }
 
 unsigned int Layer::getSize() const {
