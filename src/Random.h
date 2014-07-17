@@ -14,8 +14,8 @@ class Random  {
 	void build(const std::string& type, size_t max = -1);
 
 	public:
-		Random(const std::string type, size_t max = -1) {build(type, max);}
-		Random(Layer::Type type) {
+		Random(const std::string type, size_t max = -1): rngInt(), rngDouble() {build(type, max);}
+		Random(Layer::Type type): rngInt(), rngDouble() {
 			if (type == Layer::Type::gaussian) {
 				build("gaussian");
 			}
