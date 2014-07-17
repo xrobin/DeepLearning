@@ -63,7 +63,7 @@ void cgmin(size_t n, double *Bvec, double *X, double *Fmin,
 	//c = std::vector(n); g = vect(n); t = vect(n);
 	
 	*fail = 0;
-	double tol = intol * n * sqrt(intol);
+	double tol = intol * double(n) * sqrt(intol);
 	
 	if (trace) Rcout << "tolerance used in gradient test=" << tol << std::endl;
 	f = fminfn(ex);

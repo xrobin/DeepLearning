@@ -218,7 +218,7 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 		}
 	}
 
-	std::cout << "Final error: " << errorSum(batch) / params.batchSize << std::endl;
+	std::cout << "Final error: " << errorSum(batch) / double(params.batchSize) << std::endl;
 	finetuned = true;
 	
 	return *this;
