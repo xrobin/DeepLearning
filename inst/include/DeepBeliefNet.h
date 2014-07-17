@@ -42,7 +42,7 @@ class DeepBeliefNet {
 		/** Constructs the RBMs as given by the Layers with the given data. Does not return the RBM but modifies it in place */
 		static void constructRBMs(std::vector<RBM>& someRBMs, const std::vector<Layer>& someLayers, const shared_array_ptr<double>& someData);
 		/* Consructors */
-		explicit DeepBeliefNet(const std::vector<Layer> &layers): myLayers(layers), myData(computeDataSize(layers)),
+		explicit DeepBeliefNet(const std::vector<Layer> &layers): myLayers(layers), myData(computeDataSize(layers)), myRBMs(),
 		pretrained(false), unrolled(false), finetuned(false) {
 			//cleanUp = true;
 			constructRBMs();
