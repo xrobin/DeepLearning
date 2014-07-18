@@ -1,8 +1,4 @@
 #include <Rcpp.h>
-using Rcpp::NumericMatrix;
-using Rcpp::as;
-using Rcpp::wrap;
-
 #include <RcppEigen.h> 
 
 #include <vector>
@@ -14,6 +10,7 @@ using std::unique_ptr;
 #include "RBM.h"
 #include "DeepBeliefNet.h"
 #include "RcppConversions.h"
+#include "RtoCppInterface.h"
 
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::export]]
@@ -55,7 +52,7 @@ RBM pretrainRbmCpp(RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, c
 
 // [[Rcpp::export]]
 DeepBeliefNet pretrainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const std::vector<PretrainParameters>& params, const std::unique_ptr<PretrainProgress>& diag, ContinueFunction& cont, const Rcpp::IntegerVector& aSkip) {
-	const std::vector<size_t> skip(as<std::vector<size_t>>(aSkip));
+	const std::vector<size_t> skip(Rcpp::as<std::vector<size_t>>(aSkip));
 	aDBN.pretrain(aDataMatrix.transpose(), params, *diag, cont, skip);
 	return aDBN;
 }
