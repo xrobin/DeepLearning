@@ -3,6 +3,7 @@
 #include <thread>
 
 // Detect how many cores are available on the machine. C++11.
+unsigned int detectCores();
 
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::export]]

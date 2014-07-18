@@ -18,3 +18,4 @@
 // Conversions from/to R
 #include <RcppEigen.h> // This is used for conversions in RcppExports.cpp
 #include <RcppConversions.h>
+#include <RcppExports.h>

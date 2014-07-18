@@ -9,6 +9,8 @@ using Rcpp::NumericVector;
 #include "DeepBeliefNet.h"
 #include "RcppConversions.h"
 
+SEXP unit_DbnGradient(SEXP& aDBN, SEXP& aDataMatrix);
+
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::export]]
 SEXP unit_DbnGradient(SEXP& aDBN, SEXP& aDataMatrix) {
