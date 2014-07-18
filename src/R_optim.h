@@ -6,7 +6,7 @@
 
 /** Parameters passed to the optimization functions */
 struct OptimParameters {
-	OptimParameters(DeepBeliefNet &aDBN, Eigen::MatrixXd &aMatrix): dbn(aDBN), batch(aMatrix), gradientRBMs() {};
+	OptimParameters(DeepBeliefNet &aDBN, Eigen::MatrixXd &aMatrix): dbn(aDBN), batch(aMatrix), gradientRBMs() {}
 	DeepBeliefNet &dbn;
 	Eigen::MatrixXd &batch;
 	vector<RBM> gradientRBMs;

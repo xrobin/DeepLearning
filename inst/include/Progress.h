@@ -81,7 +81,7 @@ class NoOpPretrainProgress: public PretrainProgress {
 
 class NoOpTrainProgress: public TrainProgress {
 	public:
-    void operator()(const DeepBeliefNet&, const Eigen::MatrixXd&, const unsigned int) {return;};
+    void operator()(const DeepBeliefNet&, const Eigen::MatrixXd&, const unsigned int) {return;}
     void setBatchSize(const size_t) {return;}
     void setMaxIters(const unsigned int) {return;}
     void setData(const Eigen::MatrixXd&) {return;}
@@ -119,7 +119,7 @@ class AcceleratePretrainProgress: public PretrainProgress {
     void setBatchSize(const size_t aBatchSize) {batchSize = aBatchSize;}
     void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
     void setFunction(const pretrainDiagFunctionType& aFunction) {function = aFunction;}
-    void reset() {storeImage = InitialStoreImage;};
+    void reset() {storeImage = InitialStoreImage;}
 };
 
 class AccelerateTrainProgress: public TrainProgress {
@@ -144,7 +144,7 @@ class AccelerateTrainProgress: public TrainProgress {
     void setBatchSize(const size_t aBatchSize) {batchSize = aBatchSize;}
     void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
     void setFunction(const trainDiagFunctionType& aFunction) {function = aFunction;}
-    void reset() {storeImage = InitialStoreImage;};
+    void reset() {storeImage = InitialStoreImage;}
 };
 
 
@@ -168,7 +168,7 @@ class EachStepPretrainProgress: public PretrainProgress {
     void setData(const Eigen::MatrixXd& aTestData) {testData = aTestData;}
     void propagateData(const RBM& anRBM);
     void setFunction(const pretrainDiagFunctionType& aFunction) {function = aFunction;}
-    void reset() {return;};
+    void reset() {return;}
 };
 
 class EachStepTrainProgress: public TrainProgress {
@@ -186,5 +186,5 @@ class EachStepTrainProgress: public TrainProgress {
     void setMaxIters(const unsigned int aMaxIters) {maxIters = aMaxIters;}
     void setData(const Eigen::MatrixXd& aTestData) {testData = aTestData;}
     void setFunction(const trainDiagFunctionType& aFunction) {function = aFunction;}
-    void reset() {return;};
+    void reset() {return;}
 };

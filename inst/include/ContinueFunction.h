@@ -36,7 +36,7 @@ struct ContinueFunction {
 		UNUSED(errors); UNUSED(iter); UNUSED(batchsize); UNUSED(maxiters); UNUSED(aLayer);
 		return true;
 	})
-	{};
+	{}
 	
 	bool operator()(std::vector<double> errors, unsigned int iter, size_t batchsize, unsigned int maxiters) const {
 		return continueFunction(errors, iter, batchsize, maxiters, this->layer);

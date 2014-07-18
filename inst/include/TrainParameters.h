@@ -36,7 +36,7 @@ struct CgMinParams {
 	double steplength, stepredn, acctol, reltest, abstol, intol, setstep;
 
 	CgMinParams(): type(2), trace(0), maxCgIters(10), steplength(1.0), stepredn(0.2), acctol(0.0001), reltest(10.0), abstol(-std::numeric_limits<double>::infinity()), 
-		intol(sqrt(std::numeric_limits<double>::epsilon())), setstep(1.7) {};
+		intol(sqrt(std::numeric_limits<double>::epsilon())), setstep(1.7) {}
 
 	CgMinParams& setAlgorithmType(int newAlgorithmType) {
 		if (newAlgorithmType < 1 || newAlgorithmType > 3) {
@@ -100,6 +100,6 @@ struct TrainParameters {
 	TrainParameters& setMinIters(unsigned int newMinIters) {minIters = newMinIters; return *this;}
 	TrainParameters& setMaxIters(unsigned int newMaxIters) {maxIters = newMaxIters; return *this;}
 
-	TrainParameters() : myCgMinParams(), batchSize(100), nbThreads(0), minIters(100), maxIters(1000) {};
+	TrainParameters() : myCgMinParams(), batchSize(100), nbThreads(0), minIters(100), maxIters(1000) {}
 };
 
