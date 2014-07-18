@@ -6,13 +6,14 @@ using std::vector;
 #include <memory> // std::unique_ptr
 using std::unique_ptr;
 
-#include "Layer.h"
-#include "RBM.h"
-#include "DeepBeliefNet.h"
-#include "RcppConversions.h"
+#include <DeepLearning/Layer.h>
+#include <DeepLearning/RBM.h>
+#include <DeepLearning/DeepBeliefNet.h>
+#include <RcppConversions.h>
 #include "RtoCppInterface.h"
+using namespace DeepLearning;
 
-// [[Rcpp::plugins(cpp11)]]
+
 // [[Rcpp::export]]
 DeepBeliefNet unrollDbnCpp(DeepBeliefNet& aDBN) {
 	return aDBN.unroll();

@@ -19,12 +19,15 @@ using std::endl;
 using std::size_t;
 using std::string;
 
+#include <DeepLearning/DeepBeliefNet.h>
+#include <DeepLearning/typedefs.h>
 #include "R_optim.h" // cgmin
 #include "Random.h"
-#include "shared_array_ptr.h"
-#include "DeepBeliefNet.h"
-#include "typedefs.h"
+#include <shared_array_ptr.h>
+using namespace DeepLearning;
 
+
+namespace DeepLearning {
 double my_f (OptimParameters&);
 double my_f (OptimParameters& params) {
 	DeepBeliefNet& dbn = params.dbn;
@@ -228,4 +231,5 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	finetuned = true;
 	
 	return *this;
+}
 }

@@ -5,6 +5,8 @@ using Rcpp::Environment;
 using Rcpp::as;
 #include <RcppEigen.h> 
 
+#include <boost/numeric/conversion/cast.hpp> // safe numeric_cast
+
 #include <string>
 using std::string;
 #include <stdexcept> // throw std::runtime_error, std::invalid_argument
@@ -16,15 +18,14 @@ using std::vector;
 #include <memory> // std::unique_ptr
 using std::unique_ptr;
 
-#include "boost/numeric/conversion/cast.hpp" // safe numeric_cast
-
-#include "RcppConversions.h"
-#include "DeepBeliefNet.h" 
-#include "RBM.h"
-#include "Layer.h"
+#include <RcppConversions.h>
+#include <DeepLearning/DeepBeliefNet.h>
+#include <DeepLearning/RBM.h>
+#include <DeepLearning/Layer.h>
 
 // define template specialisations for as and wrap
 namespace Rcpp {
+	using namespace DeepLearning;
 	// size_t
 	template <> size_t as(SEXP ptr) {
 		int i(as<int>(ptr));

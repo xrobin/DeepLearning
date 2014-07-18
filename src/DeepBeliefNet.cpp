@@ -1,14 +1,18 @@
+#include <Rcpp.h>
+
 #include <Eigen/Dense>
 using Eigen::MatrixXd;
 using Eigen::ArrayXXd;
 #include <boost/range/adaptor/reversed.hpp> // boost::adaptors::reverse
-#include <Rcpp.h>
 
 #include <vector>
 using std::vector;
 
 #include <DeepLearning.h>
+using namespace DeepLearning;
 
+
+namespace DeepLearning {
 /** Creates a deep copy of the DeepBeliefNet and returns it.
  * for efficiency reasons, copying a DBN does **NOT** copy the weights. Those are stored in a copy-counted pointer
  * and the normal copy semantics makes only a superficial copy. This means that modifying weights in the copy
@@ -254,4 +258,5 @@ ArrayX1d DeepBeliefNet::energy(MatrixXd data) const {
 
 double DeepBeliefNet::energySum(const MatrixXd& data) const {
 	return energy(data).sum();
+}
 }

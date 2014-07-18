@@ -4,12 +4,14 @@
 
 #include <memory> // std::unique_ptr
 
-#include "DeepBeliefNet.h" 
-#include "RBM.h"
-#include "Layer.h"
-#include "shared_array_ptr.h"
+#include <DeepLearning/DeepBeliefNet.h>
+#include <DeepLearning/Layer.h>
+#include <DeepLearning/RBM.h>
+#include <shared_array_ptr.h>
+
 
 namespace Rcpp {
+	using namespace DeepLearning;
 	// size_t
 	template <> size_t as(SEXP ptr);
 	
