@@ -1,3 +1,5 @@
+#pragma once 
+
 #include <cmath> // std::tanh
 #include <vector>
 

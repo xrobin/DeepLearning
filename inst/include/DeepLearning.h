@@ -1,3 +1,5 @@
+#pragma once 
+
 // Helper stuff
 #include <typedefs.h>
 #include <utils.h>

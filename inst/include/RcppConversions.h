@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Rcpp.h>
 
 #include <memory> // std::unique_ptr
