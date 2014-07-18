@@ -21,4 +21,3 @@ void cgmin(size_t n, double *Bvec, double *X, double *Fmin,
            optimfn fminfn, optimgr fmingr, int *fail,
            const CgMinParams& params, OptimParameters& ex,
            unsigned int *fncount, unsigned int *grcount);
-	   
