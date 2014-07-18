@@ -7,9 +7,9 @@
  * Designed for Eigen matrices, it accepts any object as long as they implement .data() (a pointer to a double) and .size() (length of the data)
  */
 template <typename T> T& tanhInPlace(T& anEigenObject) {
-	size_t ncomponenents = anEigenObject.size();
+	auto ncomponenents = anEigenObject.size();
 	double* theData = anEigenObject.data();
-	for (size_t i = 0; i < ncomponenents; ++i) {
+	for (auto i = 0; i < ncomponenents; ++i) {
 		theData[i] = std::tanh(theData[i]);
 	}
 	return anEigenObject;

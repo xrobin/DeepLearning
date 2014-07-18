@@ -4,6 +4,8 @@
 #include <random> // std::mt19937, std::random_device, std::uniform_int_distribution, std::uniform_real_distribution, std::normal_distribution
 #include <functional> // std::bind
 using std::bind;
+#include <stdexcept> // throw std::invalid_argument
+#include "boost/numeric/conversion/cast.hpp"
 
 #include "Random.h"
 
@@ -19,7 +21,7 @@ using Eigen::Map;
 	return std::mt19937(seq);
 }*/
 
-void Random::build(const std::string& type, size_t max) {
+void Random::build(const std::string& type) {
 	std::random_device rd;
 	std::mt19937 rng_engine(rd());
 	if (type == "gaussian") {
@@ -27,18 +29,29 @@ void Random::build(const std::string& type, size_t max) {
         rngDouble = bind(dist, rng_engine);
 	}
 	else if (type == "uniform_int") {
-        std::uniform_int_distribution<std::size_t> dist(0.0, max - 1);
-        rngInt = bind(dist, rng_engine);
+		throw std::invalid_argument("'max' is required with type = 'uniform_int'");
 	}
 	else {
         std::uniform_real_distribution<double> dist(0.0, 1.0);
         rngDouble = bind(dist, rng_engine);
 	}
 }
+
+void Random::build(const std::string& type, size_t max) {
+	std::random_device rd;
+	std::mt19937 rng_engine(rd());
+	if (type == "uniform_int") {
+        std::uniform_int_distribution<int> dist(0.0, boost::numeric_cast<int>(max - 1));
+        rngInt = bind(dist, rng_engine);
+	}
+	else {
+		throw std::invalid_argument("'max' is ignored with type != 'uniform_int'");
+	}
+}
 		
 void Random::setBatch(const MatrixXd& data, MatrixXd& batch) {
-	size_t batchsize = batch.cols();
-	for (size_t i = 0; i < batchsize; i++) {
+	auto batchsize = batch.cols();
+	for (auto i = 0; i < batchsize; i++) {
 		batch.col(i) = data.col(rngInt());
 	}
 }

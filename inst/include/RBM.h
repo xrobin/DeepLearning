@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include "boost/numeric/conversion/cast.hpp"
 
 #include <string>
 #include <fstream>
@@ -106,7 +107,7 @@ class RBM {
 		/* Accessors */
 		Eigen_size_type nInput() const {return input.getSize();}
 		Eigen_size_type nOutput() const {return output.getSize();}
-		size_t nWeights() const {return nInput() * nOutput();}
+		Eigen_size_type nWeights() const {return nInput() * nOutput();}
 		size_t totalSize() const {return std::get<3>(myOffsets);}
 		Layer::Type tInput() const {return input.getType();}
 		Layer::Type tOutput() const {return output.getType();}
@@ -119,9 +120,9 @@ class RBM {
 		double* getBAsPtr() const {return myData.getOffsetData() /* + std::get<0>(myOffsets) always 0 */;}
 		double* getWAsPtr() const {return myData.getOffsetData() + std::get<1>(myOffsets);}
 		double* getCAsPtr() const {return myData.getOffsetData() + std::get<2>(myOffsets);}
-		shared_array_ptr<double> getBAsSharedArrayPtr() const {return myData > nInput();}
-		shared_array_ptr<double> getWAsSharedArrayPtr() const {return myData + std::get<1>(myOffsets) > nWeights();}
-		shared_array_ptr<double> getCAsSharedArrayPtr() const {return myData + std::get<2>(myOffsets) > nOutput();}
+		shared_array_ptr<double> getBAsSharedArrayPtr() const {return myData > boost::numeric_cast<std::size_t>(nInput());}
+		shared_array_ptr<double> getWAsSharedArrayPtr() const {return myData + std::get<1>(myOffsets) > boost::numeric_cast<std::size_t>(nWeights());}
+		shared_array_ptr<double> getCAsSharedArrayPtr() const {return myData + std::get<2>(myOffsets) > boost::numeric_cast<std::size_t>(nOutput());}
 		ArrayX1dMap getB() const {return b;}
 		ArrayX1dMap getC() const {return c;}
 		MatrixXdMap getW() const {return W;}

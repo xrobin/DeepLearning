@@ -5,6 +5,7 @@
 using Eigen::MatrixXd;
 using Eigen::ArrayXXd;
 #include <Rcpp.h> // Rcpp::checkUserInterrupt
+#include "boost/numeric/conversion/cast.hpp"
 
 #include <iostream>
 #include <stdexcept> // std::runtime_error
@@ -24,6 +25,7 @@ using std::string;
 #include "DeepBeliefNet.h"
 #include "typedefs.h"
 
+double my_f (OptimParameters&);
 double my_f (OptimParameters& params) {
 	DeepBeliefNet& dbn = params.dbn;
 	Eigen::MatrixXd& batch = params.batch;
@@ -38,6 +40,7 @@ double my_f (OptimParameters& params) {
  * *df: the gradients
  * *rawParams: additional OptimParameters object passad as void pointer
  */
+void my_df (double *df, OptimParameters&);
 void my_df (double *df, OptimParameters& params) {
 	DeepBeliefNet& dbn = params.dbn;
 	Eigen::MatrixXd& batch = params.batch;
@@ -66,12 +69,14 @@ vector<RBM> DeepBeliefNet::getGradient(const MatrixXd& data, shared_array_ptr<do
 
 
 /** Derivative activation function of a binary layer */
+MatrixXd binaryActivationDerivative(MatrixXd&);
 MatrixXd binaryActivationDerivative(MatrixXd& activations) {
 	ArrayXXd minusActivationsExp = (-(activations.array())).exp();
 	return (minusActivationsExp / (minusActivationsExp + 1).square()).matrix();
 }
 
 /** Derivative activation function of a unit continuous layer */
+MatrixXd continuousActivationDerivative(MatrixXd&);
 MatrixXd continuousActivationDerivative(MatrixXd& activations) {
 	auto activationsArray = activations.array();
 	return (activationsArray.abs() < 10e-3).select(
@@ -152,8 +157,9 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	
 	DeepBeliefNet trainingDBN = this->clone(); // work on a copy
 	
-	MatrixXd batch = MatrixXd::Zero(myLayers[0].getSize(), params.batchSize);
-	Random batchRand("uniform_int", data.cols());
+	Eigen_size_type batchSizeEigen = boost::numeric_cast<Eigen_size_type>(params.batchSize);
+	MatrixXd batch = MatrixXd::Zero(myLayers[0].getSize(), batchSizeEigen);
+	Random batchRand("uniform_int", boost::numeric_cast<size_t>(data.cols()));
 
 	// Input and output pointers for/from cgmin:
 	OptimParameters OptimParams(trainingDBN, batch);

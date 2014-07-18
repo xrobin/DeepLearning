@@ -6,6 +6,7 @@
 #include <fstream> // std::ofstream
 #include <cassert> // assert
 using std::vector;
+#include "boost/numeric/conversion/cast.hpp"
 
 #include "Random.h"
 #include "RBM.h"
@@ -129,6 +130,7 @@ void RBM::genericActivationsToActivitiesInPlace(MatrixXd& act, const Layer::Type
 
 // tests if SampleAlpha < Alpha and assigns 1 or 0 into Alpha depending on the result (1 = TRUE, 0 = FALSE)
 // Modifies Alpha in place
+void biggerThanInPlace(MatrixXd&, const ArrayXXd&);
 void biggerThanInPlace(MatrixXd& Alpha, const ArrayXXd& SampleAlpha) {
 	for (int i = 0; i < Alpha.size(); i++) {
 		*(Alpha.data() + i) = *(SampleAlpha.data() + i) < *(Alpha.data() + i) ? 1 : 0;
@@ -154,12 +156,13 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	Eigen::setNbThreads(params.nbThreads);
 	
 	/* data size ? */
-	size_t samplesize = data.cols();
+	size_t samplesize = boost::numeric_cast<size_t>(data.cols());
 	
 	/* get pretraining parameters from params */
 	const unsigned int maxIters = params.maxIters;
 	const size_t batchSize = params.batchSize;
-	const double batchSizeAsDouble = static_cast<double>(batchSize);
+	const Eigen_size_type batchSizeAsEigen = boost::numeric_cast<Eigen_size_type>(batchSize);
+	const double batchSizeAsDouble = boost::numeric_cast<double>(batchSize);
 	const PretrainParameters::PenalizationType penalization = params.penalization;
 	const vector<double> momentums = params.getValidMomentums();
 	const ArrayX1d lambdaBvec = ArrayX1d::Constant(b.size(), params.lambdaB);
@@ -180,14 +183,14 @@ RBM& RBM::pretrain(const MatrixXd& data, const PretrainParameters& params, Pretr
 	      << "updating (b, c) = (" << trainB << ", " << trainC << ")" << std::endl;
 	
 	// Pre allocate variables that will be used multiple times
-	MatrixXd batch = MatrixXd::Zero(input.getSize(), batchSize);
+	MatrixXd batch = MatrixXd::Zero(input.getSize(), batchSizeAsEigen);
 	ArrayXXd Winc = MatrixXd::Zero(W.rows(), W.cols());
 	ArrayX1d bInc = ArrayX1d::Zero(b.size());
 	ArrayX1d cInc = ArrayX1d::Zero(c.size());
-	ArrayXXd SampleAlpha = ArrayXXd::Zero(output.getSize(), batchSize); // sample variable for h
-	MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchSize); // h.sampled
-	MatrixXd Beta = ArrayXXd::Zero(input.getSize(), batchSize); // P.f.given.h
-	MatrixXd Alpha2 = ArrayXXd::Zero(output.getSize(), batchSize); // P.h.given.f
+	ArrayXXd SampleAlpha = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // sample variable for h
+	MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // h.sampled
+	MatrixXd Beta = ArrayXXd::Zero(input.getSize(), batchSizeAsEigen); // P.f.given.h
+	MatrixXd Alpha2 = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // P.h.given.f
 	ArrayX1d deltaB, deltaC, penalizedDeltaB, penalizedDeltaC;
 	ArrayXXd deltaW, penalizedDeltaW;
 	

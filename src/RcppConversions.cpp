@@ -134,7 +134,7 @@ namespace Rcpp {
 
 		// Build the output Layers list
 		std::vector<Layer> LayersVector;
-		LayersVector.reserve(LayersList.size());
+		LayersVector.reserve(boost::numeric_cast<size_t>(LayersList.size()));
 		for (auto aLayer : LayersList) {
 			LayersVector.push_back(as<Layer>(aLayer));
 		}
@@ -217,10 +217,10 @@ namespace Rcpp {
 			}
 		}
 		
-		if (paramList.containsElementNamed("miniters")) params.setMinIters(as<unsigned int>(paramList["miniters"]));
-		if (paramList.containsElementNamed("maxiters")) params.setMaxIters(as<unsigned int>(paramList["maxiters"]));
-		if (paramList.containsElementNamed("batchsize")) params.setBatchSize(as<size_t>(paramList["batchsize"]));
-		if (paramList.containsElementNamed("n.proc")) params.setNbThreads(as<unsigned int>(paramList["n.proc"]));
+		if (paramList.containsElementNamed("miniters")) params.setMinIters(boost::numeric_cast<unsigned int>(as<int>(paramList["miniters"])));
+		if (paramList.containsElementNamed("maxiters")) params.setMaxIters(boost::numeric_cast<unsigned int>(as<int>(paramList["maxiters"])));
+		if (paramList.containsElementNamed("batchsize")) params.setBatchSize(boost::numeric_cast<size_t>(as<int>(paramList["batchsize"])));
+		if (paramList.containsElementNamed("n.proc")) params.setNbThreads(as<int>(paramList["n.proc"]));
 		params.ensureValidity();
 		return params;
 	}
@@ -228,7 +228,7 @@ namespace Rcpp {
 	template <> vector<PretrainParameters> as(SEXP someParams) {
 		List paramForAllLayers(as<List>(someParams));
 		vector<PretrainParameters> out;
-		out.reserve(paramForAllLayers.size());
+		out.reserve(boost::numeric_cast<size_t>(paramForAllLayers.size()));
 		for (auto layerMomentum : paramForAllLayers) {
 			out.push_back(as<PretrainParameters>(layerMomentum));
 		}

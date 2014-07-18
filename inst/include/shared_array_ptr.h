@@ -68,8 +68,8 @@ public:
 //			std::cout << "Created shared_array_ptr from aDataSize (size_t). Count = " << *myCount << ", offset = " << myOffset << ", length= " << myLength << ", pointer = " << myData << std::endl;
 	}
 	/** constructor(long|int, bool): in addition, throws boost::bad_numeric_cast, boost::positive_overflow or boost::negative_overflow if aDataSize cannot be represented in a size_t. */
-	explicit shared_array_ptr<T, Alloc>(const long aDataSize, const bool aCleanUp = true) : myDataSize(aDataSize), myData(new T[myDataSize]), myCount(new unsigned long(1)), myOffset(0), myLength(myDataSize), cleanUp(new bool(aCleanUp)) {
-//			std::cout << "Created shared_array_ptr from aDataSize (long). Count = " << *myCount << ", offset = " << myOffset << ", length= " << myLength << ", pointer = " << myData << std::endl;
+	explicit shared_array_ptr<T, Alloc>(const long aDataSize, const bool aCleanUp = true) : myDataSize(boost::numeric_cast<std::size_t>(aDataSize)), myData(new T[myDataSize]), myCount(new unsigned long(1)), myOffset(0), myLength(myDataSize), cleanUp(new bool(aCleanUp)) {
+		std::cout << "Created shared_array_ptr from aDataSize (long). Count = " << *myCount << ", offset = " << myOffset << ", length= " << myLength << ", pointer = " << myData << std::endl;
 	}
 	
 	/** The constructor from aDataSize will create the data (initialized to 0) */
@@ -80,7 +80,7 @@ public:
 	/** constructor with begin/end iterators from STL or other standard containers. Makes a copy of the data.
 	InputIt must meet the requirements of InputIterator <http://en.cppreference.com/w/cpp/concept/InputIterator>. 
 	*/
-	template< class InputIt > shared_array_ptr<T, Alloc>(InputIt first, InputIt last, const bool aCleanUp = true) : myDataSize(std::distance(first, last)), myData(new T[myDataSize]), myCount(new unsigned long(1)), myOffset(0), myLength(myDataSize), cleanUp(new bool(aCleanUp)) {
+	template< class InputIt > shared_array_ptr<T, Alloc>(InputIt first, InputIt last, const bool aCleanUp = true) : myDataSize(boost::numeric_cast<size_t>(std::distance(first, last))), myData(new T[myDataSize]), myCount(new unsigned long(1)), myOffset(0), myLength(myDataSize), cleanUp(new bool(aCleanUp)) {
 		for (size_t i = 0; i < myDataSize; ++i) {
 			myData[i] = *first++;
 		}
@@ -154,14 +154,20 @@ public:
 
 	// Pointer addition operator. Adds to the current offset, i.e. can be negative to go back in the array, and reduce length accordingly
 	shared_array_ptr<T, Alloc> operator+ (const std::ptrdiff_t& anOffset) const {
-		//if ( (std::intptr_t)myOffset + anOffset < 0 || (std::intptr_t)myOffset + anOffset >= myDataSize || (std::intptr_t)myLength - anOffset <= 0 ) throw std::out_of_range("Offset out of range!");
+		return shared_array_ptr<T>(*this, myOffset + anOffset, boost::numeric_cast<size_t>(boost::numeric_cast<std::ptrdiff_t>(myLength) - anOffset));
+	}
+	shared_array_ptr<T, Alloc> operator+ (const size_t& anOffset) const {
 		return shared_array_ptr<T>(*this, myOffset + anOffset, myLength - anOffset);
 	}
+	
 	// Pointer substraction operator. Reduces length of anEndOffset, i.e. can be negative to go back in the array, and increase length accordingly
 	shared_array_ptr<T, Alloc> operator- (const std::ptrdiff_t& anEndOffset) const {
-		//if ( (std::intptr_t)myLength - anEndOffset <= 0 || (std::intptr_t)myOffset + myLength - anEndOffset > myDataSize) throw std::out_of_range("Offset out of range!");
+		return shared_array_ptr<T>(*this, myOffset, boost::numeric_cast<size_t>(boost::numeric_cast<std::ptrdiff_t>(myLength) - anEndOffset));
+	}
+	shared_array_ptr<T, Alloc> operator- (const size_t& anEndOffset) const {
 		return shared_array_ptr<T>(*this, myOffset, myLength - anEndOffset);
 	}
+
 	// Pointer length operator. Sets length to aLength
 	shared_array_ptr<T, Alloc> operator> (const size_t& aLength) const {
 		//if (myOffset + aLength > myDataSize) throw std::out_of_range("Offset out of range!");

@@ -9,18 +9,28 @@
 #include "typedefs.h"
 
 class Random  {
-	std::function<size_t()> rngInt;
+	std::function<int()> rngInt;
 	std::function<double()> rngDouble;
-	void build(const std::string& type, size_t max = -1);
+	void build(const std::string& type, size_t max);
+	void build(const std::string& type);
 
 	public:
-		Random(const std::string type, size_t max = -1): rngInt(), rngDouble() {build(type, max);}
+		Random(const std::string type, size_t max): rngInt(), rngDouble() {build(type, max);}
+		Random(const std::string type): rngInt(), rngDouble() {build(type);}
 		Random(Layer::Type type): rngInt(), rngDouble() {
 			if (type == Layer::Type::gaussian) {
 				build("gaussian");
 			}
 			else {
 				build("");
+			}
+		}
+		Random(Layer::Type type, size_t max): rngInt(), rngDouble() {
+			if (type == Layer::Type::gaussian) {
+				build("gaussian", max);
+			}
+			else {
+				build("", max);
 			}
 		}
 		void setBatch(const Eigen::MatrixXd&, Eigen::MatrixXd&);
