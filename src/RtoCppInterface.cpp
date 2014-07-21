@@ -11,48 +11,48 @@ using std::unique_ptr;
 #include <DeepLearning/DeepBeliefNet.h>
 #include <RcppConversions.h>
 #include "RtoCppInterface.h"
-using namespace DeepLearning;
+//using namespace DeepLearning;
 
 
 // [[Rcpp::export]]
-DeepBeliefNet unrollDbnCpp(DeepBeliefNet& aDBN) {
+DeepLearning::DeepBeliefNet unrollDbnCpp(DeepLearning::DeepBeliefNet& aDBN) {
 	return aDBN.unroll();
 }
 
 /* PREDICT */
 
 // [[Rcpp::export]]
-Eigen::MatrixXd predictRbmCpp(const RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+Eigen::MatrixXd predictRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return anRBM.predict(aDataMatrix.transpose()).transpose();
 }
 
 // [[Rcpp::export]]
-Eigen::MatrixXd predictDbnCpp(const DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+Eigen::MatrixXd predictDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return aDBN.predict(aDataMatrix.transpose()).transpose();
 }
 
 /* RECONSTRUCT */
 
 // [[Rcpp::export]]
-Eigen::MatrixXd reconstructRbmCpp(const RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+Eigen::MatrixXd reconstructRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return anRBM.reconstruct(aDataMatrix.transpose()).transpose();
 }
 
 // [[Rcpp::export]]
-Eigen::MatrixXd reconstructDbnCpp(const DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+Eigen::MatrixXd reconstructDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return aDBN.reconstruct(aDataMatrix.transpose()).transpose();
 }
 
 /* PRETRAIN */
 
 // [[Rcpp::export]]
-RBM pretrainRbmCpp(RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const PretrainParameters& params, const std::unique_ptr<PretrainProgress>& diag, const ContinueFunction& cont) {
+DeepLearning::RBM pretrainRbmCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const DeepLearning::PretrainParameters& params, const std::unique_ptr<DeepLearning::PretrainProgress>& diag, const DeepLearning::ContinueFunction& cont) {
 	anRBM.pretrain(aDataMatrix.transpose(), params, *diag, cont);
 	return anRBM;
 }
 
 // [[Rcpp::export]]
-DeepBeliefNet pretrainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const std::vector<PretrainParameters>& params, const std::unique_ptr<PretrainProgress>& diag, ContinueFunction& cont, const Rcpp::IntegerVector& aSkip) {
+DeepLearning::DeepBeliefNet pretrainDbnCpp(DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const std::vector<DeepLearning::PretrainParameters>& params, const std::unique_ptr<DeepLearning::PretrainProgress>& diag, DeepLearning::ContinueFunction& cont, const Rcpp::IntegerVector& aSkip) {
 	const std::vector<size_t> skip(Rcpp::as<std::vector<size_t>>(aSkip));
 	aDBN.pretrain(aDataMatrix.transpose(), params, *diag, cont, skip);
 	return aDBN;
@@ -62,7 +62,7 @@ DeepBeliefNet pretrainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::Matrix
 /* TRAIN */
 
 // [[Rcpp::export]]
-DeepBeliefNet trainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const TrainParameters& trainParams, const std::unique_ptr<TrainProgress>& diag, const ContinueFunction& cont) {
+DeepLearning::DeepBeliefNet trainDbnCpp(DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const DeepLearning::TrainParameters& trainParams, const std::unique_ptr<DeepLearning::TrainProgress>& diag, const DeepLearning::ContinueFunction& cont) {
 	aDBN.train(aDataMatrix.transpose(), trainParams, *diag, cont);
 	return aDBN;
 }
@@ -70,35 +70,35 @@ DeepBeliefNet trainDbnCpp(DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>
 /* REVERSE */
 
 // [[Rcpp::export]]
-RBM reverseRbmCpp(RBM& anRBM) {
+DeepLearning::RBM reverseRbmCpp(DeepLearning::RBM& anRBM) {
 	return anRBM.reverse();
 }
 
 // [[Rcpp::export]]
-DeepBeliefNet reverseDbnCpp(DeepBeliefNet& aDBN) {
+DeepLearning::DeepBeliefNet reverseDbnCpp(DeepLearning::DeepBeliefNet& aDBN) {
 	return aDBN.reverse();
 }
 
 /* Energy */
 
 // [[Rcpp::export]]
-ArrayX1d energyRbmCpp(const RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+DeepLearning::ArrayX1d energyRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return anRBM.energy(aDataMatrix.transpose());
 }
 
 // [[Rcpp::export]]
-ArrayX1d energyDbnCpp(const DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+DeepLearning::ArrayX1d energyDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return aDBN.energy(aDataMatrix.transpose());
 }
 
 /* Error */
 
 // [[Rcpp::export]]
-ArrayX1d errorRbmCpp(const RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return anRBM.error(aDataMatrix.transpose());
 }
 
 // [[Rcpp::export]]
-ArrayX1d errorDbnCpp(const DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return aDBN.error(aDataMatrix.transpose());
 }
