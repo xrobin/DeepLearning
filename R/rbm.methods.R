@@ -30,3 +30,26 @@ rev.RestrictedBolzmannMachine <- function(x) {
 }
 
 
+#' @rdname Extract
+#' @aliases $
+#' @examples
+#' # Get the first layer as RestrictedBolzmannMachine
+#' rbm$W
+#' rbm$b
+#' rbm$c
+#' @export
+`$.RestrictedBolzmannMachine` <- function (x, name) {
+	name <- match.arg(tolower(name), c("w", "b", "c", names(x)))
+	if (name == "w") {
+		return(extractRbmWCpp(x))
+	}
+	if (name == "c") {
+		return(extractRbmCCpp(x))
+	}
+	if (name == "b") {
+		return(extractRbmBCpp(x))
+	}
+	return(x[[name]])
+	stop("invalid name argument")
+}
+

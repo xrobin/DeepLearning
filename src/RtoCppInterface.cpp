@@ -102,3 +102,20 @@ DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return aDBN.error(aDataMatrix.transpose());
 }
+
+/* Extract */
+
+// [[Rcpp::export]]
+DeepLearning::MatrixXdMap extractRbmWCpp(const DeepLearning::RBM& anRBM) {
+	return anRBM.getW();
+}
+
+// [[Rcpp::export]]
+DeepLearning::ArrayX1d extractRbmCCpp(const DeepLearning::RBM& anRBM) {
+	return anRBM.getC();
+}
+
+// [[Rcpp::export]]
+DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM) {
+	return anRBM.getB();
+}

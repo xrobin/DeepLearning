@@ -251,6 +251,51 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// extractRbmWCpp
+DeepLearning::MatrixXdMap extractRbmWCpp(const DeepLearning::RBM& anRBM);
+RcppExport SEXP DeepLearning_extractRbmWCpp(SEXP anRBMSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP );
+        DeepLearning::MatrixXdMap __result = extractRbmWCpp(anRBM);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// extractRbmCCpp
+DeepLearning::ArrayX1d extractRbmCCpp(const DeepLearning::RBM& anRBM);
+RcppExport SEXP DeepLearning_extractRbmCCpp(SEXP anRBMSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP );
+        DeepLearning::ArrayX1d __result = extractRbmCCpp(anRBM);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// extractRbmBCpp
+DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM);
+RcppExport SEXP DeepLearning_extractRbmBCpp(SEXP anRBMSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP );
+        DeepLearning::ArrayX1d __result = extractRbmBCpp(anRBM);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // unit_DbnGradient
 SEXP unit_DbnGradient(SEXP& aDBN, SEXP& aDataMatrix);
 RcppExport SEXP DeepLearning_unit_DbnGradient(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {

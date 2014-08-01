@@ -42,15 +42,14 @@ rev.DeepBeliefNet <- function(x) {
 	return(reverseDbnCpp(x))
 }
 
-#' @title Extract or Replace Parts of a Deep Belief Net
+#' @title Extract or Replace Layers of a Deep Belief Net
 #' @name Extract
 #' @aliases [[.DeepBeliefNet [[
-#' @description Operators to extract or replace parts of a \code{\link{DeepBeliefNet}} object.
-#' In extraction methods, the \code{pretrained} and \code{finetuned} switches will match those of the DeepBeliefNet that was supplied, while \code{unrolled} will be set to \code{FALSE}.
-#' In replacement methods, the \code{pretrained} switch will be on if all the \code{RestrictedBolzmannMachines} are pretrained, while \code{finetuned} and \code{unrolled} will be set to \code{FALSE}.
-#' @param x the DBN
-#' @param i indices specifying elements to extract or replace
+#' @description Operators to extract or replace layers of a \code{\link{DeepBeliefNet}} object, and to extract weights and biases of a \code{\link{RestrictedBolzmannMachine}}.
+#' @param x the DBN (for \code{[} and \code{})
+#' @param i indices specifying the layer to extract or replace
 #' @param value the RestrictedBolzmannMachine to insert.
+#' @param name either \code{W}, \code{b} or \code{c}
 #' @param drop whether to drop the DeepBeliefNet if it contains a single RestrictedBolzmannMachine.
 #' @details
 #' \code{[[} extracts (and \code{[[<-} replaces) \emph{exactly} one \code{\link{RestrictedBolzmannMachine}} layer of the DeepBeliefNet.
@@ -58,6 +57,11 @@ rev.DeepBeliefNet <- function(x) {
 #' \code{[} extracts one or more layers of the DeepBeliefNet. If the returned DeepBeliefNet. has exactly one RestrictedBolzmannMachine, the \code{drop} 
 #' argument controls whether the function returns an \code{\link{RestrictedBolzmannMachine}} object (\code{TRUE})
 #' or a \code{\link{DeepBeliefNet}} object containing one single \code{\link{RestrictedBolzmannMachine}} (\code{FALSE}).
+#' 
+#' When extracting layers, the \code{pretrained} and \code{finetuned} switches will match those of the DeepBeliefNet that was supplied, while \code{unrolled} will be set to \code{FALSE}.
+#' When replacement layers, the \code{pretrained} switch will be on if all the \code{RestrictedBolzmannMachines} are pretrained, while \code{finetuned} and \code{unrolled} will be set to \code{FALSE}.
+#' 
+#' For the time being, weights and biases of a \code{\link{RestrictedBolzmannMachine}} cannot be replaced.
 #' 
 #' @section Note:
 #' If the DeepBeliefNet contains N layers, there are N-1 RestrictedBolzmannMachines.

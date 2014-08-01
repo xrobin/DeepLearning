@@ -61,6 +61,18 @@ errorDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_errorDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
 
+extractRbmWCpp <- function(anRBM) {
+    .Call('DeepLearning_extractRbmWCpp', PACKAGE = 'DeepLearning', anRBM)
+}
+
+extractRbmCCpp <- function(anRBM) {
+    .Call('DeepLearning_extractRbmCCpp', PACKAGE = 'DeepLearning', anRBM)
+}
+
+extractRbmBCpp <- function(anRBM) {
+    .Call('DeepLearning_extractRbmBCpp', PACKAGE = 'DeepLearning', anRBM)
+}
+
 unit_DbnGradient <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_unit_DbnGradient', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
