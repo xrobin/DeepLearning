@@ -50,6 +50,5 @@ rev.RestrictedBolzmannMachine <- function(x) {
 		return(extractRbmBCpp(x))
 	}
 	return(x[[name]])
-	stop("invalid name argument")
 }
 
