@@ -34,7 +34,11 @@ namespace DeepLearning {
 					build("", max);
 				}
 			}
-			void setBatch(const Eigen::MatrixXd&, Eigen::MatrixXd&);
-			void setRandom(Eigen::ArrayXXd&);
+			/** Creates a batch by extracting random columns of data */
+			void setBatch(const Eigen::MatrixXd& data, Eigen::MatrixXd& batch);
+			/** Fill an entire array with random values */
+			void setRandom(Eigen::ArrayXXd& array);
+			/** Replace missing values in array with random values */
+			void fillMissing(Eigen::ArrayXXd& array);
 	};
 }

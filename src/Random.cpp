@@ -63,4 +63,13 @@ namespace DeepLearning {
 			*(array.data() + i) = rngDouble();
 		}
 	}
+			
+	void Random::fillMissing(ArrayXXd& array) {
+		for (int i = 0; i < array.size(); i++) {
+			double *currentValue = array.data() + i;
+			if (isnan(*currentValue)) {
+				*currentValue = rngDouble();
+			}
+		}
+	}
 }
