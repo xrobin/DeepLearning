@@ -180,7 +180,7 @@ continue.function.exponential <- function(error, iter, batchsize, maxiters, laye
 		substitute(error == d %*% e^{- a * t} + b ~~ (ic == bic), c(as.list(prettyFormat(coef(exp.fit))), bic = prettyFormat(ic.exp))),
 		substitute(error == a * t + b ~~ (ic == bic), c(as.list(prettyFormat(coef(linear.fit))), bic = prettyFormat(ic.lin))),
 		substitute(error == b ~~ (ic == bic), c(as.list(prettyFormat(coef(flat.fit))), bic = prettyFormat(ic.flat))))
-	))
+	), bg = "transparent")
 	
 	# Plot some diagnostics about the fit
 	title(sub=sprintf("exp: %s in %d iterations\nlinear: %s in %d iterations\nflat: %s in %d iterations", 
