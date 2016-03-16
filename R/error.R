@@ -28,12 +28,12 @@ error.DeepBeliefNet <- function(x, data, ...) {
 rmse.DeepBeliefNet <- error.DeepBeliefNet
 
 
-#' @rdname error
-#' @export
-error.RestrictedBolzmannMachine <- function(x, data, ...) {
-	ensure.data.validity(data, x$input)
-	return(errorRbmCpp(x, data))
-}
+# #' @rdname error
+# #' @export
+# error.RestrictedBolzmannMachine <- function(x, data, ...) {
+# 	ensure.data.validity(data, x$input)
+# 	return(errorRbmCpp(x, data))
+# }
 
 
 #' @rdname error

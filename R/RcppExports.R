@@ -53,10 +53,6 @@ energyDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_energyDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
 
-errorRbmCpp <- function(anRBM, aDataMatrix) {
-    .Call('DeepLearning_errorRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix)
-}
-
 errorDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_errorDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
