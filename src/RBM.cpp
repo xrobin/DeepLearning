@@ -170,6 +170,10 @@ namespace DeepLearning {
 		const ArrayX1d lambdaBvec = ArrayX1d::Constant(b.size(), params.lambdaB);
 		const ArrayX1d lambdaCvec = ArrayX1d::Constant(c.size(), params.lambdaC);
 		const ArrayXXd lambdaWarr = ArrayXXd::Constant(W.rows(), W.cols(), params.lambdaW);
+		// Dummy arrays of 0
+		const ArrayX1d zeroBvec = ArrayX1d::Constant(b.size(), 0);
+		const ArrayX1d zeroCvec = ArrayX1d::Constant(c.size(), 0);
+		const ArrayXXd zeroWarr = ArrayXXd::Constant(W.rows(), W.cols(), 0);
 		const double epsilonB = params.epsilonB;
 		const double epsilonC = params.epsilonC;
 		const double epsilonW = params.epsilonW;
@@ -237,32 +241,54 @@ namespace DeepLearning {
 			forwardsDataToActivitiesInPlace(Beta, Alpha2);
 	
 			// Compute deltas
-			if (trainB) deltaB = (batch.array() - Beta.array()).rowwise().sum();
-			if (trainC) deltaC = (Alpha.array() - Alpha2.array()).rowwise().sum();
-			deltaW = (Alpha * batch.transpose()).array() - (Alpha2 * Beta.transpose()).array();
+			if (trainB) deltaB = ((batch.array() - Beta.array()).rowwise().sum()) / batchSizeAsDouble;
+			if (trainC) deltaC = ((Alpha.array() - Alpha2.array()).rowwise().sum()) / batchSizeAsDouble;
+			deltaW = ((Alpha * batch.transpose()).array() - (Alpha2 * Beta.transpose()).array()) / batchSizeAsDouble;
 			
-			if (penalization == PretrainParameters::PenalizationType::l1) {
-				if (trainB) deltaB = ((deltaB / batchSizeAsDouble) - (b > 0).select(lambdaBvec, (-1) * lambdaBvec)).eval();
-				if (trainC) deltaC = ((deltaC / batchSizeAsDouble) - (c > 0).select(lambdaCvec, (-1) * lambdaCvec)).eval();
-				deltaW = ((deltaW / batchSizeAsDouble) - (W.array() > 0).select(lambdaWarr, (-1) * lambdaWarr)).eval();
-			}
-			else if (penalization == PretrainParameters::PenalizationType::l2) {
-				if (trainB) deltaB = ((deltaB / batchSizeAsDouble) - (lambdaBvec * b)).eval();
-				if (trainC) deltaC = ((deltaC / batchSizeAsDouble) - (lambdaCvec * c)).eval();
-				deltaW = ((deltaW / batchSizeAsDouble) - (lambdaWarr * W.array())).eval();
-			}
-			
-			// Compute weights increments
 			if (trainB) bInc = epsilonB * deltaB;
 			if (trainC) cInc = epsilonC * deltaC;
-			Winc = epsilonW * deltaW;
-		
-			//Update the RBM object
-			if (trainB) b += tanhInPlace(bInc);
-			//b = Beta.rowwise().sum();
-			if (trainC) c += tanhInPlace(cInc);
-			//c = Alpha.rowwise().sum();
-			W.array() += tanhInPlace(Winc);
+			Winc.array() = epsilonW * deltaW.array();
+			
+			if (penalization == PretrainParameters::PenalizationType::l1) {			
+				// According to Tsuruoka, Tsujii and Ananiadou, 2009 "Stochastic Gradient Descent Training for L1-regularized Log-linear Models with Cumulative Penalty"
+				// in Proceedings of the 47th Annual Meeting of the ACL and the 4th IJCNLP of the AFNLP, pages 477–485
+				// Equation page 479
+				if (trainB) {
+					const ArrayX1d tempB = b + bInc;
+					b = (tempB != 0).select((tempB > 0).select(
+					zeroBvec.max(tempB - epsilonB * lambdaBvec), // b_i > 0
+					zeroBvec.min(tempB + epsilonB * lambdaBvec)), // b_i < 0
+					0); // b_i == 0
+				}
+				
+				if (trainC) {
+					const ArrayX1d tempC = c + cInc;
+					c = (tempC != 0).select((tempC > 0).select(
+					zeroCvec.max(tempC - epsilonC * lambdaCvec), // c_i > 0
+					zeroCvec.min(tempC + epsilonC * lambdaCvec)), // c_i < 0
+					0); // c_i == 0
+				}
+				
+				const ArrayXXd tempW = W.array() + Winc.array();
+				W.array()= (tempW != 0).select((tempW > 0).select(
+					zeroWarr.max(tempW - epsilonW * lambdaWarr), // w_i > 0
+					zeroWarr.min(tempW + epsilonW * lambdaWarr)), // w_i < 0
+					0); // w_i == 0
+			}
+			else if (penalization == PretrainParameters::PenalizationType::l2) {
+				if (trainB) deltaB -= lambdaBvec * b;
+				if (trainC) deltaC -= lambdaCvec * c;
+				deltaW.array() -= lambdaWarr * W.array();
+			}
+			
+			if (penalization != PretrainParameters::PenalizationType::l1) {
+				//Update the RBM object
+				if (trainB) b += tanhInPlace(bInc);
+				//b = Beta.rowwise().sum();
+				if (trainC) c += tanhInPlace(cInc);
+				//c = Alpha.rowwise().sum();
+				W.array() += tanhInPlace(Winc);
+			}
 			
 			// Store error
 			errors.push_back(errorSum(deltaB, deltaC, deltaW));
