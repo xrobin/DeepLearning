@@ -196,9 +196,9 @@ namespace DeepLearning {
 		ArrayX1d deltaB, deltaC;
 		ArrayXXd deltaW;
 		// Dummy arrays of 0
-		const ArrayX1d zeroBvec = ArrayX1d::Constant(b.size(), 0);
-		const ArrayX1d zeroCvec = ArrayX1d::Constant(c.size(), 0);
-		const ArrayXXd zeroWarr = ArrayXXd::Constant(W.rows(), W.cols(), 0);
+		const ArrayX1d zeroBvec = ArrayX1d::Zero(b.size());
+		const ArrayX1d zeroCvec = ArrayX1d::Zero(c.size());
+		const ArrayXXd zeroWarr = ArrayXXd::Zero(W.rows(), W.cols());
 		
 		// Prepare the random number generator
 		Random sampleRand(output.getType());
