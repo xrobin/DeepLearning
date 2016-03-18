@@ -170,10 +170,6 @@ namespace DeepLearning {
 		const ArrayX1d lambdaBvec = ArrayX1d::Constant(b.size(), params.lambdaB);
 		const ArrayX1d lambdaCvec = ArrayX1d::Constant(c.size(), params.lambdaC);
 		const ArrayXXd lambdaWarr = ArrayXXd::Constant(W.rows(), W.cols(), params.lambdaW);
-		// Dummy arrays of 0
-		const ArrayX1d zeroBvec = ArrayX1d::Constant(b.size(), 0);
-		const ArrayX1d zeroCvec = ArrayX1d::Constant(c.size(), 0);
-		const ArrayXXd zeroWarr = ArrayXXd::Constant(W.rows(), W.cols(), 0);
 		const double epsilonB = params.epsilonB;
 		const double epsilonC = params.epsilonC;
 		const double epsilonW = params.epsilonW;
@@ -197,8 +193,12 @@ namespace DeepLearning {
 		MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // h.sampled
 		MatrixXd Beta = ArrayXXd::Zero(input.getSize(), batchSizeAsEigen); // P.f.given.h
 		MatrixXd Alpha2 = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // P.h.given.f
-		ArrayX1d deltaB, deltaC, penalizedDeltaB, penalizedDeltaC;
-		ArrayXXd deltaW, penalizedDeltaW;
+		ArrayX1d deltaB, deltaC;
+		ArrayXXd deltaW;
+		// Dummy arrays of 0
+		const ArrayX1d zeroBvec = ArrayX1d::Constant(b.size(), 0);
+		const ArrayX1d zeroCvec = ArrayX1d::Constant(c.size(), 0);
+		const ArrayXXd zeroWarr = ArrayXXd::Constant(W.rows(), W.cols(), 0);
 		
 		// Prepare the random number generator
 		Random sampleRand(output.getType());
