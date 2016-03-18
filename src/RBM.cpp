@@ -193,8 +193,8 @@ namespace DeepLearning {
 		MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // h.sampled
 		MatrixXd Beta = ArrayXXd::Zero(input.getSize(), batchSizeAsEigen); // P.f.given.h
 		MatrixXd Alpha2 = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); // P.h.given.f
-		ArrayX1d deltaB, deltaC;
-		ArrayXXd deltaW;
+		ArrayX1d deltaB, deltaC, tempB, tempC;
+		ArrayXXd deltaW, tempW;
 		// Dummy arrays of 0
 		const ArrayX1d zeroBvec = ArrayX1d::Zero(b.size());
 		const ArrayX1d zeroCvec = ArrayX1d::Zero(c.size());
@@ -254,7 +254,7 @@ namespace DeepLearning {
 				// in Proceedings of the 47th Annual Meeting of the ACL and the 4th IJCNLP of the AFNLP, pages 477–485
 				// Equation page 479
 				if (trainB) {
-					const ArrayX1d tempB = b + bInc;
+					tempB = b + bInc;
 					b = (tempB != 0).select((tempB > 0).select(
 					zeroBvec.max(tempB - epsilonB * lambdaBvec), // b_i > 0
 					zeroBvec.min(tempB + epsilonB * lambdaBvec)), // b_i < 0
@@ -262,14 +262,14 @@ namespace DeepLearning {
 				}
 				
 				if (trainC) {
-					const ArrayX1d tempC = c + cInc;
+					tempC = c + cInc;
 					c = (tempC != 0).select((tempC > 0).select(
 					zeroCvec.max(tempC - epsilonC * lambdaCvec), // c_i > 0
 					zeroCvec.min(tempC + epsilonC * lambdaCvec)), // c_i < 0
 					0); // c_i == 0
 				}
 				
-				const ArrayXXd tempW = W.array() + Winc.array();
+				tempW = W.array() + Winc.array();
 				W.array()= (tempW != 0).select((tempW > 0).select(
 					zeroWarr.max(tempW - epsilonW * lambdaWarr), // w_i > 0
 					zeroWarr.min(tempW + epsilonW * lambdaWarr)), // w_i < 0
