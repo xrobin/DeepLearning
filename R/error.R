@@ -36,6 +36,6 @@ rmse.DeepBeliefNet <- error.DeepBeliefNet
 # }
 
 
-#' @rdname error
-#' @export
-rmse.RestrictedBolzmannMachine <- error.RestrictedBolzmannMachine
+# #' @rdname error
+# #' @export
+# rmse.RestrictedBolzmannMachine <- error.RestrictedBolzmannMachine
