@@ -276,9 +276,9 @@ namespace DeepLearning {
 					0); // w_i == 0
 			}
 			else if (penalization == PretrainParameters::PenalizationType::l2) {
-				if (trainB) deltaB -= lambdaBvec * b;
-				if (trainC) deltaC -= lambdaCvec * c;
-				deltaW.array() -= lambdaWarr * W.array();
+				if (trainB) bInc -= epsilonB * lambdaBvec * b;
+				if (trainC) cInc -= epsilonC * lambdaCvec * c;
+				Winc.array() -= epsilonW * lambdaWarr * W.array();
 			}
 			
 			if (penalization != PretrainParameters::PenalizationType::l1) {
