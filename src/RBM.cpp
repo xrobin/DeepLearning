@@ -247,7 +247,7 @@ namespace DeepLearning {
 			
 			if (trainB) bInc = epsilonB * deltaB;
 			if (trainC) cInc = epsilonC * deltaC;
-			Winc.array() = epsilonW * deltaW.array();
+			Winc = epsilonW * deltaW;
 			
 			if (penalization == PretrainParameters::PenalizationType::l1) {			
 				// According to Tsuruoka, Tsujii and Ananiadou, 2009 "Stochastic Gradient Descent Training for L1-regularized Log-linear Models with Cumulative Penalty"
@@ -258,7 +258,7 @@ namespace DeepLearning {
 					b = (tempB != 0).select((tempB > 0).select(
 						zeroBvec.max(tempB - epsilonB * lambdaBvec), // b_i > 0
 						zeroBvec.min(tempB + epsilonB * lambdaBvec)), // b_i < 0
-						0); // b_i == 0
+						zeroBvec); // b_i == 0
 				}
 				
 				if (trainC) {
@@ -266,19 +266,19 @@ namespace DeepLearning {
 					c = (tempC != 0).select((tempC > 0).select(
 						zeroCvec.max(tempC - epsilonC * lambdaCvec), // c_i > 0
 						zeroCvec.min(tempC + epsilonC * lambdaCvec)), // c_i < 0
-						0); // c_i == 0
+						zeroCvec); // c_i == 0
 				}
 				
 				tempW = W.array() + Winc.array();
 				W.array()= (tempW != 0).select((tempW > 0).select(
 					zeroWarr.max(tempW - epsilonW * lambdaWarr), // w_i > 0
 					zeroWarr.min(tempW + epsilonW * lambdaWarr)), // w_i < 0
-					0); // w_i == 0
+					zeroWarr); // w_i == 0
 			}
 			else if (penalization == PretrainParameters::PenalizationType::l2) {
 				if (trainB) bInc -= epsilonB * lambdaBvec * b;
 				if (trainC) cInc -= epsilonC * lambdaCvec * c;
-				Winc.array() -= epsilonW * lambdaWarr * W.array();
+				Winc -= epsilonW * lambdaWarr * W.array();
 			}
 			
 			if (penalization != PretrainParameters::PenalizationType::l1) {
