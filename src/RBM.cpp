@@ -256,17 +256,17 @@ namespace DeepLearning {
 				if (trainB) {
 					tempB = b + bInc;
 					b = (tempB != 0).select((tempB > 0).select(
-					zeroBvec.max(tempB - epsilonB * lambdaBvec), // b_i > 0
-					zeroBvec.min(tempB + epsilonB * lambdaBvec)), // b_i < 0
-					0); // b_i == 0
+						zeroBvec.max(tempB - epsilonB * lambdaBvec), // b_i > 0
+						zeroBvec.min(tempB + epsilonB * lambdaBvec)), // b_i < 0
+						0); // b_i == 0
 				}
 				
 				if (trainC) {
 					tempC = c + cInc;
 					c = (tempC != 0).select((tempC > 0).select(
-					zeroCvec.max(tempC - epsilonC * lambdaCvec), // c_i > 0
-					zeroCvec.min(tempC + epsilonC * lambdaCvec)), // c_i < 0
-					0); // c_i == 0
+						zeroCvec.max(tempC - epsilonC * lambdaCvec), // c_i > 0
+						zeroCvec.min(tempC + epsilonC * lambdaCvec)), // c_i < 0
+						0); // c_i == 0
 				}
 				
 				tempW = W.array() + Winc.array();
