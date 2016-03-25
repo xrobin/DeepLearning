@@ -6,9 +6,11 @@ using Eigen::ArrayXXd;
 using Eigen::MatrixXd;
 #include <boost/numeric/conversion/cast.hpp>
 
-#include <vector>
-#include <fstream> // std::ofstream
 #include <cassert> // assert
+#include <iostream>
+#include <fstream> // std::ofstream
+#include <stdexcept> // range_error
+#include <vector>
 using std::vector;
 
 #include <DeepLearning/Progress.h>
@@ -259,6 +261,7 @@ namespace DeepLearning {
 						zeroBvec.max(tempB - epsilonB * lambdaBvec), // b_i > 0
 						zeroBvec.min(tempB + epsilonB * lambdaBvec)), // b_i < 0
 						zeroBvec); // b_i == 0
+					Rcpp::Rcout << "Sum[" << i << "] b = " << sqrt(b.square().sum());
 				}
 				
 				if (trainC) {
@@ -267,6 +270,7 @@ namespace DeepLearning {
 						zeroCvec.max(tempC - epsilonC * lambdaCvec), // c_i > 0
 						zeroCvec.min(tempC + epsilonC * lambdaCvec)), // c_i < 0
 						zeroCvec); // c_i == 0
+					Rcpp::Rcout << ", c = " << sqrt(c.square().sum());
 				}
 				
 				tempW = W.array() + Winc.array();
@@ -274,11 +278,36 @@ namespace DeepLearning {
 					zeroWarr.max(tempW - epsilonW * lambdaWarr), // w_i > 0
 					zeroWarr.min(tempW + epsilonW * lambdaWarr)), // w_i < 0
 					zeroWarr); // w_i == 0
+				Rcpp::Rcout << ", w = " << sqrt(W.array().square().sum()) << std::endl;
+				if (b.hasNaN() || c.hasNaN() || W.hasNaN()) {
+					std::ofstream bFile, cFile, wFile, dataFile, bIncFile, cIncFile, WincFile;
+					bFile.open ("debug_b.txt"); bFile << b; bFile.close();
+					cFile.open ("debug_c.txt"); cFile << c; cFile.close();
+					wFile.open ("debug_W.txt"); wFile << W; wFile.close();
+					dataFile.open ("debug_batch.txt"); dataFile << batch; dataFile.close();
+					bIncFile.open ("debug_bInc.txt"); bIncFile << bInc; bIncFile.close();
+					cIncFile.open ("debug_cInc.txt"); cIncFile << cInc; cIncFile.close();
+					WincFile.open ("debug_Winc.txt"); WincFile << Winc; WincFile.close();
+					throw std::range_error("NaN detected!!!");
+				}
+				
 			}
 			else if (penalization == PretrainParameters::PenalizationType::l2) {
 				if (trainB) bInc -= epsilonB * lambdaBvec * b;
 				if (trainC) cInc -= epsilonC * lambdaCvec * c;
 				Winc -= epsilonW * lambdaWarr * W.array();
+				Rcpp::Rcout << "Inc[" << i << "] = " << sqrt(bInc.square().sum()) << ", " << sqrt(cInc.square().sum())  << ", " << sqrt(Winc.square().sum())  << std::endl;
+				if (bInc.hasNaN() || cInc.hasNaN() || Winc.hasNaN()) {
+					std::ofstream bFile, cFile, wFile, dataFile, bIncFile, cIncFile, WincFile;
+					bFile.open ("debug_b.txt"); bFile << b; bFile.close();
+					cFile.open ("debug_c.txt"); cFile << c; cFile.close();
+					wFile.open ("debug_W.txt"); wFile << W; wFile.close();
+					dataFile.open ("debug_batch.txt"); dataFile << batch; dataFile.close();
+					bIncFile.open ("debug_bInc.txt"); bIncFile << bInc; bIncFile.close();
+					cIncFile.open ("debug_cInc.txt"); cIncFile << cInc; cIncFile.close();
+					WincFile.open ("debug_Winc.txt"); WincFile << Winc; WincFile.close();
+					throw std::range_error("NaN detected!!!");
+				}
 			}
 			
 			if (penalization != PretrainParameters::PenalizationType::l1) {
