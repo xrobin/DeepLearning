@@ -17,6 +17,14 @@ predictDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_predictDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
 
+sampleRbmCpp <- function(anRBM, aDataMatrix) {
+    .Call('DeepLearning_sampleRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix)
+}
+
+sampleDbnCpp <- function(aDBN, aDataMatrix) {
+    .Call('DeepLearning_sampleDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
+}
+
 reconstructRbmCpp <- function(anRBM, aDataMatrix) {
     .Call('DeepLearning_reconstructRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix)
 }

@@ -31,6 +31,18 @@ Eigen::MatrixXd predictDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eig
 	return aDBN.predict(aDataMatrix.transpose()).transpose();
 }
 
+/* SAMPLE */
+
+// [[Rcpp::export]]
+Eigen::MatrixXd sampleRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+	return anRBM.sample(aDataMatrix.transpose()).transpose();
+}
+
+// [[Rcpp::export]]
+Eigen::MatrixXd sampleDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+	return aDBN.sample(aDataMatrix.transpose()).transpose();
+}
+
 /* RECONSTRUCT */
 
 // [[Rcpp::export]]

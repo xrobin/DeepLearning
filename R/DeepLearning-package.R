@@ -36,6 +36,7 @@
 #' Reconstruction  \tab \code{\link[DeepLearning]{reconstruct}}  \tab ✓ \tab ✓ \cr
 #' Error           \tab \code{\link[DeepLearning]{error}}        \tab ✓ \tab ✓ \cr
 #' Energy          \tab \code{\link[DeepLearning]{energy}}       \tab ✓ \tab ✓ \cr
+#' Resample          \tab \code{\link[DeepLearning]{resample}}       \tab ✓ \tab ✓ \cr
 #' }
 #' }
 #' \subsection{Methods}{

@@ -142,6 +142,10 @@ namespace DeepLearning {
 			 */
 			Eigen::MatrixXd reconstruct(Eigen::MatrixXd) const;
 			void reconstructInPlace(Eigen::MatrixXd&) const;
+			/** Samples the input data into the hidden state */
+			Eigen::MatrixXd sample(Eigen::MatrixXd) const;
+			void sampleInPlace(Eigen::MatrixXd&) const;
+			
 			/* Architecture */
 			//void push_back(const RBM&);
 			//void push_back(const Layer&);

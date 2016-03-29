@@ -152,7 +152,10 @@ namespace DeepLearning {
 			void reverse_predictInPlace(Eigen::MatrixXd& data) const {backwardsHiddenToActivitiesInPlace(data);}
 			Eigen::MatrixXd reconstruct(Eigen::MatrixXd data) const {predictInPlace(data); reverse_predictInPlace(data); return data;}
 			void reconstructInPlace(Eigen::MatrixXd& data) const {predictInPlace(data); reverse_predictInPlace(data);}
-			
+			/* Sampling */
+			Eigen::MatrixXd sample(const Eigen::MatrixXd& data) const;
+			//Eigen::MatrixXd sampleInPlace(Eigen::MatrixXd& data) const;
+
 			/** Computes the squared error of the reconstruction, per data point, and return it in a vector.
 			 *  errorSum computes the sum of error over all data points and returns a single double.
 			 *  The behaviour is different on unrolled networks: the hidden layer *is* the reconstruction, whereas on non-unrolled networks reverse_predict is used

@@ -389,4 +389,21 @@ namespace DeepLearning {
 		W = aNewW;
 		return *this;
 	}
+	
+	MatrixXd RBM::sample(const MatrixXd& data) const {
+		// Get data size
+		const Eigen_size_type batchSizeAsEigen = data.cols();
+		// Prepare matrices
+		MatrixXd Alpha = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen);
+		ArrayXXd SampleAlpha = ArrayXXd::Zero(output.getSize(), batchSizeAsEigen); 
+		// Prepare random data
+		Random sampleRand(output.getType());
+		sampleRand.setRandom(SampleAlpha);
+		
+		// Forward
+		forwardsDataToActivationsInPlace(data, Alpha);
+		// Sample
+		forwardsActivationsToActivitiesSampleInPlace(Alpha, SampleAlpha);
+		return Alpha;
+	}
 }

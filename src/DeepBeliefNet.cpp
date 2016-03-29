@@ -259,4 +259,18 @@ ArrayX1d DeepBeliefNet::energy(MatrixXd data) const {
 double DeepBeliefNet::energySum(const MatrixXd& data) const {
 	return energy(data).sum();
 }
+
+MatrixXd DeepBeliefNet::sample(MatrixXd data) const { // work on a copy of data
+	sampleInPlace(data);
+	return data;
+}
+
+void DeepBeliefNet::sampleInPlace(MatrixXd& data) const {
+	size_t lastLayerToPredict = myRBMs.size();
+	for (size_t i = 0; i < lastLayerToPredict; ++i) {
+		data = myRBMs[i].sample(data);
+	}
+}
+
+
 }

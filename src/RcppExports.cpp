@@ -52,6 +52,30 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// sampleRbmCpp
+Eigen::MatrixXd sampleRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_sampleRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    __result = Rcpp::wrap(sampleRbmCpp(anRBM, aDataMatrix));
+    return __result;
+END_RCPP
+}
+// sampleDbnCpp
+Eigen::MatrixXd sampleDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_sampleDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const DeepLearning::DeepBeliefNet& >::type aDBN(aDBNSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    __result = Rcpp::wrap(sampleDbnCpp(aDBN, aDataMatrix));
+    return __result;
+END_RCPP
+}
 // reconstructRbmCpp
 Eigen::MatrixXd reconstructRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
 RcppExport SEXP DeepLearning_reconstructRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
