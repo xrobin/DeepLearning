@@ -1,5 +1,5 @@
 #' @title Compute Reconstruction Error
-#' @description Computes the reconstruction error (rmse) of the prediction of the data. \code{rmse} is an alias for \code{error}.
+#' @description Computes the reconstruction error (rmse) of the prediction of the data. \code{rmse} is an alias for \code{error}. \code{errorSum} sum the error over the data points.
 #' @param x the \code{\link{RestrictedBolzmannMachine}} or \code{\link{DeepBeliefNet}} object
 #' @param data feature vector
 #' @param ... further arguments to the \code{plot} function above and to the \code{predict} function.
@@ -13,6 +13,12 @@ error <- function(...)
 #' @export
 rmse <- function(...)
 	UseMethod("error")
+
+
+#' @rdname error
+#' @export
+errorSum <- function(...)
+	UseMethod("errorSum")
 
 
 #' @rdname error
@@ -49,4 +55,9 @@ error.RestrictedBolzmannMachine <- function(x, data, ...) {
 rmse.RestrictedBolzmannMachine <- error.RestrictedBolzmannMachine
 
 
+#' @rdname error
+#' @export
+errorSum.RestrictedBolzmannMachine <- function(x, data, ...) {
+	ensure.data.validity(data, x$input)
 	return(errorSumRbmCpp(x, data))
+}

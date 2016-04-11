@@ -38,6 +38,8 @@ DeepLearning::ArrayX1d energyDbnCpp(const DeepLearning::DeepBeliefNet&, const Ei
 /* Error */
 DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM&, const Eigen::Map<Eigen::MatrixXd>&);
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet&, const Eigen::Map<Eigen::MatrixXd>&);
+double errorSumRbmCpp(const DeepLearning::RBM&, const Eigen::Map<Eigen::MatrixXd>&);
+double errorSumDbnCpp(const DeepLearning::DeepBeliefNet&, const Eigen::Map<Eigen::MatrixXd>&);
 
 /* Extract weights */
 DeepLearning::MatrixXdMap extractRbmWCpp(const DeepLearning::RBM& anRBM);

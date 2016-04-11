@@ -115,6 +115,18 @@ DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, cons
 	return aDBN.error(aDataMatrix.transpose());
 }
 
+/* ErrorSum */
+
+// [[Rcpp::export]]
+double errorSumRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+	return anRBM.errorSum(aDataMatrix.transpose());
+}
+
+// [[Rcpp::export]]
+double errorSumDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
+	return aDBN.errorSum(aDataMatrix.transpose());
+}
+
 /* Extract weights */
 
 // [[Rcpp::export]]

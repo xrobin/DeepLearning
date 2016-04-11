@@ -192,6 +192,18 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// errorRbmCpp
+DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_errorRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    __result = Rcpp::wrap(errorRbmCpp(anRBM, aDataMatrix));
+    return __result;
+END_RCPP
+}
 // errorDbnCpp
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
 RcppExport SEXP DeepLearning_errorDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
@@ -201,6 +213,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const DeepLearning::DeepBeliefNet& >::type aDBN(aDBNSEXP);
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
     __result = Rcpp::wrap(errorDbnCpp(aDBN, aDataMatrix));
+    return __result;
+END_RCPP
+}
+// errorSumRbmCpp
+double errorSumRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_errorSumRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    __result = Rcpp::wrap(errorSumRbmCpp(anRBM, aDataMatrix));
+    return __result;
+END_RCPP
+}
+// errorSumDbnCpp
+double errorSumDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_errorSumDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const DeepLearning::DeepBeliefNet& >::type aDBN(aDBNSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    __result = Rcpp::wrap(errorSumDbnCpp(aDBN, aDataMatrix));
     return __result;
 END_RCPP
 }
