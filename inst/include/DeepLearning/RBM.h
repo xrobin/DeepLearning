@@ -161,20 +161,20 @@ namespace DeepLearning {
 			 *  The behaviour is different on unrolled networks: the hidden layer *is* the reconstruction, whereas on non-unrolled networks reverse_predict is used
 			 *  to get the reconstructions. This is done through the reconstruct() function.
 			 */
-			/* ArrayX1d error(const Eigen::MatrixXd&) const;
+			ArrayX1d error(const Eigen::MatrixXd&) const;
 			double errorSum(const Eigen::MatrixXd&) const;
 			ArrayX1d error(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const;
 			double errorSum(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const; 
-			*/
-			/** The new error simply calculates the root of the squared gradient vectors (after penalization),
+			
+			/** The evidenceGradientSum function simply calculates the root of the squared gradient vectors (after penalization),
 			 * but without the training rate, per data point.
 			 * errorSum computes the sum of error over all data points and returns a single double.
-			 * There is no 'error' function any longer as the gradient is already an average
+			 * There is no single 'evidenceGradient' function as the gradient is already an average
 			 * over all data points.
 			 * In addition, it is not available outside the pre-training so it is not a public method.
 			 */
 		private:
-			double errorSum(const ArrayX1d&, const ArrayX1d& deltaC, const Eigen::ArrayXXd& deltaW) const;
+			double evidenceGradientSum(const ArrayX1d&, const ArrayX1d& deltaC, const Eigen::ArrayXXd& deltaW) const;
 
 			/** Computes the enery of the network, per data point, and return it in a vector 
 			 * energySum computes the sum of error over all data points and returns a single double

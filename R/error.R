@@ -28,14 +28,25 @@ error.DeepBeliefNet <- function(x, data, ...) {
 rmse.DeepBeliefNet <- error.DeepBeliefNet
 
 
-# #' @rdname error
-# #' @export
-# error.RestrictedBolzmannMachine <- function(x, data, ...) {
-# 	ensure.data.validity(data, x$input)
-# 	return(errorRbmCpp(x, data))
-# }
+#' @rdname error
+#' @export
+errorSum.DeepBeliefNet <- function(x, data, ...) {
+	ensure.data.validity(data, x[[1]]$input)
+	return(errorSumDbnCpp(x, data))
+}
 
 
-# #' @rdname error
-# #' @export
-# rmse.RestrictedBolzmannMachine <- error.RestrictedBolzmannMachine
+#' @rdname error
+#' @export
+error.RestrictedBolzmannMachine <- function(x, data, ...) {
+	ensure.data.validity(data, x$input)
+	return(errorRbmCpp(x, data))
+}
+
+
+#' @rdname error
+#' @export
+rmse.RestrictedBolzmannMachine <- error.RestrictedBolzmannMachine
+
+
+	return(errorSumRbmCpp(x, data))

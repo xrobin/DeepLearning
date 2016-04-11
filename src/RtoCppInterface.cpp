@@ -105,10 +105,10 @@ DeepLearning::ArrayX1d energyDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, con
 
 /* Error */
 
-/*// [[Rcpp::export]]
+// [[Rcpp::export]]
 DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
 	return anRBM.error(aDataMatrix.transpose());
-}*/
+}
 
 // [[Rcpp::export]]
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix) {
