@@ -167,11 +167,10 @@ namespace DeepLearning {
 			double errorSum(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const; 
 			
 			/** The evidenceGradientSum function simply calculates the root of the squared gradient vectors (after penalization),
-			 * but without the training rate, per data point.
-			 * errorSum computes the sum of error over all data points and returns a single double.
-			 * There is no single 'evidenceGradient' function as the gradient is already an average
+			 * but without the training rate, and averages it per data point.
+			 * There is no data point-wise 'evidenceGradient' function as the gradient is already an average
 			 * over all data points.
-			 * In addition, it is not available outside the pre-training so it is not a public method.
+			 * In addition, it is not available outside the pre-training for now, so it is not a public method.
 			 */
 		private:
 			double evidenceGradientSum(const ArrayX1d&, const ArrayX1d& deltaC, const Eigen::ArrayXXd& deltaW) const;
