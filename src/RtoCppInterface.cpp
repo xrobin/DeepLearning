@@ -115,7 +115,7 @@ DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, cons
 	return aDBN.error(aDataMatrix.transpose());
 }
 
-/* Extract */
+/* Extract weights */
 
 // [[Rcpp::export]]
 DeepLearning::MatrixXdMap extractRbmWCpp(const DeepLearning::RBM& anRBM) {
@@ -130,4 +130,21 @@ DeepLearning::ArrayX1d extractRbmCCpp(const DeepLearning::RBM& anRBM) {
 // [[Rcpp::export]]
 DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM) {
 	return anRBM.getB();
+}
+
+/* Set weights */
+
+// [[Rcpp::export]]
+DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW) {
+	return anRBM.setW(aNewW);
+}
+
+// [[Rcpp::export]]
+DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC) {
+	return anRBM.setC(aNewC);
+}
+
+// [[Rcpp::export]]
+DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB) {
+	return anRBM.setB(aNewB);
 }

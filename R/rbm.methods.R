@@ -52,3 +52,43 @@ rev.RestrictedBolzmannMachine <- function(x) {
 	return(x[[name]])
 }
 
+#' @rdname Extract
+#' @aliases $<-
+#' @examples
+#' rbm$b <- 1:10
+#' @export
+`$<-.RestrictedBolzmannMachine` <- function(x, name, value) {
+	name <- match.arg(tolower(name), c("w", "b", "c", names(x)))
+	if (name == "w") {
+		if (!is.matrix(value) || storage.mode(value) != "double") {
+			stop("'value' must be a numeric matrix")
+		}
+		if (!identical(dim(value), dim(extractRbmWCpp(x)))) {
+			stop("'value' dimensions incompatible with RBM")
+		}
+		x <- setRbmWCpp(x, value)
+	}
+	else if (name == "c") {
+		if (!is.numeric(value)) {
+			stop("'value' must be a numeric vector")
+		}
+		if (length(value) != x$output$size) {
+			stop("'value' length incompatible with RBM")
+		}
+		x <- setRbmCCpp(x, value)
+	}
+	else if (name == "b") {
+		if (!is.numeric(value)) {
+			stop("'value' must be a numeric vector")
+		}
+		if (length(value) != x$input$size) {
+			stop("'value' length incompatible with RBM")
+		}
+		x <- setRbmBCpp(x, value)
+	}
+	else {
+		x[[name]] <- value
+	}
+	return(x)
+}
+

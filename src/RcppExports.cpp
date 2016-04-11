@@ -237,6 +237,42 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// setRbmWCpp
+DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
+RcppExport SEXP DeepLearning_setRbmWCpp(SEXP anRBMSEXP, SEXP aNewWSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aNewW(aNewWSEXP);
+    __result = Rcpp::wrap(setRbmWCpp(anRBM, aNewW));
+    return __result;
+END_RCPP
+}
+// setRbmCCpp
+DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
+RcppExport SEXP DeepLearning_setRbmCCpp(SEXP anRBMSEXP, SEXP aNewCSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const DeepLearning::ArrayX1d& >::type aNewC(aNewCSEXP);
+    __result = Rcpp::wrap(setRbmCCpp(anRBM, aNewC));
+    return __result;
+END_RCPP
+}
+// setRbmBCpp
+DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);
+RcppExport SEXP DeepLearning_setRbmBCpp(SEXP anRBMSEXP, SEXP aNewBSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const DeepLearning::ArrayX1d& >::type aNewB(aNewBSEXP);
+    __result = Rcpp::wrap(setRbmBCpp(anRBM, aNewB));
+    return __result;
+END_RCPP
+}
 // unit_DbnGradient
 SEXP unit_DbnGradient(SEXP& aDBN, SEXP& aDataMatrix);
 RcppExport SEXP DeepLearning_unit_DbnGradient(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {

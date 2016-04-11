@@ -2,6 +2,7 @@
 
 S3method("!=",Layer)
 S3method("$",RestrictedBolzmannMachine)
+S3method("$<-",RestrictedBolzmannMachine)
 S3method("==",Layer)
 S3method("[",DeepBeliefNet)
 S3method("[[",DeepBeliefNet)

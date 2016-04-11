@@ -77,6 +77,18 @@ extractRbmBCpp <- function(anRBM) {
     .Call('DeepLearning_extractRbmBCpp', PACKAGE = 'DeepLearning', anRBM)
 }
 
+setRbmWCpp <- function(anRBM, aNewW) {
+    .Call('DeepLearning_setRbmWCpp', PACKAGE = 'DeepLearning', anRBM, aNewW)
+}
+
+setRbmCCpp <- function(anRBM, aNewC) {
+    .Call('DeepLearning_setRbmCCpp', PACKAGE = 'DeepLearning', anRBM, aNewC)
+}
+
+setRbmBCpp <- function(anRBM, aNewB) {
+    .Call('DeepLearning_setRbmBCpp', PACKAGE = 'DeepLearning', anRBM, aNewB)
+}
+
 unit_DbnGradient <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_unit_DbnGradient', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
