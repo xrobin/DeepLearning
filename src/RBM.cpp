@@ -278,7 +278,7 @@ namespace DeepLearning {
 					zeroWarr.max(tempW - epsilonW * lambdaWarr), // w_i > 0
 					zeroWarr.min(tempW + epsilonW * lambdaWarr)), // w_i < 0
 					zeroWarr); // w_i == 0
-				Rcpp::Rcout << ", w = " << sqrt(W.array().square().sum()) << std::endl;
+				//Rcpp::Rcout << ", w = " << sqrt(W.array().square().sum()) << std::endl;
 //				if (b.hasNaN() || c.hasNaN() || W.hasNaN()) {
 //					std::ofstream bFile, cFile, wFile, dataFile, bIncFile, cIncFile, WincFile;
 //					bFile.open ("debug_b.txt"); bFile << b; bFile.close();
@@ -296,7 +296,7 @@ namespace DeepLearning {
 				if (trainB) bInc -= epsilonB * lambdaBvec * b;
 				if (trainC) cInc -= epsilonC * lambdaCvec * c;
 				Winc -= epsilonW * lambdaWarr * W.array();
-				Rcpp::Rcout << "Inc[" << i << "] = " << sqrt(bInc.square().sum()) << ", " << sqrt(cInc.square().sum())  << ", " << sqrt(Winc.square().sum())  << std::endl;
+				//Rcpp::Rcout << "Inc[" << i << "] = " << sqrt(bInc.square().sum()) << ", " << sqrt(cInc.square().sum())  << ", " << sqrt(Winc.square().sum())  << std::endl;
 //				if (bInc.hasNaN() || cInc.hasNaN() || Winc.hasNaN()) {
 //					std::ofstream bFile, cFile, wFile, dataFile, bIncFile, cIncFile, WincFile;
 //					bFile.open ("debug_b.txt"); bFile << b; bFile.close();
@@ -309,7 +309,7 @@ namespace DeepLearning {
 //					throw std::range_error("NaN detected!!!");
 //				}
 			}
-			
+
 			if (penalization != PretrainParameters::PenalizationType::l1) {
 				//Update the RBM object
 				if (trainB) b += tanhInPlace(bInc);
