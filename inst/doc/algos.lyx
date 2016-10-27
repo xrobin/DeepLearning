@@ -348,7 +348,7 @@ And for a continuous sigmoid layer:
 
 
 \begin_inset Marginal
-status collapsed
+status open
 
 \begin_layout Plain Layout
 This value for the limit of the second derivative was estabished by testing
@@ -1539,8 +1539,8 @@ From this an optimal update of the weights can be computed with a method
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "biblio,biblio2,biblio3"
-options "naturemag"
+bibfiles "refs"
+options "plain"
 
 \end_inset
 
