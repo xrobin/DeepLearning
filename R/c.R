@@ -72,7 +72,7 @@ c.DeepBeliefNet <- function(..., biases.first = TRUE) {
 			else {
 				ensureCompatibleLayers(previous.layer, object$layers[[1]])
 			}
-			for (nrbm in length(object$rbms)) {
+			for (nrbm in seq_along(object$rbms)) {
 				rbm <- object$rbms[[nrbm]]
 				take.which.weights <- if (nobject == 1 && nrbm == 1) 1 else if (nobject == length(objects) && nrbm == length(object$rbms)) 3 else 2
 				weights <- c(weights, getWeightsFromEnv(rbm$weights.env, which.weights[take.which.weights], rbm$weights.breaks))
