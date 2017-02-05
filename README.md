@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xrobin/DeepLearning.svg?branch=master)](https://travis-ci.org/xrobin/DeepLearning)
+
 DeepLearning
 ============
 
