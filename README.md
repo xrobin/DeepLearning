@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/xrobin/DeepLearning.svg?branch=master)](https://travis-ci.org/xrobin/DeepLearning)
+[![Codecov coverage](https://codecov.io/github/xrobin/DeepLearning/branch/master/graphs/badge.svg)](https://codecov.io/github/xrobin/DeepLearning)
 
 DeepLearning
 ============
