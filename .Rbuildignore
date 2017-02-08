@@ -8,3 +8,4 @@
 ^\w+\.R$
 ^.*\.pdf$
 .travis.yml
+codecov.yml
