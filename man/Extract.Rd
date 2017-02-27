@@ -3,6 +3,8 @@
 \name{Extract}
 \alias{$}
 \alias{$.RestrictedBolzmannMachine}
+\alias{$<-}
+\alias{$<-.RestrictedBolzmannMachine}
 \alias{Extract}
 \alias{[}
 \alias{[.DeepBeliefNet}
@@ -19,6 +21,8 @@
 \method{[}{DeepBeliefNet}(x, i, drop = FALSE)
 
 \method{$}{RestrictedBolzmannMachine}(x, name)
+
+\method{$}{RestrictedBolzmannMachine}(x, name) <- value
 }
 \arguments{
 \item{x}{the DBN (for \code{[} and \code{})}
@@ -75,6 +79,7 @@ dbn[1]
 rbm$W
 rbm$b
 rbm$c
+rbm$b <- 1:10
 }
 \seealso{
 \code{\link{DeepBeliefNet}}, \code{\link{RestrictedBolzmannMachine}}

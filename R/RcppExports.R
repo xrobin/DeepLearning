@@ -61,8 +61,20 @@ energyDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_energyDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
 
+errorRbmCpp <- function(anRBM, aDataMatrix) {
+    .Call('DeepLearning_errorRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix)
+}
+
 errorDbnCpp <- function(aDBN, aDataMatrix) {
     .Call('DeepLearning_errorDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
+}
+
+errorSumRbmCpp <- function(anRBM, aDataMatrix) {
+    .Call('DeepLearning_errorSumRbmCpp', PACKAGE = 'DeepLearning', anRBM, aDataMatrix)
+}
+
+errorSumDbnCpp <- function(aDBN, aDataMatrix) {
+    .Call('DeepLearning_errorSumDbnCpp', PACKAGE = 'DeepLearning', aDBN, aDataMatrix)
 }
 
 extractRbmWCpp <- function(anRBM) {
@@ -75,6 +87,18 @@ extractRbmCCpp <- function(anRBM) {
 
 extractRbmBCpp <- function(anRBM) {
     .Call('DeepLearning_extractRbmBCpp', PACKAGE = 'DeepLearning', anRBM)
+}
+
+setRbmWCpp <- function(anRBM, aNewW) {
+    .Call('DeepLearning_setRbmWCpp', PACKAGE = 'DeepLearning', anRBM, aNewW)
+}
+
+setRbmCCpp <- function(anRBM, aNewC) {
+    .Call('DeepLearning_setRbmCCpp', PACKAGE = 'DeepLearning', anRBM, aNewC)
+}
+
+setRbmBCpp <- function(anRBM, aNewB) {
+    .Call('DeepLearning_setRbmBCpp', PACKAGE = 'DeepLearning', anRBM, aNewB)
 }
 
 unit_DbnGradient <- function(aDBN, aDataMatrix) {

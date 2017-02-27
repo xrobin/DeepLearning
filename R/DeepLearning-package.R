@@ -52,40 +52,59 @@
 #' }
 #' }
 #' @examples
+#' library(mnist)
 #' data(mnist)
 #' 
 #' # Initialize a 784-1000-500-250-30 layers DBN to process the MNIST data set
-#' dbn <- dbn(layers=c(784, 1000, 500, 250, 30), input="continuous", output="gaussian")
-#' print(dbn)
+#' dbn.mnist <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
+#' print(dbn.mnist)
 #' 
 #' # Pre-train this DBN
-#' pretrained <- pretrain(dbn, mnist$train$x, 
+#' \dontrun{
+#' pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x, 
 #'                        penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
 #'                        batchsize = 100, maxiters=100000)
+#' }
+#' data(pretrained.mnist) # Load an already pre-trained network
 #' 
-#' # Make predictions to 30 dimensions
-#' predictions <- predict(pretrained, mnist$test$x)
+#' # Make predictions to 2 dimensions
+#' predictions <- predict(pretrained.mnist, mnist$test$x)
 #' dim(predictions)
-#' # Now make reconstructions by inverting the network
-#' reconstructions <- predict(rev(pretrained), predictions)
 #' # And test the RMS error
-#' error <- sqrt(sum((reconstructions - mnist$test$x) ^ 2))
+#' error <- rmse(pretrained.mnist, mnist$test$x)
 #' print(error)
 #' 
-#' # Unrolling the network is the same as c(pretrained, rev(pretrained))
-#' unrolled <- unroll(pretrained)
-#' print(unrolled)
+#' # Plot predictions
+#' plot(predictions, bg = mnist$test$y, pch=21)
+#' 
+#' # Unrolling the network is the same as c(pretrained.mnist, rev(pretrained.mnist))
+#' unrolled.mnist <- unroll(pretrained.mnist)
+#' print(unrolled.mnist)
 #' 
 #' # Fine-tune the DBN with backpropagation
-#' trained <- train(unrolled, mnist$train$x, maxiters = 2000, batchsize = 1000,
+#' \dontrun{
+#' trained.mnist <- train(unrolled.mnist, mnist$train$x, maxiters = 2000, batchsize = 1000,
 #'                 optim.control = list(maxit = 10))
-#' reconstructions <- predict(trained, mnist$test$x)
-#' error <- sqrt(sum((reconstructions - mnist$test$x) ^ 2))
+#' }
+#' data(trained.mnist) # Load an already trained network
+#' 
+#' # Make predictions to 2 dimensions
+#' predictions <- predict(trained.mnist, mnist$test$x)
+#' dim(predictions)
+#' # Use reconstruct to pass through the whole unrolled network
+#' reconstructions <- reconstruct(trained.mnist, mnist$test$x)
+#' dim(reconstructions)
+#' 
+#' # test the RMS error
+#' error <- rmse(trained.mnist, mnist$test$x)
 #' print(error)
+#' 
+#' # Plot predictions
+#' plot(predictions, bg = mnist$test$y, pch=21)
 #' 
 #' # Perform various operations on it (not all of them make sense in this context)
 #' combined <- c(trained, rev(trained[7:8]))
-#' combined[[10]] <- rbm(1000, 784, input="binary", output="gaussian")
+#' combined[[10]] <- RestrictedBolzmannMachine(Layer(1000, "binary"), Layer(784, "gaussian"))
 #' print(combined)
 #' length(combined)
 #' drop(combined[4])

@@ -192,6 +192,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// errorRbmCpp
+DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_errorRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(errorRbmCpp(anRBM, aDataMatrix));
+    return rcpp_result_gen;
+END_RCPP
+}
 // errorDbnCpp
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
 RcppExport SEXP DeepLearning_errorDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
@@ -201,6 +213,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const DeepLearning::DeepBeliefNet& >::type aDBN(aDBNSEXP);
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
     rcpp_result_gen = Rcpp::wrap(errorDbnCpp(aDBN, aDataMatrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// errorSumRbmCpp
+double errorSumRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_errorSumRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(errorSumRbmCpp(anRBM, aDataMatrix));
+    return rcpp_result_gen;
+END_RCPP
+}
+// errorSumDbnCpp
+double errorSumDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
+RcppExport SEXP DeepLearning_errorSumDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const DeepLearning::DeepBeliefNet& >::type aDBN(aDBNSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aDataMatrix(aDataMatrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(errorSumDbnCpp(aDBN, aDataMatrix));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -234,6 +270,42 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const DeepLearning::RBM& >::type anRBM(anRBMSEXP);
     rcpp_result_gen = Rcpp::wrap(extractRbmBCpp(anRBM));
+    return rcpp_result_gen;
+END_RCPP
+}
+// setRbmWCpp
+DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
+RcppExport SEXP DeepLearning_setRbmWCpp(SEXP anRBMSEXP, SEXP aNewWSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type aNewW(aNewWSEXP);
+    rcpp_result_gen = Rcpp::wrap(setRbmWCpp(anRBM, aNewW));
+    return rcpp_result_gen;
+END_RCPP
+}
+// setRbmCCpp
+DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
+RcppExport SEXP DeepLearning_setRbmCCpp(SEXP anRBMSEXP, SEXP aNewCSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const DeepLearning::ArrayX1d& >::type aNewC(aNewCSEXP);
+    rcpp_result_gen = Rcpp::wrap(setRbmCCpp(anRBM, aNewC));
+    return rcpp_result_gen;
+END_RCPP
+}
+// setRbmBCpp
+DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);
+RcppExport SEXP DeepLearning_setRbmBCpp(SEXP anRBMSEXP, SEXP aNewBSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DeepLearning::RBM& >::type anRBM(anRBMSEXP);
+    Rcpp::traits::input_parameter< const DeepLearning::ArrayX1d& >::type aNewB(aNewBSEXP);
+    rcpp_result_gen = Rcpp::wrap(setRbmBCpp(anRBM, aNewB));
     return rcpp_result_gen;
 END_RCPP
 }

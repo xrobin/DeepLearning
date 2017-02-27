@@ -38,8 +38,15 @@ DeepLearning::ArrayX1d energyDbnCpp(const DeepLearning::DeepBeliefNet&, const Ei
 /* Error */
 DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM&, const Eigen::Map<Eigen::MatrixXd>&);
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet&, const Eigen::Map<Eigen::MatrixXd>&);
+double errorSumRbmCpp(const DeepLearning::RBM&, const Eigen::Map<Eigen::MatrixXd>&);
+double errorSumDbnCpp(const DeepLearning::DeepBeliefNet&, const Eigen::Map<Eigen::MatrixXd>&);
 
-/* Extract */
+/* Extract weights */
 DeepLearning::MatrixXdMap extractRbmWCpp(const DeepLearning::RBM& anRBM);
 DeepLearning::ArrayX1d extractRbmCCpp(const DeepLearning::RBM& anRBM);
 DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM);
+
+/* Set weights */
+DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
+DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
+DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);

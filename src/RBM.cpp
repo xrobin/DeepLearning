@@ -276,14 +276,13 @@ namespace DeepLearning {
 					zeroWarr.max(tempW - epsilonW * lambdaWarr), // w_i > 0
 					zeroWarr.min(tempW + epsilonW * lambdaWarr)), // w_i < 0
 					zeroWarr); // w_i == 0
-				
 			}
 			else if (penalization == PretrainParameters::PenalizationType::l2) {
 				if (trainB) bInc -= epsilonB * lambdaBvec * b;
 				if (trainC) cInc -= epsilonC * lambdaCvec * c;
 				Winc -= epsilonW * lambdaWarr * W.array();
 			}
-			
+
 			if (penalization != PretrainParameters::PenalizationType::l1) {
 				//Update the RBM object
 				if (trainB) b += tanhInPlace(bInc);
@@ -294,7 +293,7 @@ namespace DeepLearning {
 			}
 			
 			// Store error
-			errors.push_back(errorSum(deltaB, deltaC, deltaW));
+			errors.push_back(evidenceGradientSum(deltaB, deltaC, deltaW));
 			
 			// Report progress
 			aProgressFunctor(*this, batch, i);
@@ -314,13 +313,30 @@ namespace DeepLearning {
 	}
 	
 	
-	double RBM::errorSum(const ArrayX1d& deltaB, const ArrayX1d& deltaC, const ArrayXXd& deltaW) const {
+	double RBM::evidenceGradientSum(const ArrayX1d& deltaB, const ArrayX1d& deltaC, const ArrayXXd& deltaW) const {
 		double error = 0;
 		error += deltaB.square().sum();
 		error += deltaC.square().sum();
 		error += deltaW.square().sum();
 		error /= (nInput() + nOutput() + nWeights());
 		return sqrt(error);
+	}
+	
+	ArrayX1d RBM::error(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const {
+		return (reconstructions.array() - data.array()).square().colwise().mean().sqrt();
+	}
+	
+	double RBM::errorSum(const Eigen::MatrixXd& data, const Eigen::MatrixXd& reconstructions) const {
+		return error(data, reconstructions).sum();
+	}
+	
+	ArrayX1d RBM::error(const MatrixXd& data) const {
+		//MatrixXd reconstructions = reconstruct(data);
+		return error(data, reconstruct(data));
+	}
+	
+	double RBM::errorSum(const MatrixXd& data) const {
+		return error(data).sum();
 	}
 	
 	ArrayX1d RBM::energy(const MatrixXd& data) const {
