@@ -65,6 +65,7 @@
 #'                        penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
 #'                        batchsize = 100, maxiters=100000)
 #' }
+#' data(pretrained.mnist) # Load an already pre-trained network
 #' 
 #' # Make predictions to 2 dimensions
 #' predictions <- predict(pretrained.mnist, mnist$test$x)
@@ -85,6 +86,7 @@
 #' trained.mnist <- train(unrolled.mnist, mnist$train$x, maxiters = 2000, batchsize = 1000,
 #'                 optim.control = list(maxit = 10))
 #' }
+#' data(trained.mnist) # Load an already trained network
 #' 
 #' # Make predictions to 2 dimensions
 #' predictions <- predict(trained.mnist, mnist$test$x)
