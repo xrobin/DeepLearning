@@ -10,6 +10,6 @@ dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input="continuous", outpu
 unrolled <- unroll(dbn)
 
 test_that("Breaks match expectations", {
-	expect_identical(dbn$weights.env$breaks, initial.breaks.exp)
-	expect_identical(unrolled$weights.env$breaks, unrolled.breaks.exp)
+	expect_equal(dbn$weights.env$breaks, initial.breaks.exp)
+	expect_equal(unrolled$weights.env$breaks, unrolled.breaks.exp)
 })
