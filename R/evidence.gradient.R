@@ -1,6 +1,8 @@
 #' @title Computes and returns the gradient of the evidence function
+#' @description This is specifically the contrastive divergence evidence.
 #' @param x the \code{\link{RestrictedBolzmannMachine}} object
 #' @param data feature vector
+#' @param ... ignored
 #' @return the reconstruction error of the data
 #' @export
 evidence.gradient <- function(...)

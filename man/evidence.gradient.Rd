@@ -7,11 +7,16 @@
 evidence.gradient(...)
 }
 \arguments{
+\item{...}{ignored}
+
 \item{x}{the \code{\link{RestrictedBolzmannMachine}} object}
 
 \item{data}{feature vector}
 }
 \value{
 the reconstruction error of the data
+}
+\description{
+This is specifically the contrastive divergence evidence.
 }
 
