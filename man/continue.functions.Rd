@@ -28,6 +28,8 @@ continue.function.random(error, iter, batchsize, maxiters, layer = 0)
 \item{maxiters}{maximum number of iterations}
 
 \item{layer}{during RBM pre-training, which layer is being pre-trained. Otherwise, 0.}
+
+\item{ic}{the Information Criterion to use, typically \code{\link{AIC}} or \code{\link{BIC}}}
 }
 \value{
 boolean (see description)

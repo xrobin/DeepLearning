@@ -13,6 +13,7 @@
 #' maxit, type, trace, steplength, stepredn, acctol, reltest, abstol, intol, setstep. Their default values are defined in TrainParameters.h.
 #' @param diag,diag.rate,diag.data,diag.function diagnmostic specifications. See \code{\link{pretrain}} for more details
 #' @param n.proc number of cores to be used for Eigen computations
+#' @param ... ignored
 #' @return the fine-tuned DBN
 #' @export
 train <- function(x, data, 

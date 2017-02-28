@@ -118,8 +118,11 @@ prettyFormat.matrix <- function(x, digits=3) {
 #' @param iter,batchsize current iteration number and batchsize.
 #' @param maxiters maximum number of iterations
 #' @param layer during RBM pre-training, which layer is being pre-trained. Otherwise, 0.
+#' @param ic the Information Criterion to use, typically \code{\link{AIC}} or \code{\link{BIC}}
 #' @return boolean (see description)
 #' @importFrom plotrix addtable2plot
+#' @importFrom graphics plot legend lines title
+#' @import stats
 #' @export
 continue.function.exponential <- function(error, iter, batchsize, maxiters, layer = 0, ic = AIC) {
 

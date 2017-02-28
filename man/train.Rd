@@ -34,6 +34,8 @@ A user-supplied function must accept \code{(error, iter, batchsize)} as input an
 \item{diag, diag.rate, diag.data, diag.function}{diagnmostic specifications. See \code{\link{pretrain}} for more details}
 
 \item{n.proc}{number of cores to be used for Eigen computations}
+
+\item{...}{ignored}
 }
 \value{
 the fine-tuned DBN
