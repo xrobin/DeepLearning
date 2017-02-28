@@ -3,7 +3,6 @@
 ^\.hg$
 ^\.RData$
 ^\.Rhistory$
-^.*\.RData$
 ^.*\.txt$
 ^\w+\.R$
 ^.*\.pdf$
