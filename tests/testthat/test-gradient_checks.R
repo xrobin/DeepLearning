@@ -128,8 +128,8 @@ test_that("Can compute gradient properly", {
 test_that("Can train a minimal example", {
 	
 	unrolled <- unroll(dbn)
-	trained <- train(unrolled, f, maxiters=1, batchsize=1)
-	trained.100 <- train(unrolled, f, maxiters=1, batchsize=1, optim.control=list(maxit=100))
+	trained <- train(unrolled, f, maxiters=50, batchsize=1, continue.function = continue.function.always)
+	trained.100 <- train(unrolled, f, maxiters=100, batchsize=1, optim.control=list(maxit=100), continue.function = continue.function.always)
 	
 	pretrained.error <- rmse(unrolled, f)
 	trained.error <- rmse(trained, f)
