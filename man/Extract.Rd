@@ -68,13 +68,14 @@ dbn[[4]] <- RestrictedBolzmannMachine(Layer(250, "binary"), Layer(2, "gaussian")
 dbn[[2]] <- RestrictedBolzmannMachine(1000, 400, input="binary", output="binary")
 dbn[[2]] <- RestrictedBolzmannMachine(100, 500, input="binary", output="binary")
 dbn[[2]] <- RestrictedBolzmannMachine(1000, 500, input="binary", output="continuous")
-dbn[[2]] <- RestrictedBolzmannMachine(1000, 500, input="gaussian", output="binary")
-}
+dbn[[2]] <- RestrictedBolzmannMachine(1000, 500, input="gaussian", output="binary")}
+
 # Get the first layer as RestrictedBolzmannMachine
 dbn[[1]]
 dbn[1, drop=TRUE]
+
 # Get the first layer as DeepBeliefNet
-dbn[1]
+rbm <- dbn[1]
 # Get the first layer as RestrictedBolzmannMachine
 rbm$W
 rbm$b

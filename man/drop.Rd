@@ -14,7 +14,8 @@ Drops the DeepBeliefNet information if it contains only a single RestrictedBolzm
 Provides an alias to \code{\link[base]{drop}} as \code{drop.default}.
 }
 \examples{
-dbn <- dbn(layers=c(784, 1000), input="continuous", output="binary")
+data(pretrained.mnist)
+dbn <- DeepBeliefNet(Layer(784, "continuous"), Layer(1000, "binary"))
 print(dbn)
 rbm <- drop(dbn)
 print(rbm)

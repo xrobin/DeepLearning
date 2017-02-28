@@ -43,4 +43,22 @@ the reconstruction error of the data
 \description{
 Computes the reconstruction error (rmse) of the prediction of the data. \code{rmse} is an alias for \code{error}. \code{errorSum} sum the error over the data points.
 }
+\examples{
+library(mnist)
+data(mnist)
+data(trained.mnist)
+
+# Calculate error per data point
+err <- error(trained.mnist, mnist$test$x)
+length(err) # 1 value per data point
+# error and rmse are synonymous
+identical(err, rmse(trained.mnist, mnist$test$x))
+
+# errorSum returns the sum
+sum <- errorSum(trained.mnist, mnist$test$x)
+print(sum)
+all.equal(sum, sum(err)) 
+# There may be some rounding errors though, so this might not be ==:
+sum == sum(err)
+}
 

@@ -20,8 +20,20 @@ the reversed DeepBeliefNet
 \code{rev} returns a reversed \code{DeepBeliefNet} object. Precisely, the output is converted into the input of the network, and conversely.
 }
 \examples{
+dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
+reversed.dbn <- rev(dbn)
+print(dbn)
+
+# A reversed DBN can be used to predict, calculate errors, etc.
+data(trained.mnist)
+library(mnist)
+data(mnist)
+forward.error <- rmse(trained.mnist, mnist$test$x)
+reverse.error <- rmse(rev(trained.mnist), mnist$test$x)
+plot(forward.error, reverse.error)
 rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "gaussian"))
 rev(rbm)
+print(rbm)
 }
 \seealso{
 \code{\link{RestrictedBolzmannMachine}}, \code{\link{DeepBeliefNet}}, \code{\link{rev}}

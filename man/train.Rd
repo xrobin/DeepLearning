@@ -2,7 +2,7 @@
 % Please edit documentation in R/train.R
 \name{train}
 \alias{train}
-\title{Fine-tunes the Deep Belief Net}
+\title{Fine-tunes the DeepBeliefNet}
 \usage{
 train(x, data, miniters = 100, maxiters = 1000, batchsize = 100,
   optim.control = list(), continue.function = continue.function.exponential,
@@ -24,7 +24,7 @@ train(x, data, miniters = 100, maxiters = 1000, batchsize = 100,
 maxit, type, trace, steplength, stepredn, acctol, reltest, abstol, intol, setstep. Their default values are defined in TrainParameters.h.}
 
 \item{continue.function}{that can stop the training between miniters and maxiters if it returns \code{FALSE}. 
-By default, \code{\link{continue.function.exponential}} will be used. An alternative is to use \code{\code{continue.function.always}} that will always return true and thus carry on with the training until maxiters is reached.
+By default, \code{\link{continue.function.exponential}} will be used. An alternative is to use \code{\link{continue.function.always}} that will always return true and thus carry on with the training until maxiters is reached.
 A user-supplied function must accept \code{(error, iter, batchsize)} as input and return a \code{\link{logical}} of length 1. The training is stopped when it returns \code{FALSE}.}
 
 \item{continue.function.frequency}{the frequency at which continue.function will be assessed.}
@@ -42,5 +42,13 @@ the fine-tuned DBN
 }
 \description{
 Performs fine-tuning on the DBN network with backpropagation.
+}
+\examples{
+data(pretrained.mnist)
+# Fine-tune the DBN with backpropagation
+\dontrun{
+trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 2000, batchsize = 1000,
+                       optim.control = list(maxit = 10))
+}
 }
 

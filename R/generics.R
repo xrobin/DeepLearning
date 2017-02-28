@@ -4,7 +4,8 @@
 #' @param x the DeepBeliefNet
 #' @seealso \code{\link{DeepBeliefNet}}, \code{\link[base]{drop}}
 #' @examples
-#' dbn <- dbn(layers=c(784, 1000), input="continuous", output="binary")
+#' data(pretrained.mnist)
+#' dbn <- DeepBeliefNet(Layer(784, "continuous"), Layer(1000, "binary"))
 #' print(dbn)
 #' rbm <- drop(dbn)
 #' print(rbm)

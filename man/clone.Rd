@@ -23,8 +23,14 @@ Clones (= makes a deep copy) of a RestrictedBolzmannMachine or DeepBeliefNet. Th
 so any modification you make to the new object will be propagated to the original one, and reciprocally. After cloning, the two objects are totally independent.
 }
 \examples{
-rbm <- rbm(Layer(784, "continuous"), Layer(1000, "binary"))
-rbm2 <- clone(rbm)
+rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "binary"))
+rbm2 <- rbm # Shallow copy
+rbm3 <- clone(rbm) # Deep copy
+
+rbm$W[] <- 1
+rbm$W[1:10, 1:10] # Should be all 1s
+rbm2$W[1:10, 1:10] # May be all 1s
+rbm3$W[1:10, 1:10] # Should be all 0s
 dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
 dbn2 <- clone(dbn)
 }

@@ -15,7 +15,7 @@
 #' Use \code{\link{clone}} to control this and make a copy of the weights whenever you need it. Note that all the functions defined in the package do this by default.
 #' @seealso \code{\link{DeepBeliefNet}}, which makes use of RestrictedBolzmannMachine objects, \code{\link{Layer}}.
 #' @examples
-#' rbm <- rbm(Layer(784, "continuous"), Layer(1000, "binary"))
+#' rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "binary"))
 #' print(rbm)
 #' methods(class="RestrictedBolzmannMachine")
 #' @importFrom utils tail

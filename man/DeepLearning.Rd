@@ -82,7 +82,7 @@ predictions <- predict(pretrained.mnist, mnist$test$x)
 dim(predictions)
 # And test the RMS error
 error <- rmse(pretrained.mnist, mnist$test$x)
-print(error)
+head(error)
 
 # Plot predictions
 plot(predictions, bg = mnist$test$y, pch=21)
@@ -113,7 +113,7 @@ print(error)
 plot(predictions, bg = mnist$test$y, pch=21)
 
 # Perform various operations on it (not all of them make sense in this context)
-combined <- c(trained, rev(trained[7:8]))
+combined <- c(trained.mnist, rev(trained.mnist[7:8]))
 combined[[10]] <- RestrictedBolzmannMachine(Layer(1000, "binary"), Layer(784, "gaussian"))
 print(combined)
 length(combined)

@@ -4,7 +4,7 @@ CXX_STD = CXX11
 # PKG_CXXFLAGS = -std=c++11 -fopenmp -I../inst/include -isystem `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="RcppEigen"))'` -isystem `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="Rcpp"))'` -isystem `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="BH"))'` -pedantic -Wall -Wextra
 # PKG_LIBS = `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"` -lgomp
 
-PKG_CXXFLAGS =  -I../inst/include -isystem `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="RcppEigen"))'` -isystem `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="Rcpp"))'` -isystem `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="BH"))'`
+PKG_CXXFLAGS =  -I../inst/include -I `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="RcppEigen"))'` -I `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="Rcpp"))'` -I `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="BH"))'`
 
 # TODO: check warnings with -Wno-sign-conversion
 

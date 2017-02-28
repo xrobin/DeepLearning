@@ -1,4 +1,5 @@
 #' @title Print a Deep Belief Net
+#' @description Print a DeepBeliefNet or RestrictedBolzmannMachine and returns it invisibly
 #' @name print
 #' @param x the RestrictedBolzmannMachine or DeepBeliefNet object to be printed
 #' @param ... ignored
@@ -37,6 +38,18 @@ print.DeepBeliefNet <- function(x, ...) {
 #' @param x the DeepBeliefNet to reverse
 #' @return the reversed DeepBeliefNet
 #' @seealso \code{\link{RestrictedBolzmannMachine}}, \code{\link{DeepBeliefNet}}, \code{\link{rev}}
+#' @examples 
+#' dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
+#' reversed.dbn <- rev(dbn)
+#' print(dbn)
+#' 
+#' # A reversed DBN can be used to predict, calculate errors, etc.
+#' data(trained.mnist)
+#' library(mnist)
+#' data(mnist)
+#' forward.error <- rmse(trained.mnist, mnist$test$x)
+#' reverse.error <- rmse(rev(trained.mnist), mnist$test$x)
+#' plot(forward.error, reverse.error)
 #' @export
 rev.DeepBeliefNet <- function(x) {
 	return(reverseDbnCpp(x))
@@ -92,8 +105,7 @@ rev.DeepBeliefNet <- function(x) {
 #' dbn[[2]] <- RestrictedBolzmannMachine(1000, 400, input="binary", output="binary")
 #' dbn[[2]] <- RestrictedBolzmannMachine(100, 500, input="binary", output="binary")
 #' dbn[[2]] <- RestrictedBolzmannMachine(1000, 500, input="binary", output="continuous")
-#' dbn[[2]] <- RestrictedBolzmannMachine(1000, 500, input="gaussian", output="binary")
-#' }
+#' dbn[[2]] <- RestrictedBolzmannMachine(1000, 500, input="gaussian", output="binary")}
 #' @importFrom methods is
 #' @export
 "[[<-.DeepBeliefNet" <- function(x, i, value) {
@@ -149,11 +161,13 @@ rev.DeepBeliefNet <- function(x) {
 #' @rdname Extract
 #' @aliases [
 #' @examples
+#' 
 #' # Get the first layer as RestrictedBolzmannMachine
 #' dbn[[1]]
 #' dbn[1, drop=TRUE]
+#' 
 #' # Get the first layer as DeepBeliefNet
-#' dbn[1]
+#' rbm <- dbn[1]
 #' @export
 "[.DeepBeliefNet" <- function(x, i, drop = FALSE) {
 	if (missing(i)) # If no i is provided, return the whole dbn

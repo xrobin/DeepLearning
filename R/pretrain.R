@@ -1,4 +1,5 @@
-#' @title Pre-trains the DeepBeliefNet or RestrictedBolzmannMachine. A contrastive divergence method is used to train each layer sequentially.
+#' @title Pre-trains the DeepBeliefNet or RestrictedBolzmannMachine
+#' @description A contrastive divergence method is used to train each layer sequentially.
 #' @param x the \code{\link{DeepBeliefNet}} or \code{\link{RestrictedBolzmannMachine}} object
 #' @param data the dataset, either as matrix or data.frame. The number of columns must match the number of nodes of the network input
 #' @param miniters,maxiters minimum and maximum number of iterations to perform
@@ -15,7 +16,7 @@
 #' @param epsilon.b,epsilon.c,epsilon.W separate learning rates for \code{b}s, \code{c}s and \code{W}s. Take precedence over \code{epsilon}.
 #' @param train.b,train.c whether (\code{\link{RestrictedBolzmannMachine}}) or on which layers (\code{\link{DeepBeliefNet}}) to update the \code{b}s and \code{c}s. For a \code{\link{RestrictedBolzmannMachine}}, must be a logical of length 1. For a \code{\link{DeepBeliefNet}} must be a logical (can be recycled) or numeric index of layers.
 #' @param continue.function that can stop the pre-training between miniters and maxiters if it returns \code{FALSE}. 
-#' By default, \code{\link{continue.function.exponential}} will be used. An alternative is to use \code{\code{continue.function.always}} that will always return true and thus carry on with the training until maxiters is reached.
+#' By default, \code{\link{continue.function.exponential}} will be used. An alternative is to use \code{\link{continue.function.always}} that will always return true and thus carry on with the training until maxiters is reached.
 #' A user-supplied function must accept \code{(error, iter, batchsize)} as input and return a \code{\link{logical}} of length 1. The training is stopped when it returns \code{FALSE}.
 #' @param continue.function.frequency the frequency at which continue.function will be assessed.
 #' @param continue.stop.limit the number of consecutive times \code{continue.function} must return \code{FALSE} before the training is stopped. For example, \code{1} will stop as soon as \code{continue.function} returns \code{FALSE}, whereas \code{Inf} will ensure the result of \code{continue.function} is never enforced (but the function is still executed). The default is \code{3} so the training will continue until 3 consecutive calls of \code{continue.function} returned \code{FALSE}, giving more robustness to the decision.
@@ -43,6 +44,19 @@
 #' function(rbm, batch, data, iter, batchsize, maxiters, layer);
 #' 
 #' @return pre-trained object with the \code{pretrained} switch set to \code{TRUE}.
+#' @examples 
+#' library(mnist)
+#' data(mnist)
+# '
+#' # Initialize a 784-1000-500-250-30 layers DBN to process the MNIST data set
+#' dbn.mnist <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
+#' print(dbn.mnist)
+#' # Pre-train this DBN
+#' \dontrun{
+#' pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x, 
+#' 								 penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
+#' 								 batchsize = 100, maxiters=1000000)
+#' }
 #' @export
 pretrain <- function(x, data, ...)
 	UseMethod("pretrain", x)

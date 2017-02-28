@@ -10,8 +10,14 @@ clone <- function(x)
 
 #' @rdname clone
 #' @examples 
-#' rbm <- rbm(Layer(784, "continuous"), Layer(1000, "binary"))
-#' rbm2 <- clone(rbm)
+#' rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "binary"))
+#' rbm2 <- rbm # Shallow copy
+#' rbm3 <- clone(rbm) # Deep copy
+#' 
+#' rbm$W[] <- 1
+#' rbm$W[1:10, 1:10] # Should be all 1s
+#' rbm2$W[1:10, 1:10] # May be all 1s
+#' rbm3$W[1:10, 1:10] # Should be all 0s
 #' @export
 clone.RestrictedBolzmannMachine <- function(x) {
 	rbm2 <- x

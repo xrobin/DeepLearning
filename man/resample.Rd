@@ -26,16 +26,19 @@ resample(...)
 Sample from a \code{\link{DeepBeliefNet}} or \code{\link{RestrictedBolzmannMachine}} object
 }
 \examples{
+library(mnist)
 data(mnist)
 ## Make predictions on a DBN object
-dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
-pretrained <- pretrain(dbn, mnist$train$x, 
-                       penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
-                       batchsize = 100, maxiters=100000)
-resample(pretrained, mnist$test$x)
+data(pretrained.mnist)
+res <- resample(pretrained.mnist, mnist$test$x)
+head(res)
+# Contrast with predict
+pred <- predict(pretrained.mnist, mnist$test$x)
+head(pred)
+
 ## Sample an RBM object
-rbm <- RestrictedBolzmannMachine(Nv = 784, Nh = 1000, input="continuous", output="binary")
-pretrained <- pretrain(rbm, mnist$train$x)
-resample(pretrained, mnist$test$x)
+rbm <- pretrained.mnist[[1]]
+res <- resample(rbm, mnist$test$x)
+head(res)
 }
 

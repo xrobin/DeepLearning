@@ -1,6 +1,6 @@
 #' @rdname print
 #' @examples 
-#' rbm <- rbm(784, 1000, input="continuous", output="gaussian")
+#' rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "binary"))
 #' print(rbm)
 #' @seealso \code{\link{RestrictedBolzmannMachine}}, \code{\link{print}}
 #' @export
@@ -24,6 +24,7 @@ print.RestrictedBolzmannMachine <- function(x, ...) {
 #' @examples 
 #' rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "gaussian"))
 #' rev(rbm)
+#' print(rbm)
 #' @export
 rev.RestrictedBolzmannMachine <- function(x) {
 	return(reverseRbmCpp(x))
