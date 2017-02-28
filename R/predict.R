@@ -7,13 +7,11 @@
 #' @param drop do not return additional dimensions
 #' @param \dots ignored
 #' @examples
+#' library(mnist)
 #' data(mnist)
 #' ## Make predictions on a DBN object
-#' dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
-#' pretrained <- pretrain(dbn, mnist$train$x, 
-#'                        penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
-#'                        batchsize = 100, maxiters=100000)
-#' predict(pretrained, mnist$test$x)
+#' data(trained.mnist)
+#' predict(trained.mnist, mnist$test$x[1:10,])
 #' @export
 predict.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
 	
@@ -35,9 +33,11 @@ predict.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
 #' @rdname predict
 #' @examples
 #' ## Make predictions on a RBM object
-#' rbm <- RestrictedBolzmannMachine(Nv = 784, Nh = 1000, input="continuous", output="binary")
-#' pretrained <- pretrain(rbm, mnist$train$x)
-#' predict(pretrained, mnist$test$x)
+#' data(pretrained.mnist)
+#' rbm <- pretrained.mnist[[1]]
+#' predictions <- predict(rbm, mnist$test$x)
+#' dim(predictions) # 1000 columns, output size of the rbm
+#' ncol(predictions) == rbm$output$size
 #' @export
 predict.RestrictedBolzmannMachine <- function(object, newdata, drop=TRUE, ...) {
 
