@@ -21,3 +21,4 @@ Roxygen: list(wrap = FALSE)
 LinkingTo: Rcpp, RcppEigen (>= 0.3.2.0), BH
 SystemRequirements: C++11
 RoxygenNote: 5.0.1
+LazyData: true
