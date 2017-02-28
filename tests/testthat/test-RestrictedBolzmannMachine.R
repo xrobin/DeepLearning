@@ -58,28 +58,28 @@ test_that("getWeightsFromEnv() works", {
 	anRBMWithWeights <- RestrictedBolzmannMachine(l4g, l10b, 1:54)
 	
 	# Works with weights.env
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "all"), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "b"), is_equivalent_to(1:4))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "w"), is_equivalent_to(5:44))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "c"), is_equivalent_to(45:54))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "bw"), is_equivalent_to(1:44))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "wc"), is_equivalent_to(5:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "all"), is_equivalent_to(1:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "b"), is_equivalent_to(1:4))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "w"), is_equivalent_to(5:44))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "c"), is_equivalent_to(45:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "bw"), is_equivalent_to(1:44))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "wc"), is_equivalent_to(5:54))
 	
 	# Uppercase
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "All"), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "B"), is_equivalent_to(1:4))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "W"), is_equivalent_to(5:44))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "C"), is_equivalent_to(45:54))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "BW"), is_equivalent_to(1:44))
-	expect_that(getWeightsFromEnv(anRBMWithWeights$weights.env, "WC"), is_equivalent_to(5:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "All"), is_equivalent_to(1:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "B"), is_equivalent_to(1:4))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "W"), is_equivalent_to(5:44))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "C"), is_equivalent_to(45:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "BW"), is_equivalent_to(1:44))
+	expect_that(DeepLearning:::getWeightsFromEnv(anRBMWithWeights$weights.env, "WC"), is_equivalent_to(5:54))
 	
 	
 	# Works with weights & breaks
-	expect_that(getWeightsFromEnv(which="all", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(which="b", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(which="w", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(which="c", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(which="bw", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
-	expect_that(getWeightsFromEnv(which="wc", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(which="all", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(which="b", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:4))
+	expect_that(DeepLearning:::getWeightsFromEnv(which="w", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(5:44))
+	expect_that(DeepLearning:::getWeightsFromEnv(which="c", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(45:54))
+	expect_that(DeepLearning:::getWeightsFromEnv(which="bw", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(1:44))
+	expect_that(DeepLearning:::getWeightsFromEnv(which="wc", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(5:54))
 
 })
