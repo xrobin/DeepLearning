@@ -24,6 +24,7 @@
 #' print(dbn)
 #' methods(class="DeepBeliefNet")
 #' @importFrom methods is
+#' @importFrom utils tail
 #' @export
 DeepBeliefNet <- function(layers, ...) {
 	# Merge all input in a single list

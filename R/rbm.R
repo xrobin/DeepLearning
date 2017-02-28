@@ -18,6 +18,7 @@
 #' rbm <- rbm(Layer(784, "continuous"), Layer(1000, "binary"))
 #' print(rbm)
 #' methods(class="RestrictedBolzmannMachine")
+#' @importFrom utils tail
 #' @export
 RestrictedBolzmannMachine <- function(input, output, weights = NULL) {
 	if (!is(input, "Layer") || !is(output, "Layer")) {
