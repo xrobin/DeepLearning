@@ -31,33 +31,33 @@ A deep belief network is an object of class \code{\link{DeepBeliefNet}} that com
 Topic          \tab  Function name(s)                        \tab RBM \tab DBN \tab Layer \cr
 Initialization \tab \code{\link{RestrictedBolzmannMachine}}, 
                     \code{\link{DeepBeliefNet}}, 
-                    \code{\link{Layer}}                      \tab ✓ \tab ✓ \tab ✓ \cr
-Combine        \tab \code{\link[DeepLearning]{c}}            \tab ✓ \tab ✓ \tab ✓ \cr
-Pre-training   \tab \code{\link{pretrain}}                   \tab ✓ \tab ✓ \tab ✗ \cr
-Fine-tuning    \tab \code{\link{train}}                      \tab ✗ \tab ✓ \tab ✗ \cr
-Unrolling      \tab \code{\link{unroll}}                     \tab ✗ \tab ✓ \tab ✗ \cr
+                    \code{\link{Layer}}                      \tab + \tab + \tab + \cr
+Combine        \tab \code{\link[DeepLearning]{c}}            \tab + \tab + \tab + \cr
+Pre-training   \tab \code{\link{pretrain}}                   \tab + \tab + \tab - \cr
+Fine-tuning    \tab \code{\link{train}}                      \tab - \tab + \tab - \cr
+Unrolling      \tab \code{\link{unroll}}                     \tab - \tab + \tab - \cr
 }
 }
 \subsection{Modeling functions}{
 \tabular{rlll}{
 Topic           \tab  Function name(s)                        \tab RBM \tab DBN \cr
-Prediction      \tab \code{\link[DeepLearning]{predict}}      \tab ✓ \tab ✓ \cr
-Reconstruction  \tab \code{\link[DeepLearning]{reconstruct}}  \tab ✓ \tab ✓ \cr
-Error           \tab \code{\link[DeepLearning]{error}}        \tab ✓ \tab ✓ \cr
-Energy          \tab \code{\link[DeepLearning]{energy}}       \tab ✓ \tab ✓ \cr
-Resample          \tab \code{\link[DeepLearning]{resample}}       \tab ✓ \tab ✓ \cr
+Prediction      \tab \code{\link[DeepLearning]{predict}}      \tab + \tab + \cr
+Reconstruction  \tab \code{\link[DeepLearning]{reconstruct}}  \tab + \tab + \cr
+Error           \tab \code{\link[DeepLearning]{error}}        \tab + \tab + \cr
+Energy          \tab \code{\link[DeepLearning]{energy}}       \tab + \tab + \cr
+Resample          \tab \code{\link[DeepLearning]{resample}}       \tab + \tab + \cr
 }
 }
 \subsection{Methods}{
 The following methods extend standard \R functions to perform various manipulations on the network:
 \tabular{rllll}{
 Topic       \tab  Function name(s)                    \tab RBM \tab DBN \tab Layer \cr
-Drop        \tab \code{\link[DeepLearning]{drop}}     \tab ✗ \tab ✓ \tab ✗ \cr
-Extract     \tab see \link[DeepLearning]{Extract}     \tab ✗ \tab ✓ \tab ✗ \cr
-Length      \tab \code{\link[DeepLearning]{length}}   \tab ✗ \tab ✓ \tab ✓ \cr
-Print       \tab \code{\link[DeepLearning]{print}}    \tab ✓ \tab ✓ \tab ✓ \cr
-Reverse     \tab \code{\link[DeepLearning]{rev}}      \tab ✓ \tab ✓ \tab ✗ \cr
-Comparison  \tab see \link[DeepLearning]{Comparison}  \tab ✗ \tab ✗ \tab ✓ \cr
+Drop        \tab \code{\link[DeepLearning]{drop}}     \tab - \tab + \tab - \cr
+Extract     \tab see \link[DeepLearning]{Extract}     \tab - \tab + \tab - \cr
+Length      \tab \code{\link[DeepLearning]{length}}   \tab - \tab + \tab + \cr
+Print       \tab \code{\link[DeepLearning]{print}}    \tab + \tab + \tab + \cr
+Reverse     \tab \code{\link[DeepLearning]{rev}}      \tab + \tab + \tab - \cr
+Comparison  \tab see \link[DeepLearning]{Comparison}  \tab - \tab - \tab + \cr
 }
 }
 }
