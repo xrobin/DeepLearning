@@ -274,7 +274,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // setRbmWCpp
-DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
+DeepLearning::RBM& setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
 RcppExport SEXP DeepLearning_setRbmWCpp(SEXP anRBMSEXP, SEXP aNewWSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -286,7 +286,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // setRbmCCpp
-DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
+DeepLearning::RBM& setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
 RcppExport SEXP DeepLearning_setRbmCCpp(SEXP anRBMSEXP, SEXP aNewCSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -298,7 +298,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // setRbmBCpp
-DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);
+DeepLearning::RBM& setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);
 RcppExport SEXP DeepLearning_setRbmBCpp(SEXP anRBMSEXP, SEXP aNewBSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

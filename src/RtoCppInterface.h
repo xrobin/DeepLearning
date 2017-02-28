@@ -47,6 +47,6 @@ DeepLearning::ArrayX1d extractRbmCCpp(const DeepLearning::RBM& anRBM);
 DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM);
 
 /* Set weights */
-DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
-DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
-DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);
+DeepLearning::RBM& setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
+DeepLearning::RBM& setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
+DeepLearning::RBM& setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);

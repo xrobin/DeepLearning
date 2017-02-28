@@ -147,16 +147,16 @@ DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM) {
 /* Set weights */
 
 // [[Rcpp::export]]
-DeepLearning::RBM setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW) {
+DeepLearning::RBM& setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW) {
 	return anRBM.setW(aNewW);
 }
 
 // [[Rcpp::export]]
-DeepLearning::RBM setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC) {
+DeepLearning::RBM& setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC) {
 	return anRBM.setC(aNewC);
 }
 
 // [[Rcpp::export]]
-DeepLearning::RBM setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB) {
+DeepLearning::RBM& setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB) {
 	return anRBM.setB(aNewB);
 }
