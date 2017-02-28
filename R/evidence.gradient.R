@@ -9,7 +9,7 @@ evidence.gradient <- function(...)
 	UseMethod("evidence.gradient")
 
 
-#' @rdname error
+#' @rdname evidence.gradient
 #' @export
 evidence.gradient.RestrictedBolzmannMachine <- function(x, data, ...) {
 	stop("The evidence gradient is available only during pre-training for now.")

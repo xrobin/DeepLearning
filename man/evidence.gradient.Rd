@@ -2,9 +2,12 @@
 % Please edit documentation in R/evidence.gradient.R
 \name{evidence.gradient}
 \alias{evidence.gradient}
+\alias{evidence.gradient.RestrictedBolzmannMachine}
 \title{Computes and returns the gradient of the evidence function}
 \usage{
 evidence.gradient(...)
+
+\method{evidence.gradient}{RestrictedBolzmannMachine}(x, data, ...)
 }
 \arguments{
 \item{...}{ignored}
