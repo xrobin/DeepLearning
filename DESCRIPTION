@@ -5,7 +5,7 @@ Version: 0.3
 Date: 2014-05-26
 Author: Xavier Robin
 Encoding: UTF-8
-Maintainer: Xavier Robin <xavier@cbs.dtu.dk>
+Maintainer: Xavier Robin <robin@lindinglab.org>
 Description: Deep Learning of neural networks
 License: GPL (>= 2)
 Depends:
