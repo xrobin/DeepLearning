@@ -97,7 +97,7 @@
 #' 
 #' # test the RMS error
 #' error <- rmse(trained.mnist, mnist$test$x)
-#' print(error)
+#' head(error)
 #' 
 #' # Plot predictions
 #' plot(predictions, bg = mnist$test$y, pch=21)

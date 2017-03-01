@@ -12,9 +12,11 @@
 #' ## Make predictions on a DBN object
 #' data(pretrained.mnist)
 #' res <- resample(pretrained.mnist, mnist$test$x)
+#' dim(res)
 #' head(res)
 #' # Contrast with predict
 #' pred <- predict(pretrained.mnist, mnist$test$x)
+#' dim(pred)
 #' head(pred)
 #' @export
 resample <- function(...)
@@ -44,7 +46,7 @@ resample.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
 #' ## Sample an RBM object
 #' rbm <- pretrained.mnist[[1]]
 #' res <- resample(rbm, mnist$test$x)
-#' head(res)
+#' dim(res)
 #' @export
 resample.RestrictedBolzmannMachine <- function(object, newdata, drop=TRUE, ...) {
 
