@@ -17,7 +17,7 @@ energy.RestrictedBolzmannMachine <- function(x, data, drop=TRUE, ...) {
 	}
 	
 	# Make sure C++/RcppEigen can deal with the data
-	ensure.data.validity(data, x[[1]]$input)
+	ensure.data.validity(data, x$input)
 	
 	if (drop)
 		return(drop(energyRbmCpp(x, data)))

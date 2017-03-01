@@ -8,8 +8,7 @@
 \usage{
 energy(x, data, ...)
 
-\method{energy}{RestrictedBolzmannMachine}(x, data, prediction, drop = TRUE,
-  ...)
+\method{energy}{RestrictedBolzmannMachine}(x, data, drop = TRUE, ...)
 
 \method{energy}{DeepBeliefNet}(x, data, drop = TRUE, ...)
 }
@@ -17,8 +16,6 @@ energy(x, data, ...)
 \item{x}{the \code{\link{DeepBeliefNet}} or \code{\link{RestrictedBolzmannMachine}} object}
 
 \item{data}{the dataset, either as matrix or data.frame. The number of columns must match the number of nodes of the network input}
-
-\item{prediction}{the predicted values of the hidden layer, as returned by \code{\link{predict}}. If provided (in case it was already calculated before), will speed-up the calculation.}
 
 \item{drop}{do not return additional dimensions}
 
