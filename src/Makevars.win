@@ -1,4 +1,5 @@
-
 ## Use the R_HOME indirection to support installations of multiple R version
-PKG_LIBS = $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "Rcpp:::LdFlags()")
-CXX_STD = CXX11
+PKG_CPPFLAGS =  -I. -I../inst/include \
+	-I $(shell $(R_HOME)/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file('include', package='Rcpp'))") \
+	-I $(shell $(R_HOME)/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file('include', package='RcppEigen'))") \
+	-I $(shell $(R_HOME)/bin${R_ARCH_BIN}/Rscript.exe -e "cat(system.file('include', package='BH'))")
