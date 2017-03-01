@@ -1,7 +1,5 @@
 context("error")
 
-test.dat <- mnist$test$x[1:10,]
-
 test_that("error.dbn works as expected", {
 	err <- error(trained.mnist, test.dat)
 	expected_error <- c(0.155460830388072, 0.263534247331889, 0.0685053807177542, 0.185973450892959, 

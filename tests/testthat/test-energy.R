@@ -1,7 +1,5 @@
 context("energy")
 
-test.dat <- mnist$test$x[1:10,]
-
 test_that("energy.dbn works as expected", {
 	en <- energy(trained.mnist, test.dat)
 	expected_energy <- c(-1496.25214569678, -1597.91150630306, -759.82194851186, -3078.17123282436, 

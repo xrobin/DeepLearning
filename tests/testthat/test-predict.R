@@ -1,7 +1,5 @@
 context("predict")
 
-test.dat <- mnist$test$x[1:10,]
-
 test_that("predict.dbn works as expected", {
 	pred <- predict(trained.mnist, test.dat)
 	expected_pred <- structure(c(1.36068022900793, -3.93217205798754, 35.7254451713427, 
