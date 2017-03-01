@@ -49,7 +49,7 @@ print.DeepBeliefNet <- function(x, ...) {
 #' data(mnist)
 #' forward.error <- rmse(trained.mnist, mnist$test$x)
 #' reverse.error <- rmse(rev(trained.mnist), mnist$test$x)
-#' plot(forward.error, reverse.error)
+#' plot.mnist(predictions = cbind(forward.error, reverse.error))
 #' @export
 rev.DeepBeliefNet <- function(x) {
 	return(reverseDbnCpp(x))

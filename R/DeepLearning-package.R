@@ -69,13 +69,15 @@
 #' 
 #' # Make predictions to 2 dimensions
 #' predictions <- predict(pretrained.mnist, mnist$test$x)
+#' # See how the data is reconstructed
+#' reconstructions <- reconstruct(pretrained.mnist, mnist$test$x)
 #' dim(predictions)
 #' # And test the RMS error
 #' error <- rmse(pretrained.mnist, mnist$test$x)
 #' head(error)
 #' 
 #' # Plot predictions
-#' plot(predictions, bg = mnist$test$y, pch=21)
+#' plot.mnist(predictions = predictions, reconstructions = reconstructions)
 #' 
 #' # Unrolling the network is the same as c(pretrained.mnist, rev(pretrained.mnist))
 #' unrolled.mnist <- unroll(pretrained.mnist)
@@ -100,7 +102,7 @@
 #' head(error)
 #' 
 #' # Plot predictions
-#' plot(predictions, bg = mnist$test$y, pch=21)
+#' plot.mnist(predictions = predictions, reconstructions = reconstructions)
 #' 
 #' # Perform various operations on it (not all of them make sense in this context)
 #' combined <- c(trained.mnist, rev(trained.mnist[7:8]))
