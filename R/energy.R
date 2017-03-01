@@ -22,10 +22,6 @@ energy <- function(x, data, ...)
 #' 
 #' @export
 energy.RestrictedBolzmannMachine <- function(x, data, drop=TRUE, ...) {
-	if (!(is.matrix(data) || is.data.frame(data))) {
-		data <- t(data)
-	}
-	
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(data, x$input)
 	
@@ -47,10 +43,6 @@ energy.RestrictedBolzmannMachine <- function(x, data, drop=TRUE, ...) {
 #' plot.mnist(predictions = cbind(err, en))
 #' @export
 energy.DeepBeliefNet <- function(x, data, drop=TRUE, ...) {
-	if (!(is.matrix(data) || is.data.frame(data))) {
-		data <- t(data)
-	}
-	
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(data, x[[1]]$input)
 	

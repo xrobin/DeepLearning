@@ -25,11 +25,6 @@ resample <- function(...)
 #' @rdname resample
 #' @export
 resample.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
-	# If user passed a vector f or a data.frame, we convert it to a compatible matrix
-	if (!(is.matrix(newdata) || is.data.frame(newdata))) {
-		newdata <- t(newdata)
-	}
-
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(newdata, object[[1]]$input)
 	
@@ -49,12 +44,6 @@ resample.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
 #' dim(res)
 #' @export
 resample.RestrictedBolzmannMachine <- function(object, newdata, drop=TRUE, ...) {
-
-	# If user passed a vector f, we convert it to a compatible matrix
-	if (!(is.matrix(newdata) || is.data.frame(newdata))) {
-		newdata <- t(newdata)
-	}
-
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(newdata, object$input)
 	

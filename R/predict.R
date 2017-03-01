@@ -14,12 +14,6 @@
 #' predict(trained.mnist, mnist$test$x[1:10,])
 #' @export
 predict.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
-	
-	# If user passed a vector f or a data.frame, we convert it to a compatible matrix
-	if (!(is.matrix(newdata) || is.data.frame(newdata))) {
-		newdata <- t(newdata)
-	}
-
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(newdata, object[[1]]$input)
 	
@@ -40,12 +34,6 @@ predict.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
 #' ncol(predictions) == rbm$output$size
 #' @export
 predict.RestrictedBolzmannMachine <- function(object, newdata, drop=TRUE, ...) {
-
-	# If user passed a vector f, we convert it to a compatible matrix
-	if (!(is.matrix(newdata) || is.data.frame(newdata))) {
-		newdata <- t(newdata)
-	}
-
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(newdata, object$input)
 	

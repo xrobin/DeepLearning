@@ -15,12 +15,6 @@ reconstruct <- function(object, newdata, ...)
 #' @rdname reconstruct
 #' @export
 reconstruct.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
-	
-	# If user passed a vector f or a data.frame, we convert it to a compatible matrix
-	if (!(is.matrix(newdata) || is.data.frame(newdata))) {
-		newdata <- t(newdata)
-	}
-	
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(newdata, object[[1]]$input)
 	
@@ -33,12 +27,6 @@ reconstruct.DeepBeliefNet <- function(object, newdata, drop=TRUE, ...) {
 #' @rdname reconstruct
 #' @export
 reconstruct.RestrictedBolzmannMachine <- function(object, newdata, drop=TRUE, ...) {
-	
-	# If user passed a vector f, we convert it to a compatible matrix
-	if (!(is.matrix(newdata) || is.data.frame(newdata))) {
-		newdata <- t(newdata)
-	}
-	
 	# Make sure C++/RcppEigen can deal with the data
 	ensure.data.validity(newdata, object$input)
 	
