@@ -1,8 +1,8 @@
 Package: DeepLearning
 Type: Package
 Title: Deep Learning of neural networks
-Version: 0.3
-Date: 2014-05-26
+Version: 0.4
+Date: 2017-03-01
 Author: Xavier Robin
 Encoding: UTF-8
 Maintainer: Xavier Robin <robin@lindinglab.org>
