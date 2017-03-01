@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Set the following variable to true in order to use -isystem instead of -I and hide 
+# irrelevant warnings on RcppEigen or BH headers
+# This may not be fully portable across compilers
+export R_DeepLearning_HIDE_SYSTEM_WARNINGS=false
+
+if [ "$R_DeepLearning_HIDE_SYSTEM_WARNINGS" = true ] ; then
+	CUSTOM_I_FLAG=-isystem
+else
+	CUSTOM_I_FLAG=-I
+fi
+
+
+sed -e "s|@CUSTOM_I_FLAG@|${CUSTOM_I_FLAG}|" src/Makevars.in > src/Makevars

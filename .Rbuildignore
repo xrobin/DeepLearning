@@ -9,3 +9,4 @@
 codecov.yml
 ^inst/doc/algos.lyx$
 ^inst/doc/refs.bib$
+src/Makevars
