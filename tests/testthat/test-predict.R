@@ -14,7 +14,7 @@ test_that("predict.dbn works as expected", {
 	expect_equal(pred, expected_pred) # somehow expected_error is a bit imprecise
 
 	# Works with 1 row
-	expect_equal(predict(trained.mnist, test.dat[1,]), err[1,])
+	expect_equal(predict(trained.mnist, test.dat[1,, drop = FALSE]), expected_pred[1,])
 })
 
 
@@ -299,7 +299,7 @@ test_that("error.rbm works as expected", {
 								 0.975505719738271, 6.26188514418996e-07, 0.999943774620244, 0.365377398079567, 
 								 0.000160429101069922, 0.912738006200719, 1.08270708566231e-06, 
 								 0.961145752675066), .Dim = c(1L, 1000L))
-	expect_equal(predict(rbm, test.dat[1,, drop=FALSE]), expected_row1)
+	expect_equal(predict(rbm, test.dat[1,, drop=FALSE], drop = FALSE), expected_row1)
 })
 
 

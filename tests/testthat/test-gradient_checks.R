@@ -35,46 +35,46 @@ test_that("Can predict proper data", {
 	
 	# Check foward pass
 	# first layer
-	pred1 <- predict(dbn[1], f)
-	pred1.expected <- c(0.80612106217614, 0.62010643234309, 0.679178699175393, 0.431680016521752)
+	pred1 <- predict(dbn[1], f, drop = FALSE)
+	pred1.expected <- t(c(0.80612106217614, 0.62010643234309, 0.679178699175393, 0.431680016521752))
 	# Second layer
-	pred2 <- predict(dbn[2], pred1)
-	pred2.expected <- c(2.38023363493194, -6.36646162772927)
+	pred2 <- predict(dbn[2], pred1, drop = FALSE)
+	pred2.expected <- t(c(2.38023363493194, -6.36646162772927))
 	
-	expect_that(pred1, equals(pred1.expected))
-	expect_that(pred2, equals(pred2.expected))
+	expect_equal(pred1, pred1.expected)
+	expect_equal(pred2, pred2.expected)
 	# Alternatives
-	expect_that(predict(dbn[[1]], f), equals(pred1.expected))
-	expect_that(predict(dbn[[2]], pred1), equals(pred2.expected))
-	expect_that(predict(dbn, f), equals(pred2.expected))
-	expect_that(predict(unroll(dbn), f), equals(pred2.expected))
-	expect_that(predict(unroll(dbn)[1], f), equals(pred1.expected))
-	expect_that(predict(unroll(dbn)[2], pred1), equals(pred2.expected))
-	expect_that(predict(unroll(dbn)[[1]], f), equals(pred1.expected))
-	expect_that(predict(unroll(dbn)[[2]], pred1), equals(pred2.expected))
+	expect_equal(predict(dbn[[1]], f, drop = FALSE), pred1.expected)
+	expect_equal(predict(dbn[[2]], pred1, drop = FALSE), pred2.expected)
+	expect_equal(predict(dbn, f, drop = FALSE), pred2.expected)
+	expect_equal(predict(unroll(dbn), f, drop = FALSE), pred2.expected)
+	expect_equal(predict(unroll(dbn)[1], f, drop = FALSE), pred1.expected)
+	expect_equal(predict(unroll(dbn)[2], pred1, drop = FALSE), pred2.expected)
+	expect_equal(predict(unroll(dbn)[[1]], f, drop = FALSE), pred1.expected)
+	expect_equal(predict(unroll(dbn)[[2]], pred1, drop = FALSE), pred2.expected)
 	
 	# Backward pass
-	reverse.pred2 <- predict(rev(dbn[[2]]), pred2)
-	reverse.pred2.expected <- c(0.999999988486559, 0.99999999992654, 0.000709084256067969, 0.00168671191831906)
-	reverse.pred1 <- predict(rev(dbn[[1]]), reverse.pred2)
-	reverse.pred1.expected <- c(0.921516993798264, 0.566790087698008, 0.735781154062391)
+	reverse.pred2 <- predict(rev(dbn[[2]]), pred2, drop = FALSE)
+	reverse.pred2.expected <- t(c(0.999999988486559, 0.99999999992654, 0.000709084256067969, 0.00168671191831906))
+	reverse.pred1 <- predict(rev(dbn[[1]]), reverse.pred2, drop = FALSE)
+	reverse.pred1.expected <- t(c(0.921516993798264, 0.566790087698008, 0.735781154062391))
 	
-	expect_that(reverse.pred2, equals(reverse.pred2.expected))
-	expect_that(reverse.pred1, equals(reverse.pred1.expected))
+	expect_equal(reverse.pred2, reverse.pred2.expected)
+	expect_equal(reverse.pred1, reverse.pred1.expected)
 	# Alternatives
-	expect_that(predict(rev(dbn[2]), pred2), equals(reverse.pred2.expected))
-	expect_that(predict(rev(dbn[1]), reverse.pred2), equals(reverse.pred1.expected))
-	expect_that(predict(rev(dbn)[1], pred2), equals(reverse.pred2.expected))
-	expect_that(predict(rev(dbn)[2], reverse.pred2), equals(reverse.pred1.expected))
-	expect_that(predict(rev(dbn)[[1]], pred2), equals(reverse.pred2.expected))
-	expect_that(predict(rev(dbn)[[2]], reverse.pred2), equals(reverse.pred1.expected))
-	expect_that(reconstruct(dbn[2], pred1), equals(reverse.pred2.expected))
-	# expect_that(reconstruct(dbn[1], f), equals(reverse.pred1.expected)) # We haven't passed to layer 2... 
-	expect_that(reconstruct(dbn[[2]], pred1), equals(reverse.pred2.expected))
-	# expect_that(reconstruct(dbn[[1]], f), equals(reverse.pred1.expected)) # We haven't passed to layer 2... 
-	expect_that(reconstruct(dbn, f), equals(reverse.pred1.expected))
+	expect_equal(predict(rev(dbn[2]), pred2, drop = FALSE), reverse.pred2.expected)
+	expect_equal(predict(rev(dbn[1]), reverse.pred2, drop = FALSE), reverse.pred1.expected)
+	expect_equal(predict(rev(dbn)[1], pred2, drop = FALSE), reverse.pred2.expected)
+	expect_equal(predict(rev(dbn)[2], reverse.pred2, drop = FALSE), reverse.pred1.expected)
+	expect_equal(predict(rev(dbn)[[1]], pred2, drop = FALSE), reverse.pred2.expected)
+	expect_equal(predict(rev(dbn)[[2]], reverse.pred2, drop = FALSE), reverse.pred1.expected)
+	expect_equal(reconstruct(dbn[2], pred1, drop = FALSE), reverse.pred2.expected)
+	# expect_equal(reconstruct(dbn[1], f, drop = FALSE), reverse.pred1.expected) # We haven't passed to layer 2... 
+	expect_equal(reconstruct(dbn[[2]], pred1, drop = FALSE), reverse.pred2.expected)
+	# expect_equal(reconstruct(dbn[[1]], f, drop = FALSE), reverse.pred1.expected) # We haven't passed to layer 2... 
+	expect_equal(reconstruct(dbn, f, drop = FALSE), reverse.pred1.expected)
 	# And with unrolling
-	expect_that(reconstruct(unroll(dbn), f), equals(reverse.pred1.expected))
+	expect_equal(reconstruct(unroll(dbn), f, drop = FALSE), reverse.pred1.expected)
 	
 	
 })
