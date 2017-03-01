@@ -48,7 +48,7 @@ library(mnist)
 data(mnist)
 data(trained.mnist)
 
-# Calculate error per data point
+# Calculate (reconstruction) error per data point
 err <- error(trained.mnist, mnist$test$x)
 length(err) # 1 value per data point
 # error and rmse are synonymous
@@ -60,5 +60,13 @@ print(sum)
 all.equal(sum, sum(err)) 
 # There may be some rounding errors though, so this might not be ==:
 sum == sum(err)
+
+# On a RestrictedBolzmannMachine
+data(pretrained.mnist)
+rbm <- pretrained.mnist[[1]]
+errorSum(rbm, mnist$test$x)
+err <- error(rbm, mnist$test$x)
+identical(err, rmse(rbm, mnist$test$x))
+
 }
 
