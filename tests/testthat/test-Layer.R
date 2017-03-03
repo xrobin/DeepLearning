@@ -171,3 +171,11 @@ test_that("Layer comparison works", {
 	expect_true(l3c != l4c)
 	
 })
+
+test_that("Cannot compare layer and other stuff", {
+	l4g <- Layer(4, "gaussian")
+	expect_error(l4g == 4)
+	expect_error(l4g == "gaussian")
+	expect_error(l4g != 4)
+	expect_error(l4g != "gaussian")
+})
