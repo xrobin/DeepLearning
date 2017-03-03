@@ -225,3 +225,60 @@ test_that("Replacement of RBM with [[.DeepBeliefNet<-", {
 	expect_that(dbn.test3$unrolled, is_false())
 	expect_that(dbn.test3$finetuned, is_false())
 })
+
+dbn <- DeepBeliefNet(Layer(3, "c"), Layer(4, "b"), Layer(2, "g"))
+weights <- c(
+	c(-3.4, 0.8, 3.0), # b1
+	# Eigen will represent this as a 4x3 matrix, in column-major:
+	c(16, 0.14, -0.3, 0.8,
+	  0.03, -0.02, -0.3, 0.25,
+	  0.01, 0.3, 0.6, -0.3), # W1
+	c(1.4, 0.2, 0.3, -0.1), # c1 = b2
+	c(-1.2, -3.1,
+	  3.3, -2.4,
+	  -1.3, 0.7,
+	  -0.5, 0.8), # W2
+	c(2.4, -3.2) #c2
+)
+assign("weights", weights, dbn$weights.env)
+
+test_that("Can extract weights from RBM", {
+	rbm <- dbn[[1]]
+	expect_identical(rbm$w, 
+					 matrix(c(16, 0.14, -0.3, 0.8,
+					 		0.03, -0.02, -0.3, 0.25,
+					 		0.01, 0.3, 0.6, -0.3), 4, 3))
+	expect_identical(rbm$b, c(-3.4, 0.8, 3.0))
+	expect_identical(rbm$c, c(1.4, 0.2, 0.3, -0.1))
+	
+	# RBM2 with upper case
+	rbm <- dbn[[2]]
+	expect_identical(rbm$W, 
+					 matrix(c(-1.2, -3.1,
+					 		 3.3, -2.4,
+					 		 -1.3, 0.7,
+					 		 -0.5, 0.8), 2, 4))
+	expect_identical(rbm$B, c(1.4, 0.2, 0.3, -0.1))
+	expect_identical(rbm$C, c(2.4, -3.2))
+})
+
+
+
+test_that("Can assign weights to RBM", {
+	rbm <- dbn[[1]]
+	rbm$w[] <- as.numeric(1:12) # not integer
+	rbm$b <- as.numeric(30:32) 
+	rbm$c <- as.numeric(20:23)
+	expect_identical(rbm$w, matrix(as.numeric(1:12), 4, 3))
+	expect_identical(rbm$b, as.numeric(30:32))
+	expect_identical(rbm$c, as.numeric(20:23))
+	
+	rbm <- dbn[[2]]
+	m2 <- matrix(as.numeric(1:8), 2, 4)
+	rbm$W <- m2
+	rbm$B <- as.numeric(120:123)
+	rbm$C <- as.numeric(1:2)
+	expect_identical(rbm$W, m2)
+	expect_identical(rbm$b, as.numeric(120:123))
+	expect_identical(rbm$c, as.numeric(1:2))
+})
