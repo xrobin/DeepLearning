@@ -52,3 +52,9 @@ test_that("cannot concatenate incompatible sizes of RBMs, DBNs and Layers", {
 	expect_error(c(rbm1, dbn3))
 })
 
+
+test_that("cannot concatenate non-RBMs, DBNs and Layers", {
+	expect_error(c(rbm1, dbn2, l3c, 4))
+	expect_error(c(rbm1, dbn2, l3c, "gaussian"))
+})
+
