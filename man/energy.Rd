@@ -34,16 +34,16 @@ data(mnist)
 # Calculate error per data point on RBM
 data(pretrained.mnist)
 rbm <- pretrained.mnist[[1]]
-en <- energy(rbm, mnist$test$x)
+en <- energy(rbm, mnist$test$x[1:100,])
 head(en) # 1 value per data point
 
 # Calculate error per data point on DBN
 data(trained.mnist)
-en <- energy(trained.mnist, mnist$test$x)
+en <- energy(trained.mnist, mnist$test$x[1:100,])
 head(en) # 1 value per data point
 
 # Energy is not related with reconstruction error
-err <- error(trained.mnist, mnist$test$x)
+err <- error(trained.mnist, mnist$test$x[1:100,])
 plot.mnist(predictions = cbind(err, en))
 }
 
