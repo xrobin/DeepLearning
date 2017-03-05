@@ -98,7 +98,7 @@ pretrain.RestrictedBolzmannMachine <- function(x, data, miniters = 100, maxiters
 	penalization <- match.arg(penalization)
 	
 	# Build diagnostic function
-	if (is.null(diag.data) && is.null(diag.function)) {
+	if (missing(diag) && is.null(diag.data) && is.null(diag.function)) {
 		diag$rate <- "none"
 	}
 	else {
@@ -229,7 +229,7 @@ pretrain.DeepBeliefNet <- function(x, data,
 	)
 	
 	# Build diagnostic function
-	if (is.null(diag.data) && is.null(diag.function)) {
+	if (missing(diag) && is.null(diag.data) && is.null(diag.function)) {
 		diag$rate <- "none"
 	}
 	else {
