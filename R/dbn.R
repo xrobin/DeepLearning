@@ -3,6 +3,7 @@
 #' It consists of a stack of \code{\link{RestrictedBolzmannMachine}} layers that will be created according to the specifications.
 #' @param layers a single \code{\link{Layer}} object or a list of layers as returned by \code{\link{Layers}}
 #' @param ... same as \code{layers}
+#' @param initialize whether to initialize weights and biases with 0 or random uniform values
 #' @section Copying/Cloning:
 #' #' For performance purposes, the weights are stored in an environment. This means that when you copy the DeepBeliefNet with an assignment, you do not copy the weights
 #' and any modification you make to the new object will be propagated to the original one, and reciprocally.
@@ -26,7 +27,8 @@
 #' @importFrom methods is
 #' @importFrom utils tail
 #' @export
-DeepBeliefNet <- function(layers, ...) {
+DeepBeliefNet <- function(layers, ..., initialize = c("0", "uniform")) {
+	initialize <- match.arg(initialize)
 	# Merge all input in a single list
 	if (is(layers, "Layer")) {
 		layers <- list(layers)
@@ -37,7 +39,7 @@ DeepBeliefNet <- function(layers, ...) {
 		stop("You must have at least 2 layers to make a DBN.")
 	}
 	
-	return(DeepBeliefNetFromLayersAndOptionalWeights(layers))
+	return(DeepBeliefNetFromLayersAndOptionalWeights(layers, initialize = initialize))
 }
 
 # Private constructor
@@ -49,21 +51,25 @@ DeepBeliefNet <- function(layers, ...) {
 # Private constructor
 # Build a valid DeepBeliefNet from layers and weights
 # If weights is not provided, it will be created (see 'packDbnEnv')
-DeepBeliefNetFromLayersAndOptionalWeights <- function(layers, weights) {
+DeepBeliefNetFromLayersAndOptionalWeights <- function(layers, weights, initialize) {
 	
 	# Compute where to break the weights - b, W, c
 	weights.breaks <- computeDbnBreaks(layers)
-	if (missing(weights))
+	if (missing(weights)) {
 		weights.env <- packDbnEnv(weights.breaks)
-	else 
+	}
+	else {
 		weights.env <- packDbnEnv(weights.breaks, weights)
+		initialize <- "no"
+	}
 	
 	rbms <- lapply(seq(1, length(layers) - 1), function(x) {
 		# ifelse: force all internal layers to be binary
 		RestrictedBolzmannMachineFromWeightsEnv(input = layers[[x]],
 												output = layers[[x + 1]],
 												weights.env = weights.env,
-												weights.breaks = weights.breaks[(2 * x - 1):(2 * x + 2)]
+												weights.breaks = weights.breaks[(2 * x - 1):(2 * x + 2)],
+												initialize = initialize
 		)
 	})
 	dbn <- list(

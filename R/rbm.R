@@ -3,6 +3,7 @@
 #' It is typically stacked in a \code{\link{DeepBeliefNet}}.
 #' @param input,output \code{\link{Layer}} objects
 #' @param weights optional starting weights. If \code{NULL}, weights will be initialized to 0
+#' @param initialize whether to initialize weights and biases with 0 or random uniform values. Ignored if \code{weights} are provided.
 #' @return an object of class \code{RestrictedBolzmannMachine} containing the following elements:
 #' \itemize{
 #' \item{input,output}{\code{\link{Layer}}s}
@@ -20,7 +21,8 @@
 #' methods(class="RestrictedBolzmannMachine")
 #' @importFrom utils tail
 #' @export
-RestrictedBolzmannMachine <- function(input, output, weights = NULL) {
+RestrictedBolzmannMachine <- function(input, output, weights = NULL, initialize = c("0", "uniform")) {
+	initialize <- match.arg(initialize)
 	if (!is(input, "Layer") || !is(output, "Layer")) {
 		stop("input and output must be Layer objects.")
 	}
@@ -32,15 +34,16 @@ RestrictedBolzmannMachine <- function(input, output, weights = NULL) {
 	}
 	else if (length(weights) == tail(weights.breaks, n=1) && is.numeric(weights) && is.vector(weights)) {
 		assign("weights", weights, pos=weights.env)
+		initialize <- "no"
 	}
 	else {
 		stop("Invalid weights supplied. Please provide a vector of numeric weights of compatible size (input + output + input * output).")
 	}
-	return(RestrictedBolzmannMachineFromWeightsEnv(input, output, weights.env, weights.breaks))
+	return(RestrictedBolzmannMachineFromWeightsEnv(input, output, weights.env, weights.breaks, initialize))
 }
 
 # Private constructor - re-use weights.env from DBN
-RestrictedBolzmannMachineFromWeightsEnv <- function(input, output, weights.env, weights.breaks) {
+RestrictedBolzmannMachineFromWeightsEnv <- function(input, output, weights.env, weights.breaks, initialize) {
 	rbm <- list(
 		input = input,
 		output = output,
@@ -50,6 +53,17 @@ RestrictedBolzmannMachineFromWeightsEnv <- function(input, output, weights.env, 
 		pretrained = FALSE
 	)
 	class(rbm) <- "RestrictedBolzmannMachine"
+	
+	if (initialize == "uniform") {
+		init.W.random = sqrt(6) / sqrt(input$size + output$size)
+		init.b.random = sqrt(6) / sqrt(input$size)
+		init.c.random = sqrt(6) / sqrt(output$size)
+		weights.env$weights = c(
+			runif(length(rbm$b), -init.b.random, init.b.random),
+			runif(length(rbm$W), -init.W.random, init.W.random),
+			runif(length(rbm$c), -init.c.random, init.c.random))
+	}
+	
 	return(rbm)
 }
 

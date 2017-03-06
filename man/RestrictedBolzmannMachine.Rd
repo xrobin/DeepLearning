@@ -4,12 +4,15 @@
 \alias{RestrictedBolzmannMachine}
 \title{Initialize a Restricted Bolzman Machine}
 \usage{
-RestrictedBolzmannMachine(input, output, weights = NULL)
+RestrictedBolzmannMachine(input, output, weights = NULL, initialize = c("0",
+  "uniform"))
 }
 \arguments{
 \item{input, output}{\code{\link{Layer}} objects}
 
 \item{weights}{optional starting weights. If \code{NULL}, weights will be initialized to 0}
+
+\item{initialize}{whether to initialize weights and biases with 0 or random uniform values. Ignored if \code{weights} are provided.}
 }
 \value{
 an object of class \code{RestrictedBolzmannMachine} containing the following elements:

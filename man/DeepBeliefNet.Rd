@@ -4,12 +4,14 @@
 \alias{DeepBeliefNet}
 \title{Initialize a Deep Belief Net}
 \usage{
-DeepBeliefNet(layers, ...)
+DeepBeliefNet(layers, ..., initialize = c("0", "uniform"))
 }
 \arguments{
 \item{layers}{a single \code{\link{Layer}} object or a list of layers as returned by \code{\link{Layers}}}
 
 \item{...}{same as \code{layers}}
+
+\item{initialize}{whether to initialize weights and biases with 0 or random uniform values}
 }
 \value{
 an object of class \code{DeepBeliefNet} containing the following elements:
