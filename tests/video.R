@@ -8,6 +8,7 @@ if (0) {
 	data(mnist)
 	
 	maxiters.pretrain <- 1e6
+	sprintf.fmt.iter <- sprintf("%%0%dd", nchar(sprintf("%d", maxiters.pretrain)))
 	dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input = "continuous", output = "binary"))
 	mnist.data.layer <- mnist
 	for (i in 1:3) {
@@ -22,15 +23,7 @@ if (0) {
 	}
 	
 	diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
-		save(rbm, file = sprintf("video/rbm-4-%s.RData", iter))
-		#pdf(sprintf("pretrain-%s.png", iter), width = 1920, height = 1080) # hd output
-		#pdf(sprintf("pretrain-%s.pdf", iter), width = 16, height = 9) # hd output
-		#dbn[[4]] <- rbm
-		#predictions <- predict(dbn, mnist$test$x)
-		#reconstructions <- reconstruct(dbn, mnist$test$x)
-		#plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y, predictions = predictions, reconstructions = reconstructions,
-		#		   digits.col = 1:10, pch.bg = 1:10)
-		#dev.off()
+		save(rbm, file = sprintf("video/rbm-4-%s.RData", sprintf(sprintf.fmt.iter, iter)))
 	})
 	
 	rbm <- pretrain(dbn[[4]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
