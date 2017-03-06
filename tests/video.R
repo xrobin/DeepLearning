@@ -55,7 +55,7 @@ if (do.run) {
 		dbn[[i]] <- rbm
 	}
 	
-	for (file in list.files("video", pattern = "rbm-4-\\d+\\.RData", full.names = TRUE)) {
+	for (file in list.files("video", pattern = "rbm-4-.+\\.RData", full.names = TRUE)) {
 		load(file)
 		dbn[[4]] <- rbm
 		
