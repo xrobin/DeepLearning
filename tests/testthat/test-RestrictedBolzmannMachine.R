@@ -83,3 +83,12 @@ test_that("getWeightsFromEnv() works", {
 	expect_that(DeepLearning:::getWeightsFromEnv(which="wc", breaks=anRBMWithWeights$weights.env$breaks, weights=anRBMWithWeights$weights.env$weights), is_equivalent_to(5:54))
 
 })
+
+
+test_that("Can create RestrictedBolzmannMachine with uniform weights", {
+	# Create an RBM
+	l4g <- Layer(4, "gaussian")
+	l10b <- Layer(10, "binary")
+	anRBM <- RestrictedBolzmannMachine(l4g, l10b, initialize = "uniform")
+	expect_gt(sum(abs(anRBM$weights.env$weights)), 0)
+})
