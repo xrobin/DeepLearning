@@ -1,8 +1,8 @@
 # This test creates a video to showcase the pre-training (last layer) and training of the DBN
 # As it is very slow it is disabled by default
 
-
-if (0) {
+do.run <- 0
+if (do.run) {
 	library(DeepLearning)
 	library(mnist)
 	data(mnist)
@@ -44,7 +44,7 @@ if (0) {
 	
 }
 
-if (0) {
+if (do.run) {
 	library(DeepLearning)
 	library(mnist)
 	data(mnist)
