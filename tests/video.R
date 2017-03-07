@@ -17,7 +17,7 @@ if (do.run) {
 	
 	maxiters.pretrain <- 1e5 # Typically takes around 3 days per layer (first ones)
 	sprintf.fmt.iter <- sprintf("%%0%dd", nchar(sprintf("%d", maxiters.pretrain)))
-	dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input = "continuous", output = "binary"))
+	dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input = "continuous", output = "binary"), initialize = "uniform")
 	mnist.data.layer <- mnist
 	for (i in 1:3) {
                 print(head(dbn[[i]]$b))
