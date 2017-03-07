@@ -20,11 +20,11 @@ if (do.run) {
 	dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input = "continuous", output = "binary"), initialize = "uniform")
 	mnist.data.layer <- mnist
 	for (i in 1:3) {
-                print(head(dbn[[i]]$b))
-                start.time <- Sys.time()
-                diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
-                        print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
-                })
+		print(head(dbn[[i]]$b))
+		start.time <- Sys.time()
+		diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
+			print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
+		})
 		rbm <- pretrain(dbn[[i]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 							 epsilon=c(.1, .1, .1, .001)[i], batchsize = 100, maxiters=maxiters.pretrain,
 							 continue.function = continue.function.always, diag = diag)
@@ -32,13 +32,12 @@ if (do.run) {
 		mnist.data.layer$test$x <- predict(dbn[[i]], mnist.data.layer$test$x)
 		save(rbm, file = sprintf("video/rbm-%s-%s.RData", i, "final"))
 		dbn[[i]] <- rbm
-		
 	}
-
-        start.time <- Sys.time()	
+	
+	start.time <- Sys.time()
 	diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 		save(rbm, file = sprintf("video/rbm-4-%s.RData", sprintf(sprintf.fmt.iter, iter)))
-                print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
+		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
 	
 	print(head(dbn[[4]]$b))
