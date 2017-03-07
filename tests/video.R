@@ -78,7 +78,7 @@ if (do.run) {
 		png(sub(".RData", ".png", file), width = 1920, height = 1080) # hd output
 		predictions <- predict(dbn, mnist$test$x)
 		reconstructions <- reconstruct(dbn, mnist$test$x)
-		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions)
+		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions, ncol = 16)
 		par(family="mono")
 		legend("bottomleft", legend = sprintf("Mean error = %.3f", mean(error)), bty="n")
 		legend("bottomright", legend = sprintf("Iteration = %.3f", iter), bty="n")
@@ -92,7 +92,7 @@ if (do.run) {
 		png(sub(".RData", ".png", file), width = 1920, height = 1080) # hd output
 		predictions <- predict(dbn, mnist$test$x)
 		reconstructions <- reconstruct(dbn, mnist$test$x)
-		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions)
+		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions, ncol = 16)
 		par(family="mono")
 		legend("bottomleft", legend = sprintf("Mean error = %.3f", mean(error)), bty="n")
 		legend("bottomright", legend = sprintf("Iteration = %.3f", iter), bty="n")
