@@ -1,35 +1,51 @@
 # This test creates a video to showcase the pre-training (last layer) and training of the DBN
 # As it is very slow it is disabled by default
 
+format.timediff <- function(start.time) {
+    diff = as.numeric(difftime(Sys.time(), start.time, units="mins"))
+    hr <- diff%/%60
+    min <- floor(diff - hr * 60)
+    sec <- round(diff%%1 * 60,digits=2)
+    return(paste(hr,min,sec,sep=':'))
+}
+
 do.run <- 0
 if (do.run) {
 	library(DeepLearning)
 	library(mnist)
 	data(mnist)
 	
-	maxiters.pretrain <- 1e6
+	maxiters.pretrain <- 1e5 # Typically takes around 3 days per layer (first ones)
 	sprintf.fmt.iter <- sprintf("%%0%dd", nchar(sprintf("%d", maxiters.pretrain)))
 	dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input = "continuous", output = "binary"))
 	mnist.data.layer <- mnist
 	for (i in 1:3) {
+                print(head(dbn[[i]]$b))
+                start.time <- Sys.time()
+                diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
+                        print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
+                })
 		rbm <- pretrain(dbn[[i]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 							 epsilon=c(.1, .1, .1, .001)[i], batchsize = 100, maxiters=maxiters.pretrain,
 							 continue.function = continue.function.always)
 		mnist.data.layer$train$x <- predict(dbn[[i]], mnist.data.layer$train$x)
 		mnist.data.layer$test$x <- predict(dbn[[i]], mnist.data.layer$test$x)
-		save(rbm, file = sprintf("video/rbm-%s-final.RData", i))
+		save(rbm, file = sprintf("video/rbm-%s-%s.RData", i, "final"))
 		dbn[[i]] <- rbm
 		
 	}
-	
+
+        start.time <- Sys.time()	
 	diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 		save(rbm, file = sprintf("video/rbm-4-%s.RData", sprintf(sprintf.fmt.iter, iter)))
+                print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
 	
+	print(head(dbn[[4]]$b))
 	rbm <- pretrain(dbn[[4]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
-						 epsilon=c(.1, .1, .1, .001)[i], batchsize = 100, maxiters=maxiters.pretrain,
+						 epsilon=.001, batchsize = 100, maxiters=maxiters.pretrain,
 						 continue.function = continue.function.always, diag = diag)
-	save(rbm, file = sprintf("video/rbm-4-final.RData", i))
+	save(rbm, file = sprintf("video/rbm-4-%s.RData", "final"))
 	dbn[[4]] <- rbm
 	
 	# Fine-tune
@@ -40,7 +56,7 @@ if (do.run) {
 	})
 	dbn <- train(dbn, mnist$train$x, batchsize = 100, maxiters=maxiters.train,
 					continue.function = continue.function.always, diag = diag)
-	save(dbn, file = sprintf("video/dbn-finetune-final.RData", i))
+	save(dbn, file = sprintf("video/dbn-finetune-%s.RData", "final"))
 	
 }
 
