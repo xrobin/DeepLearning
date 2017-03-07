@@ -66,7 +66,6 @@ if (do.run) {
 		dev.off()
 	}
 
-	
 	# Fine-tuning
 	for (file in list.files("video", pattern = "video/dbn-finetune-.+\\.RData", full.names = TRUE)) {
 		load(file)
