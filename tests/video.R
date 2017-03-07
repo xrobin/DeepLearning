@@ -82,7 +82,7 @@ if (do.run) {
 		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions, ncol = 16)
 		par(family="mono")
 		legend("bottomleft", legend = sprintf("Mean error = %.3f", mean(error)), bty="n")
-		legend("bottomright", legend = sprintf("Iteration = %.3f", iter), bty="n")
+		legend("bottomright", legend = sprintf("Iteration = %s", iter), bty="n")
 		dev.off()
 	}
 
@@ -96,7 +96,7 @@ if (do.run) {
 		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions, ncol = 16)
 		par(family="mono")
 		legend("bottomleft", legend = sprintf("Mean error = %.3f", mean(error)), bty="n")
-		legend("bottomright", legend = sprintf("Iteration = %.3f", iter), bty="n")
+		legend("bottomright", legend = sprintf("Iteration = %s", iter), bty="n")
 		dev.off()
 	}
 }
