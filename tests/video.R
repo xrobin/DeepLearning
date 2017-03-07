@@ -49,9 +49,11 @@ if (do.run) {
 	
 	# Fine-tune
 	maxiters.train <- 10000
+	start.time <- Sys.time()
 	sprintf.fmt.iter <- sprintf("%%0%dd", nchar(sprintf("%d", maxiters.train)))
 	diag <- list(rate = "each", data = NULL, f = function(dbn, batch, data, iter, batchsize, maxiters, layer) {
 		save(dbn, file = sprintf("video/dbn-finetune-%s.RData", sprintf(sprintf.fmt.iter, iter)))
+		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
 	dbn <- train(dbn, mnist$train$x, batchsize = 100, maxiters=maxiters.train,
 					continue.function = continue.function.always, diag = diag)
