@@ -55,7 +55,7 @@ if (do.run) {
 		save(dbn, file = sprintf("video/dbn-finetune-%s.RData", sprintf(sprintf.fmt.iter, iter)))
 		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
-	dbn <- train(dbn, mnist$train$x, batchsize = 100, maxiters=maxiters.train,
+	dbn <- train(unroll(dbn), mnist$train$x, batchsize = 100, maxiters=maxiters.train,
 					continue.function = continue.function.always, diag = diag)
 	save(dbn, file = sprintf("video/dbn-finetune-%s.RData", "final"))
 	
