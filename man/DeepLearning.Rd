@@ -88,6 +88,8 @@ head(error)
 
 # Plot predictions
 plot.mnist(predictions = predictions, reconstructions = reconstructions)
+par(family="mono")
+legend("bottomleft", legend = sprintf("Mean error = \%.3f", mean(error)), bty="n")
 
 # Unrolling the network is the same as c(pretrained.mnist, rev(pretrained.mnist))
 unrolled.mnist <- unroll(pretrained.mnist)
@@ -113,6 +115,8 @@ head(error)
 
 # Plot predictions
 plot.mnist(predictions = predictions, reconstructions = reconstructions)
+par(family="mono")
+legend("bottomleft", legend = sprintf("Mean error = \%.3f", mean(error)), bty="n")
 
 # Perform various operations on it (not all of them make sense in this context)
 combined <- c(trained.mnist, rev(trained.mnist[7:8]))
