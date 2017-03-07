@@ -58,9 +58,17 @@ RestrictedBolzmannMachineFromWeightsEnv <- function(input, output, weights.env, 
 		init.W.random = sqrt(6) / sqrt(input$size + output$size)
 		init.b.random = sqrt(6) / sqrt(input$size)
 		init.c.random = sqrt(6) / sqrt(output$size)
-		rbm$b <- runif(input$size, -init.b.random, init.b.random)
-		rbm$W[] <- runif(input$size * output$size, -init.W.random, init.W.random)
-		rbm$c <- runif(output$size, -init.c.random, init.c.random)
+		random.b <- runif(input$size, -init.b.random, init.b.random)
+		random.W <- runif(input$size * output$size, -init.W.random, init.W.random)
+		random.c <- runif(output$size, -init.c.random, init.c.random)
+		
+		# Assign to rbm - this seems not necessary???
+		#rbm$b <- random.b
+		#rbm$W[] <- random.W
+		#rbm$c <- random.c
+		
+		# Assign to weights.env
+		weights.env$weights[(weights.breaks[1]+1):(weights.breaks[4])] <- c(random.b, random.W, random.c)
 	}
 	
 	return(rbm)
