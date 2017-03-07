@@ -74,22 +74,28 @@ if (do.run) {
 	for (file in list.files("video", pattern = "rbm-4-.+\\.RData", full.names = TRUE)) {
 		load(file)
 		dbn[[4]] <- rbm
-		
+		iter <- stringr::str_match(file, "rbm-4-(.+)\\.RData")[,2]
 		png(sub(".RData", ".png", file), width = 1920, height = 1080) # hd output
 		predictions <- predict(dbn, mnist$test$x)
 		reconstructions <- reconstruct(dbn, mnist$test$x)
 		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions)
+		par(family="mono")
+		legend("bottomleft", legend = sprintf("Mean error = %.3f", mean(error)), bty="n")
+		legend("bottomright", legend = sprintf("Iteration = %.3f", iter), bty="n")
 		dev.off()
 	}
 
 	# Fine-tuning
 	for (file in list.files("video", pattern = "video/dbn-finetune-.+\\.RData", full.names = TRUE)) {
 		load(file)
-		
+		iter <- stringr::str_match(file, "video/dbn-finetune-.+\\.RData")[,2]
 		png(sub(".RData", ".png", file), width = 1920, height = 1080) # hd output
 		predictions <- predict(dbn, mnist$test$x)
 		reconstructions <- reconstruct(dbn, mnist$test$x)
 		plot.mnist(model = dbn, x = mnist$test$x, label = mnist$test$y+1, predictions = predictions, reconstructions = reconstructions)
+		par(family="mono")
+		legend("bottomleft", legend = sprintf("Mean error = %.3f", mean(error)), bty="n")
+		legend("bottomright", legend = sprintf("Iteration = %.3f", iter), bty="n")
 		dev.off()
 	}
 }
