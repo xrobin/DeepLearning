@@ -27,7 +27,7 @@ if (do.run) {
                 })
 		rbm <- pretrain(dbn[[i]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 							 epsilon=c(.1, .1, .1, .001)[i], batchsize = 100, maxiters=maxiters.pretrain,
-							 continue.function = continue.function.always)
+							 continue.function = continue.function.always, diag = diag)
 		mnist.data.layer$train$x <- predict(dbn[[i]], mnist.data.layer$train$x)
 		mnist.data.layer$test$x <- predict(dbn[[i]], mnist.data.layer$test$x)
 		save(rbm, file = sprintf("video/rbm-%s-%s.RData", i, "final"))
