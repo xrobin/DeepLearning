@@ -1,3 +1,5 @@
+skip_if_not(run_slow_tests, message = "Slow test skipped")
+
 format.timediff <- function(start.time) {
 	diff = as.numeric(difftime(Sys.time(), start.time, units="mins"))
 	hr <- diff%/%60
