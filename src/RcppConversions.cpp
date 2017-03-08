@@ -334,7 +334,7 @@ namespace Rcpp {
 			const Rcpp::Function myRFunction = as<Rcpp::Function>(aDiagList["f"]);
 			ptr->setFunction(
 				[myRFunction](const RBM& anRBM, const Eigen::MatrixXd& batch, const Eigen::MatrixXd& data, const unsigned int iter, const size_t batchsize, const unsigned int maxiters, const size_t layer) -> void {
-					myRFunction(anRBM, batch.transpose(), data.transpose(), iter, batchsize, maxiters, layer);
+					myRFunction(anRBM, batch.transpose(), data.transpose(), iter, batchsize, maxiters, layer + 1);
 				}
 			);
 		}
@@ -352,7 +352,7 @@ namespace Rcpp {
 			Rcpp::Function myRFunction = as<Rcpp::Function>(aContList["continue.function"]);
 			cf.setContinueFunction(
 				[myRFunction](std::vector<double> error, unsigned int iter, size_t batchsize, unsigned int maxiters, size_t layer) -> bool {
-					bool ret = as<bool>(myRFunction(error, iter, batchsize, maxiters, layer));
+					bool ret = as<bool>(myRFunction(error, iter, batchsize, maxiters, layer + 1));
 					return ret;
 				}
 			);

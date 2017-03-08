@@ -147,8 +147,8 @@ DeepBeliefNet& DeepBeliefNet::pretrainModifyingData(MatrixXd& data, const vector
 		else {
 			aProgressFunctor.setBatchSize(params[i].batchSize);
 			aProgressFunctor.setMaxIters(params[i].maxIters);
-			aProgressFunctor.setLayer(i + 1);
-			aContinueFunction.setLayer(i + 1);
+			aProgressFunctor.setLayer(i);
+			aContinueFunction.setLayer(i);
 			// Pretrain each layer
 			myRBMs[i].pretrain(data, params[i], aProgressFunctor, aContinueFunction);	
 		}
