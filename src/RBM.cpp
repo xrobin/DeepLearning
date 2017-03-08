@@ -184,7 +184,8 @@ namespace DeepLearning {
 		      << "learning rate (b, W, c) = " << epsilonB << ", " << epsilonW << ", " << epsilonC << "; "
 		      << "penalization (b, W, c) = " << PretrainParameters::PenalizationTypeToString(penalization) 
 		      << " * (" << params.lambdaB << ", " << params.lambdaW << ", " << params.lambdaC << "); "
-		      << "updating (b, c) = (" << trainB << ", " << trainC << ")" << std::endl;
+		      << "updating (b, c) = (" << trainB << ", " << trainC << ")" << std::endl
+		      << "Pre-training until stopCounter reaches " << aContinueFunction.limit << std::endl;
 		
 		// Pre allocate variables that will be used multiple times
 		MatrixXd batch = MatrixXd::Zero(input.getSize(), batchSizeAsEigen);
@@ -225,7 +226,6 @@ namespace DeepLearning {
 		aProgressFunctor.setMaxIters(maxIters);
 		aProgressFunctor(*this, batch, i);
 		
-		Rcpp::Rcout << "Pre-training until stopCounter reaches " << aContinueFunction.limit << std::endl;
 		while (stopCounter < aContinueFunction.limit && i < maxIters) {
 			++i;
 			//Rcpp::Rcout << "Pretrain iteration " << i << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << std::endl;
