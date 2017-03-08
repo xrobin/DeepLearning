@@ -1,4 +1,4 @@
-skip_if_not(run_slow_tests, message = "Slow test skipped")
+context("Diag function")
 
 format.timediff <- function(start.time) {
 	diff = as.numeric(difftime(Sys.time(), start.time, units="mins"))
@@ -30,7 +30,7 @@ diag <- list(rate = "none", data = NULL, f = function(rbm, batch, data, iter, ba
 
 test_that("Diag not called with rate = 'none' in pretrain", {
 	expect_output(dbn[[1]] <<- pretrain(dbn[[1]], mnist$train$x,  penalization = "l2", lambda=0.0002,
-									   epsilon=.1, batchsize = batchsize.pretrain, maxiters=maxiters.pretrain,
+									   epsilon=.1, batchsize = batchsize.pretrain, maxiters=10,
 									   continue.function = continue.function.always, diag = diag),
 				  regexp = "Pre-training until stopCounter reaches 30"
 	)
@@ -40,6 +40,7 @@ test_that("Diag not called with rate = 'none' in pretrain", {
 })
 
 test_that("Diag called with rate = 'each' in pretrain", {
+	skip_if_not(run_slow_tests, message = "Slow test skipped")
 	diag$rate <- "each"
 	diag$data <-  predict(dbn[[1]], mnist$test$x)
 	start.time <<- Sys.time()
@@ -54,6 +55,7 @@ test_that("Diag called with rate = 'each' in pretrain", {
 })
 
 test_that("Diag called with rate = 'accelerate' in pretrain", {
+	skip_if_not(run_slow_tests, message = "Slow test skipped")
 	diag$rate = "accelerate"
 	diag$data <-  predict(dbn[1:2], mnist$test$x)
 	start.time <<- Sys.time()
@@ -95,6 +97,7 @@ test_that("Diag not called with rate = 'none' in train", {
 })
 
 test_that("Diag called with rate = 'each' in train", {
+	skip_if_not(run_slow_tests, message = "Slow test skipped")
 	diag$rate <- "each"
 	diag$data <-  mnist$test$x
 	start.time <<- Sys.time()
@@ -109,6 +112,7 @@ test_that("Diag called with rate = 'each' in train", {
 
 
 test_that("Diag called with rate = 'each' in train", {
+	skip_if_not(run_slow_tests, message = "Slow test skipped")
 	diag$rate <- "accelerate"
 	diag$data <-  mnist$test$x
 	start.time <<- Sys.time()
