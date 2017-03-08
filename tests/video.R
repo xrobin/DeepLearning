@@ -25,6 +25,7 @@ if (do.run) {
 		diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 			print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 		})
+		save(rbm, file = sprintf("video/rbm-%s-%s.RData", i, "initial"))
 		start.time <- Sys.time()
 		rbm <- pretrain(rbm, mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 							 epsilon=c(.1, .1, .1, .001)[i], batchsize = 100, maxiters=maxiters.pretrain,
@@ -41,6 +42,7 @@ if (do.run) {
 		save(rbm, file = sprintf("video/rbm-4-%s.RData", sprintf(sprintf.fmt.iter, iter)))
 		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
+	save(rbm, file = sprintf("video/rbm-%s-%s.RData", 4, "initial"))
 	start.time <- Sys.time()
 	rbm <- pretrain(rbm, mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 						 epsilon=.001, batchsize = 100, maxiters=maxiters.pretrain,
@@ -55,6 +57,7 @@ if (do.run) {
 		save(dbn, file = sprintf("video/dbn-finetune-%s.RData", sprintf(sprintf.fmt.iter, iter)))
 		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
+	save(dbn, file = sprintf("video/dbn-finetune-%s.RData", "initial"))
 	start.time <- Sys.time()
 	dbn <- train(unroll(dbn), mnist$train$x, batchsize = 100, maxiters=maxiters.train,
 					continue.function = continue.function.always, diag = diag)
