@@ -50,7 +50,7 @@ The specifications can be passed directly in a list with elements \code{rate}, \
 \itemize{
 \item \code{rbm}: the RBM object after the training iteration.
 \item \code{batch}: the batch that was used at that iteration.
-\item \code{data}: the data provided in \code{diag.data} or \code{diag$data}, possibly transformed through the previous layers of the DBN.
+\item \code{data}: the data provided in \code{diag.data} or \code{diag$data}.
 \item \code{iter}: the training iteration number, starting from 0 (before the first iteration).
 \item \code{batchsize}: the size of the batch.
 \item \code{maxiters}: the target number of iterations.
