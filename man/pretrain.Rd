@@ -128,11 +128,31 @@ data(mnist)
 # Initialize a 784-1000-500-250-30 layers DBN to process the MNIST data set
 dbn.mnist <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
 print(dbn.mnist)
-# Pre-train this DBN
+
 \dontrun{
+# Pre-train this DBN
 pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x, 
 								 penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
 								 batchsize = 100, maxiters=1000000)
+}
+
+\dontrun{
+# Pretrain with a progress bar
+diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
+	if (iter == 0) {
+		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
+	}
+	else if (iter == maxiters) {
+		setTxtProgressBar(DBNprogressBar, iter)
+		close(DBNprogressBar)
+	}
+	else {
+		setTxtProgressBar(DBNprogressBar, iter)
+	}
+})
+pretrained.mnist <- pretrain(dbn, mnist$train$x,  penalization = "l2", lambda=0.0002,
+                             epsilon=c(.1, .1, .1, .001), batchsize = 100, maxiters=1e6,
+                             continue.function = continue.function.always, diag = diag)
 }
 }
 

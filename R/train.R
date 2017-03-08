@@ -37,10 +37,28 @@
 #' @return the fine-tuned DBN
 #' @examples 
 #' data(pretrained.mnist)
-#' # Fine-tune the DBN with backpropagation
+#' 
 #' \dontrun{
+#' # Fine-tune the DBN with backpropagation
 #' trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 2000, batchsize = 1000,
 #'                        optim.control = list(maxit = 10))
+#' }
+#' \dontrun{
+#' # Train with a progress bar
+#' diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters) {
+#' 	if (iter == 0) {
+#' 		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
+#' 	}
+#' 	else if (iter == maxiters) {
+#' 		setTxtProgressBar(DBNprogressBar, iter)
+#' 		close(DBNprogressBar)
+#' 	}
+#' 	else {
+#' 		setTxtProgressBar(DBNprogressBar, iter)
+#' 	}
+#' })
+#' trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 10000, batchsize = 100,
+#'                        continue.function = continue.function.always, diag = diag)
 #' }
 #' @export
 train <- function(x, data, 
