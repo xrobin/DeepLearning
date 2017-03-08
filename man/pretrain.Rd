@@ -121,6 +121,8 @@ The following \code{diag.rate} or \code{diag$rate} are supported:
 \item \dQuote{each}: the diag function will be called before the first iteration, and at the end of each iteration.
 \item \dQuote{accelerate}: the diag function will called before the first iteration, at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
 }
+
+Note that diag functions incur a significant overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
 }
 \examples{
 library(mnist)
