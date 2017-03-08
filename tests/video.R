@@ -20,12 +20,13 @@ if (do.run) {
 	dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 2), input = "continuous", output = "binary"), initialize = "uniform")
 	mnist.data.layer <- mnist
 	for (i in 1:3) {
-		print(head(dbn[[i]]$b))
-		start.time <- Sys.time()
+		rbm <- dbn[[i]]
+		print(head(rbm$b))
 		diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 			print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 		})
-		rbm <- pretrain(dbn[[i]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
+		start.time <- Sys.time()
+		rbm <- pretrain(rbm, mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 							 epsilon=c(.1, .1, .1, .001)[i], batchsize = 100, maxiters=maxiters.pretrain,
 							 continue.function = continue.function.always, diag = diag)
 		mnist.data.layer$train$x <- predict(rbm, mnist.data.layer$train$x)
@@ -34,14 +35,14 @@ if (do.run) {
 		dbn[[i]] <- rbm
 	}
 	
-	start.time <- Sys.time()
+	rbm <- dbn[[4]]
+	print(head(rbm$b))
 	diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 		save(rbm, file = sprintf("video/rbm-4-%s.RData", sprintf(sprintf.fmt.iter, iter)))
 		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
-	
-	print(head(dbn[[4]]$b))
-	rbm <- pretrain(dbn[[4]], mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
+	start.time <- Sys.time()
+	rbm <- pretrain(rbm, mnist.data.layer$train$x,  penalization = "l2", lambda=0.0002,
 						 epsilon=.001, batchsize = 100, maxiters=maxiters.pretrain,
 						 continue.function = continue.function.always, diag = diag)
 	save(rbm, file = sprintf("video/rbm-4-%s.RData", "final"))
@@ -49,12 +50,12 @@ if (do.run) {
 	
 	# Fine-tune
 	maxiters.train <- 10000
-	start.time <- Sys.time()
 	sprintf.fmt.iter <- sprintf("%%0%dd", nchar(sprintf("%d", maxiters.train)))
 	diag <- list(rate = "each", data = NULL, f = function(dbn, batch, data, iter, batchsize, maxiters, layer) {
 		save(dbn, file = sprintf("video/dbn-finetune-%s.RData", sprintf(sprintf.fmt.iter, iter)))
 		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
 	})
+	start.time <- Sys.time()
 	dbn <- train(unroll(dbn), mnist$train$x, batchsize = 100, maxiters=maxiters.train,
 					continue.function = continue.function.always, diag = diag)
 	save(dbn, file = sprintf("video/dbn-finetune-%s.RData", "final"))
