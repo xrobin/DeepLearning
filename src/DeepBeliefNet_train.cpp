@@ -158,6 +158,9 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	
 	DeepBeliefNet trainingDBN = this->clone(); // work on a copy
 	
+	// Show some output...
+	Rcpp::Rcout << "Training until stopCounter reaches " << aContinueFunction.limit << endl;
+	
 	Eigen_size_type batchSizeEigen = boost::numeric_cast<Eigen_size_type>(params.batchSize);
 	MatrixXd batch = MatrixXd::Zero(myLayers[0].getSize(), batchSizeEigen);
 	Random batchRand("uniform_int", boost::numeric_cast<size_t>(data.cols()));
@@ -188,7 +191,6 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	// Report progress
 	aProgressFunctor(*this, batch, iter);
 	
-	Rcpp::Rcout << "Training until stopCounter reaches " << aContinueFunction.limit << endl;
 	while (stopCounter < aContinueFunction.limit && iter < params.maxIters) {
 		++iter;
         Rcpp::checkUserInterrupt();
