@@ -22,7 +22,7 @@
 #' \item \code{rbm}: the RBM object after the training iteration.
 #' \item \code{batch}: the batch that was used at that iteration.
 #' \item \code{data}: the data provided in \code{diag.data} or \code{diag$data}, possibly transformed through the previous layers of the DBN.
-#' \item \code{iter}: the training iteration number, starting from 0.
+#' \item \code{iter}: the training iteration number, starting from 0 (before the first iteration).
 #' \item \code{batchsize}: the size of the batch.
 #' \item \code{maxiters}: the target number of iterations.
 #' }
@@ -31,8 +31,8 @@
 #' The following \code{diag.rate} or \code{diag$rate} are supported:
 #' \itemize{
 #' \item \dQuote{none}: the diag function will never be called.
-#' \item \dQuote{each}: the diag function will be called at the end of each iteration.
-#' \item \dQuote{accelerate}: the diag function will called at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
+#' \item \dQuote{each}: the diag function will be called before the first iteration, and at the end of each iteration.
+#' \item \dQuote{accelerate}: the diag function will called before the first iteration, at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
 #' }
 #' @return the fine-tuned DBN
 #' @examples 
