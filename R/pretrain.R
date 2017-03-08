@@ -90,7 +90,7 @@
 #' 	}
 #' })
 #' pretrained.mnist <- pretrain(dbn, mnist$train$x,  penalization = "l2", lambda=0.0002,
-#'                              epsilon=c(.1, .1, .1, .001), batchsize = 100, maxiters=1e6,
+#'                              epsilon=c(.1, .1, .1, .001), batchsize = 100, maxiters=1e4,
 #'                              continue.function = continue.function.always, diag = diag)
 #' }
 #' @export

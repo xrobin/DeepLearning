@@ -57,7 +57,7 @@
 #' 		setTxtProgressBar(DBNprogressBar, iter)
 #' 	}
 #' })
-#' trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 10000, batchsize = 100,
+#' trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 1000, batchsize = 100,
 #'                        continue.function = continue.function.always, diag = diag)
 #' }
 #' @export
