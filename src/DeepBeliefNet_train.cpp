@@ -50,7 +50,6 @@ void my_df (double *df, OptimParameters& params) {
 	
 	// Also apply the data to the gradientRBMs vector if needed
 	if (gradientRBMs.empty() || df != gradientRBMs[0].getData().data()) {
-		Rcpp::Rcout << "Applying gradient to gradientRBMs" << std::endl;
 		shared_array_ptr<double> newData(df, dbn.getData().size(), false);
 		DeepBeliefNet::constructRBMs(gradientRBMs, dbn.getLayers(), newData);
 	}
