@@ -41,7 +41,7 @@ train <- function(x, data,
 	ensure.data.validity(data, x[[1]]$input)
 	
 	# Build diagnostic function
-	if (is.null(diag.data) && is.null(diag.function)) {
+	if (missing(diag) && is.null(diag.data) && is.null(diag.function)) {
 		diag$rate <- "none"
 	}
 	else {
