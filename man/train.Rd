@@ -31,7 +31,7 @@ A user-supplied function must accept \code{(error, iter, batchsize)} as input an
 
 \item{continue.stop.limit}{the number of consecutive times \code{continue.function} must return \code{FALSE} before the training is stopped. For example, \code{1} will stop as soon as \code{continue.function} returns \code{FALSE}, whereas \code{Inf} will ensure the result of \code{continue.function} is never enforced (but the function is still executed). The default is \code{3} so the training will continue until 3 consecutive calls of \code{continue.function} returned \code{FALSE}, giving more robustness to the decision.}
 
-\item{diag, diag.rate, diag.data, diag.function}{diagnmostic specifications. See \code{\link{pretrain}} for more details}
+\item{diag, diag.rate, diag.data, diag.function}{diagnmostic specifications. See details.}
 
 \item{n.proc}{number of cores to be used for Eigen computations}
 
@@ -42,6 +42,27 @@ the fine-tuned DBN
 }
 \description{
 Performs fine-tuning on the DBN network with backpropagation.
+}
+\section{Diagnostic specifications}{
+
+The specifications can be passed directly in a list with elements \code{rate}, \code{data} and \code{f}, or separately with parameters \code{diag.rate}, \code{diag.data} and \code{diag.function}. The function must be of the following form:
+\code{function(rbm, batch, data, iter, batchsize, maxiters)}
+\itemize{
+\item \code{rbm}: the RBM object after the training iteration.
+\item \code{batch}: the batch that was used at that iteration.
+\item \code{data}: the data provided in \code{diag.data} or \code{diag$data}, possibly transformed through the previous layers of the DBN.
+\item \code{iter}: the training iteration number, starting from 0.
+\item \code{batchsize}: the size of the batch.
+\item \code{maxiters}: the target number of iterations.
+}
+Note the absence of the \code{layer} argument that is available only in \code{\link{pretrain}}.
+
+The following \code{diag.rate} or \code{diag$rate} are supported:
+\itemize{
+\item \dQuote{none}: the diag function will never be called.
+\item \dQuote{each}: the diag function will be called at the end of each iteration.
+\item \dQuote{accelerate}: the diag function will called at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
+}
 }
 \examples{
 data(pretrained.mnist)

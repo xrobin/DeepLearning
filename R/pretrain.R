@@ -20,7 +20,7 @@
 #' A user-supplied function must accept \code{(error, iter, batchsize)} as input and return a \code{\link{logical}} of length 1. The training is stopped when it returns \code{FALSE}.
 #' @param continue.function.frequency the frequency at which continue.function will be assessed.
 #' @param continue.stop.limit the number of consecutive times \code{continue.function} must return \code{FALSE} before the training is stopped. For example, \code{1} will stop as soon as \code{continue.function} returns \code{FALSE}, whereas \code{Inf} will ensure the result of \code{continue.function} is never enforced (but the function is still executed). The default is \code{3} so the training will continue until 3 consecutive calls of \code{continue.function} returned \code{FALSE}, giving more robustness to the decision.
-#' @param diag,diag.rate,diag.data,diag.function diagnmostic specifications. See details.
+#' @param diag,diag.rate,diag.data,diag.function diagnostic specifications. See details.
 #' @param n.proc number of cores to be used for Eigen computations
 #' @param ... ignored
 #' @section Pretraining Layers of the Deep Belief Net with Different Parameters:
@@ -40,9 +40,25 @@
 #' and they will be interpreted per layer as described above.
 #' 
 #' @section Diagnostic specifications:
-#' The specifications can be passed directly in a list with elements \code{rate}, \code{data} and \code{f}, or separately with parameters \code{diag.rate}, \code{diag.data} and \code{diag.function}. The function must take the following parameters:
-#' function(rbm, batch, data, iter, batchsize, maxiters, layer);
+#' The specifications can be passed directly in a list with elements \code{rate}, \code{data} and \code{f}, or separately with parameters \code{diag.rate}, \code{diag.data} and \code{diag.function}. The function must be of the following form:
+#' \code{function(rbm, batch, data, iter, batchsize, maxiters, layer)}
+#' \itemize{
+#' \item \code{rbm}: the RBM object after the training iteration.
+#' \item \code{batch}: the batch that was used at that iteration.
+#' \item \code{data}: the data provided in \code{diag.data} or \code{diag$data}, possibly transformed through the previous layers of the DBN.
+#' \item \code{iter}: the training iteration number, starting from 0.
+#' \item \code{batchsize}: the size of the batch.
+#' \item \code{maxiters}: the target number of iterations.
+#' \item \code{layer}: the layer number, starting from 0.
+#' }
 #' 
+#' The following \code{diag.rate} or \code{diag$rate} are supported:
+#' \itemize{
+#' \item \dQuote{none}: the diag function will never be called.
+#' \item \dQuote{each}: the diag function will be called at the end of each iteration.
+#' \item \dQuote{accelerate}: the diag function will called at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
+#' }
+#'  
 #' @return pre-trained object with the \code{pretrained} switch set to \code{TRUE}.
 #' @examples 
 #' library(mnist)
