@@ -219,7 +219,7 @@ namespace DeepLearning {
 		unsigned int i = 0;
 		
 		// Modify the batch in place
-		batchRand.setBatch(data, batch);	
+		batchRand.setBatch(data, batch);
 		
 		// Start with a null batch progress
 		aProgressFunctor.setBatchSize(batchSize);
