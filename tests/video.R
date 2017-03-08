@@ -53,9 +53,9 @@ if (do.run) {
 	# Fine-tune
 	maxiters.train <- 10000
 	sprintf.fmt.iter <- sprintf("%%0%dd", nchar(sprintf("%d", maxiters.train)))
-	diag <- list(rate = "each", data = NULL, f = function(dbn, batch, data, iter, batchsize, maxiters, layer) {
+	diag <- list(rate = "each", data = NULL, f = function(dbn, batch, data, iter, batchsize, maxiters) {
 		save(dbn, file = sprintf("video/dbn-finetune-%s.RData", sprintf(sprintf.fmt.iter, iter)))
-		print(sprintf("%s[%s/%s] in %s", layer, iter, maxiters, format.timediff(start.time)))
+		print(sprintf("[%s/%s] in %s", iter, maxiters, format.timediff(start.time)))
 	})
 	save(dbn, file = sprintf("video/dbn-finetune-%s.RData", "initial"))
 	start.time <- Sys.time()
