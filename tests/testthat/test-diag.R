@@ -89,7 +89,7 @@ diag <- list(rate = "none", data = NULL, f = function(rbm, batch, data, iter, ba
 test_that("Diag not called with rate = 'none' in train", {
 	expect_output(dbn <<- train(dbn, mnist$train$x, batchsize = batchsize.train, maxiters=10, # 10 is enough to ensure diag isn't called
 										continue.function = continue.function.always, diag = diag),
-				  regexp = "Applying gradient to gradientRBMs"
+				  regexp = "Training"
 	)
 	expect_equal(diag.called.times, 0)
 	expect_true(is.na(diag.data.dim))
