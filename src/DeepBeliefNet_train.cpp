@@ -14,7 +14,6 @@ using Eigen::ArrayXXd;
 #include <vector>
 
 using std::vector;
-using std::cout;
 using std::endl;
 using std::size_t;
 using std::string;
@@ -51,7 +50,7 @@ void my_df (double *df, OptimParameters& params) {
 	
 	// Also apply the data to the gradientRBMs vector if needed
 	if (gradientRBMs.empty() || df != gradientRBMs[0].getData().data()) {
-		std::cout << "Applying gradient to gradientRBMs" << std::endl;
+		Rcpp::Rcout << "Applying gradient to gradientRBMs" << std::endl;
 		shared_array_ptr<double> newData(df, dbn.getData().size(), false);
 		DeepBeliefNet::constructRBMs(gradientRBMs, dbn.getLayers(), newData);
 	}
@@ -190,11 +189,11 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 	// Report progress
 	aProgressFunctor(*this, batch, iter);
 	
-	cout << "Training until stopCounter reaches " << aContinueFunction.limit << endl;
+	Rcpp::Rcout << "Training until stopCounter reaches " << aContinueFunction.limit << endl;
 	while (stopCounter < aContinueFunction.limit && iter < params.maxIters) {
 		++iter;
         Rcpp::checkUserInterrupt();
-		//cout << "Backprop iteration " << iter << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << endl;
+		//Rcpp::Rcout << "Backprop iteration " << iter << " / " << params.maxIters << " (batchsize " << params.batchSize << ")" << endl;
 
 		cgmin(
 			trainingDBN.getData().size(), // n, nb arguments
@@ -227,7 +226,7 @@ DeepBeliefNet& DeepBeliefNet::train(const MatrixXd& data, const TrainParameters&
 		}
 	}
 
-	std::cout << "Final error: " << errorSum(batch) / double(params.batchSize) << std::endl;
+	Rcpp::Rcout << "Final error: " << errorSum(batch) / double(params.batchSize) << std::endl;
 	finetuned = true;
 	
 	return *this;
