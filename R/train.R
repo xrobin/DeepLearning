@@ -37,6 +37,9 @@
 #' 
 #' Note that diag functions incur a slight overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
 #' 
+#' @section Progress:
+#' \code{train.progress} is a convenient pre-built diagnostic specification that displays a progress bar.
+#' 
 #' @return the fine-tuned DBN
 #' @examples 
 #' data(pretrained.mnist)
@@ -49,7 +52,7 @@
 #' \dontrun{
 #' # Train with a progress bar
 #' # In this case the overhead is nearly 0
-#' diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters) {
+#' diag <- list(rate = "each", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters) {
 #' 	if (iter == 0) {
 #' 		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
 #' 	}
@@ -63,6 +66,9 @@
 #' })
 #' trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 1000, batchsize = 100,
 #'                        continue.function = continue.function.always, diag = diag)
+#' # Equivalent to using train.progress
+#' trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 1000, batchsize = 100,
+#'                        continue.function = continue.function.always, diag = train.progress)
 #' }
 #' @export
 train <- function(x, data, 
@@ -118,3 +124,18 @@ train <- function(x, data,
 	x$finetuned <- TRUE
 	return(x)
 }
+
+#' @rdname train
+#' @export
+train.progress <- list(rate = "each", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters) {
+	if (iter == 0) {
+		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
+	}
+	else if (iter == maxiters) {
+		setTxtProgressBar(DBNprogressBar, iter)
+		close(DBNprogressBar)
+	}
+	else {
+		setTxtProgressBar(DBNprogressBar, iter)
+	}
+})

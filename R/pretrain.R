@@ -60,6 +60,9 @@
 #' }
 #' 
 #' Note that diag functions incur a slight overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
+#' 
+#' @section Progress:
+#' \code{pretrain.progress} is a convenient pre-built diagnostic specification that displays a progress bar per training layer.
 #'  
 #' @return pre-trained object with the \code{pretrained} switch set to \code{TRUE}.
 #' @examples 
@@ -95,6 +98,10 @@
 #' pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x,  penalization = "l2", lambda=0.0002,
 #'                              epsilon=c(.1, .1, .1, .001), batchsize = 100, maxiters=1e4,
 #'                              continue.function = continue.function.always, diag = diag)
+#' # Equivalent to using pretrain.progress
+#' pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x,  penalization = "l2", lambda=0.0002,
+#'                              epsilon=c(.1, .1, .1, .001), batchsize = 100, maxiters=1e4,
+#'                              continue.function = continue.function.always, diag = pretrain.progress)
 #' }
 #' @export
 pretrain <- function(x, data, ...)
@@ -318,3 +325,18 @@ make.momentum <- function(momentum, maxiters) {
 	else
 		stop("momentum must be of length 1, 2 or maxiters")
 }
+
+#' @rdname pretrain
+#' @export
+pretrain.progress <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
+	if (iter == 0) {
+		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
+	}
+	else if (iter == maxiters) {
+		setTxtProgressBar(DBNprogressBar, iter)
+		close(DBNprogressBar)
+	}
+	else {
+		setTxtProgressBar(DBNprogressBar, iter)
+	}
+})
