@@ -35,7 +35,7 @@
 #' \item \dQuote{accelerate}: the diag function will called before the first iteration, at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
 #' }
 #' 
-#' Note that diag functions incur a significant overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
+#' Note that diag functions incur a slight overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
 #' 
 #' @return the fine-tuned DBN
 #' @examples 
@@ -48,6 +48,7 @@
 #' }
 #' \dontrun{
 #' # Train with a progress bar
+#' # In this case the overhead is nearly 0
 #' diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters) {
 #' 	if (iter == 0) {
 #' 		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)

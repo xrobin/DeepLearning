@@ -59,7 +59,7 @@
 #' \item \dQuote{accelerate}: the diag function will called before the first iteration, at the first 200 iterations, and then with a rate slowing down proportionally with the iteration number.
 #' }
 #' 
-#' Note that diag functions incur a significant overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
+#' Note that diag functions incur a slight overhead as they involve a callback to R and multiple object conversions. Setting \code{diag.rate = "none"} removes any overhead.
 #'  
 #' @return pre-trained object with the \code{pretrained} switch set to \code{TRUE}.
 #' @examples 
@@ -79,6 +79,7 @@
 #' 
 #' \dontrun{
 #' # Pretrain with a progress bar
+#' # In this case the overhead is around 1%
 #' diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 #' 	if (iter == 0) {
 #' 		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
@@ -91,7 +92,7 @@
 #' 		setTxtProgressBar(DBNprogressBar, iter)
 #' 	}
 #' })
-#' pretrained.mnist <- pretrain(dbn, mnist$train$x,  penalization = "l2", lambda=0.0002,
+#' pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x,  penalization = "l2", lambda=0.0002,
 #'                              epsilon=c(.1, .1, .1, .001), batchsize = 100, maxiters=1e4,
 #'                              continue.function = continue.function.always, diag = diag)
 #' }
