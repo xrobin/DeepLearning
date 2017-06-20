@@ -19,3 +19,12 @@ test_that("Can print different stages of DBN", {
 	expect_output(print(pretrained.mnist), "Pre-trained")
 	expect_output(print(trained.mnist), "Fine-tuned")
 })
+
+
+
+test_that("drop works", {
+	# Get a 1 layer DBN
+	l1.dbn <- trained.mnist[1]
+	expect_s3_class(l1.dbn, "DeepBeliefNet") # Not dropped yet
+	expect_s3_class(drop(l1.dbn), "RestrictedBolzmannMachine") # Not dropped yet
+})
