@@ -25,6 +25,13 @@ test_that("Can create layers", {
 	expect_that(identical(l4g, l4c), is_false())
 	expect_that(identical(l4c, l4b), is_false())
 })
+
+
+test_that("Can print layers", {
+	expect_output(print(Layer(4, "gaussian")))
+	expect_output(print(Layer(4, "binary")))
+	expect_output(print(Layer(4, "continuous")))
+})
 	
 test_that("Cannot create invalid layers", {
 	# invalid type

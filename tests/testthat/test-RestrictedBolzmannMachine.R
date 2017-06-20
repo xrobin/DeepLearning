@@ -8,6 +8,7 @@ test_that("Can create RestrictedBolzmannMachine", {
 	
 	# Check contents
 	expect_that(anRBM, is_a("RestrictedBolzmannMachine"))
+	expect_output(print(anRBM))
 	expect_that(anRBM$input, is_identical_to(l4g))
 	expect_that(anRBM$output, is_identical_to(l10b))
 	expect_that(anRBM$weights.env$weights, is_equivalent_to(rep(0, 4+10+4*10)))
@@ -15,6 +16,7 @@ test_that("Can create RestrictedBolzmannMachine", {
 	
 	# Same specifying weights
 	anRBMWithWeights <- RestrictedBolzmannMachine(l4g, l10b, 1:54)
+	expect_output(print(anRBMWithWeights))
 	expect_that(anRBMWithWeights, is_a("RestrictedBolzmannMachine"))
 	expect_that(anRBMWithWeights$input, is_identical_to(l4g))
 	expect_that(anRBMWithWeights$output, is_identical_to(l10b))
