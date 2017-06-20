@@ -94,3 +94,8 @@ test_that("Can create RestrictedBolzmannMachine with uniform weights", {
 	anRBM <- RestrictedBolzmannMachine(l4g, l10b, initialize = "uniform")
 	expect_gt(sum(abs(anRBM$weights.env$weights)), 0)
 })
+
+
+test_that("Cannot unroll an RBM", {
+	expect_error(unroll(pretrained.mnist[[1]]))
+})
