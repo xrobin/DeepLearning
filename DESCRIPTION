@@ -7,7 +7,7 @@ Author: Xavier Robin
 Encoding: UTF-8
 Maintainer: Xavier Robin <robin@lindinglab.org>
 Description: Deep Learning of neural networks.
-License: GPL (>= 2)
+License: GPL (>= 3)
 Depends:
     R (>= 3.1.0)
 Imports:
