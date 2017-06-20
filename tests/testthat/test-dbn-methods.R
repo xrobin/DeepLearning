@@ -8,7 +8,6 @@ l3c <- Layer(3, "continuous")
 
 
 test_that("print works for DBN", {
-	expect_output(DeepBeliefNet(l4g))
 	expect_output(print(DeepBeliefNet(l4g, l3g)))
 	expect_output(print(DeepBeliefNet(l4g, l3g, l4b)))
 	expect_output(print(DeepBeliefNet(l4g, l3g, l4b, l3c)))
