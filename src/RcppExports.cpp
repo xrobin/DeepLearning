@@ -321,3 +321,38 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"DeepLearning_detectCores", (DL_FUNC) &DeepLearning_detectCores, 0},
+    {"DeepLearning_unrollDbnCpp", (DL_FUNC) &DeepLearning_unrollDbnCpp, 1},
+    {"DeepLearning_predictRbmCpp", (DL_FUNC) &DeepLearning_predictRbmCpp, 2},
+    {"DeepLearning_predictDbnCpp", (DL_FUNC) &DeepLearning_predictDbnCpp, 2},
+    {"DeepLearning_sampleRbmCpp", (DL_FUNC) &DeepLearning_sampleRbmCpp, 2},
+    {"DeepLearning_sampleDbnCpp", (DL_FUNC) &DeepLearning_sampleDbnCpp, 2},
+    {"DeepLearning_reconstructRbmCpp", (DL_FUNC) &DeepLearning_reconstructRbmCpp, 2},
+    {"DeepLearning_reconstructDbnCpp", (DL_FUNC) &DeepLearning_reconstructDbnCpp, 2},
+    {"DeepLearning_pretrainRbmCpp", (DL_FUNC) &DeepLearning_pretrainRbmCpp, 5},
+    {"DeepLearning_pretrainDbnCpp", (DL_FUNC) &DeepLearning_pretrainDbnCpp, 6},
+    {"DeepLearning_trainDbnCpp", (DL_FUNC) &DeepLearning_trainDbnCpp, 5},
+    {"DeepLearning_reverseRbmCpp", (DL_FUNC) &DeepLearning_reverseRbmCpp, 1},
+    {"DeepLearning_reverseDbnCpp", (DL_FUNC) &DeepLearning_reverseDbnCpp, 1},
+    {"DeepLearning_energyRbmCpp", (DL_FUNC) &DeepLearning_energyRbmCpp, 2},
+    {"DeepLearning_energyDbnCpp", (DL_FUNC) &DeepLearning_energyDbnCpp, 2},
+    {"DeepLearning_errorRbmCpp", (DL_FUNC) &DeepLearning_errorRbmCpp, 2},
+    {"DeepLearning_errorDbnCpp", (DL_FUNC) &DeepLearning_errorDbnCpp, 2},
+    {"DeepLearning_errorSumRbmCpp", (DL_FUNC) &DeepLearning_errorSumRbmCpp, 2},
+    {"DeepLearning_errorSumDbnCpp", (DL_FUNC) &DeepLearning_errorSumDbnCpp, 2},
+    {"DeepLearning_extractRbmWCpp", (DL_FUNC) &DeepLearning_extractRbmWCpp, 1},
+    {"DeepLearning_extractRbmCCpp", (DL_FUNC) &DeepLearning_extractRbmCCpp, 1},
+    {"DeepLearning_extractRbmBCpp", (DL_FUNC) &DeepLearning_extractRbmBCpp, 1},
+    {"DeepLearning_setRbmWCpp", (DL_FUNC) &DeepLearning_setRbmWCpp, 2},
+    {"DeepLearning_setRbmCCpp", (DL_FUNC) &DeepLearning_setRbmCCpp, 2},
+    {"DeepLearning_setRbmBCpp", (DL_FUNC) &DeepLearning_setRbmBCpp, 2},
+    {"DeepLearning_unit_DbnGradient", (DL_FUNC) &DeepLearning_unit_DbnGradient, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_DeepLearning(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
