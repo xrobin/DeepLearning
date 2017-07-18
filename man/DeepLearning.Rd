@@ -4,6 +4,7 @@
 \name{DeepLearning}
 \alias{DeepLearning}
 \alias{DeepLearning-package}
+\alias{DeepLearning-package}
 \title{Deep Learning Toolbox}
 \description{
 DeepLearning provides tools to train deep neural networks (or deep belief nets, DBN, represented by \code{\link{DeepBeliefNet}} objects) as 
@@ -61,6 +62,7 @@ Comparison  \tab see \link[DeepLearning]{Comparison}  \tab - \tab - \tab + \cr
 }
 }
 }
+
 \examples{
 library(mnist)
 data(mnist)
@@ -134,4 +136,3 @@ drop(combined[4])
 Advances in neural information processing systems. 2007;19:153–60. 
 }
 }
-

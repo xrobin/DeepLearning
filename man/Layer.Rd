@@ -3,6 +3,7 @@
 \name{Layer}
 \alias{Layer}
 \alias{Layers}
+\alias{Layers}
 \title{Layer of a DeepBeliefNet}
 \usage{
 Layer(size, type)
@@ -31,4 +32,3 @@ This class represents a layer of the DeepBeliefNet.
 Layer(10L, "gaussian")
 Layers(c(10L, 5L, 2L), "gaussian", "gaussian")
 }
-

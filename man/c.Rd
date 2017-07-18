@@ -3,8 +3,8 @@
 \name{c}
 \alias{c}
 \alias{c.DeepBeliefNet}
-\alias{c.Layers}
 \alias{c.RestrictedBolzmannMachine,}
+\alias{c.Layers}
 \title{Combine DeepBeliefNets, RestrictedBolzmannMachines and Layers into a DeepBeliefNet.}
 \usage{
 \method{c}{DeepBeliefNet}(..., biases.first = TRUE)
@@ -52,4 +52,3 @@ dbn4 <- DeepBeliefNet(Layers(c(1000, 500), input="continuous", output="binary"))
 dbn <- c(dbn1, dbn4)
 }
 }
-

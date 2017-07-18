@@ -2,14 +2,14 @@
 % Please edit documentation in R/error.R
 \name{error}
 \alias{error}
-\alias{error.DeepBeliefNet}
-\alias{error.RestrictedBolzmannMachine}
-\alias{errorSum}
-\alias{errorSum.DeepBeliefNet}
-\alias{errorSum.RestrictedBolzmannMachine}
 \alias{rmse}
+\alias{errorSum}
+\alias{error.DeepBeliefNet}
 \alias{rmse.DeepBeliefNet}
+\alias{errorSum.DeepBeliefNet}
+\alias{error.RestrictedBolzmannMachine}
 \alias{rmse.RestrictedBolzmannMachine}
+\alias{errorSum.RestrictedBolzmannMachine}
 \title{Compute Reconstruction Error}
 \usage{
 error(...)
@@ -69,4 +69,3 @@ err <- error(rbm, mnist$test$x)
 identical(err, rmse(rbm, mnist$test$x))
 
 }
-

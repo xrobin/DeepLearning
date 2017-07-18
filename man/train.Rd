@@ -76,6 +76,7 @@ Note that diag functions incur a slight overhead as they involve a callback to R
 
 \code{train.progress} is a convenient pre-built diagnostic specification that displays a progress bar.
 }
+
 \examples{
 data(pretrained.mnist)
 
@@ -107,4 +108,3 @@ trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 1000,
 }
 }
 \keyword{datasets}
-

@@ -3,8 +3,8 @@
 \docType{data}
 \name{pretrain}
 \alias{pretrain}
-\alias{pretrain.DeepBeliefNet}
 \alias{pretrain.RestrictedBolzmannMachine}
+\alias{pretrain.DeepBeliefNet}
 \alias{pretrain.progress}
 \title{Pre-trains the DeepBeliefNet or RestrictedBolzmannMachine}
 \format{An object of class \code{list} of length 3.}
@@ -134,6 +134,7 @@ Note that diag functions incur a slight overhead as they involve a callback to R
 
 \code{pretrain.progress} is a convenient pre-built diagnostic specification that displays a progress bar per training layer.
 }
+
 \examples{
 library(mnist)
 data(mnist)
@@ -173,4 +174,3 @@ pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x,  penalization = "l2", lam
 }
 }
 \keyword{datasets}
-

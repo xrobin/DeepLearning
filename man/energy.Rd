@@ -2,8 +2,8 @@
 % Please edit documentation in R/energy.R
 \name{energy}
 \alias{energy}
-\alias{energy.DeepBeliefNet}
 \alias{energy.RestrictedBolzmannMachine}
+\alias{energy.DeepBeliefNet}
 \title{Energy of the Deep Belief Net or Restricted Bolzmann Machine.}
 \usage{
 energy(x, data, ...)
@@ -17,9 +17,9 @@ energy(x, data, ...)
 
 \item{data}{the dataset, either as matrix or data.frame. The number of columns must match the number of nodes of the network input}
 
-\item{drop}{do not return additional dimensions}
-
 \item{\dots}{ignored}
+
+\item{drop}{do not return additional dimensions}
 }
 \value{
 a vector or matrix of the same size than the data (rows) giving the energy of each data point
@@ -46,4 +46,3 @@ head(en) # 1 value per data point
 err <- error(trained.mnist, mnist$test$x)
 \dontrun{plot.mnist(predictions = cbind(err, en))}
 }
-

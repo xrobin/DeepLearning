@@ -19,4 +19,3 @@ Unrolling the DBN means stacking a reversed copy of itself. This create a (pre-t
 data(pretrained.mnist)
 unrolled <- unroll(pretrained.mnist)
 }
-

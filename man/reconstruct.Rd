@@ -18,9 +18,9 @@ reconstruct(object, newdata, ...)
 
 \item{newdata}{a \code{\link{data.frame}} or \code{\link{matrix}} providing the data. Must have the same columns than the input layer of the model.}
 
-\item{drop}{do not return additional dimensions}
-
 \item{\dots}{ignored}
+
+\item{drop}{do not return additional dimensions}
 }
 \value{
 the reconstructed data
@@ -30,4 +30,3 @@ Passes the data all the way through an unrolled DeepBeliefNet (in this case, it 
 For a RestrictedBolzmannMachine or a DeepBeliefNet that hasn't been unrolled, it will predict, and predict again through the reversed network.
 In the end, the reconstruction has the same dimension as the input.
 }
-

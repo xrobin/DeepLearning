@@ -11,4 +11,3 @@ These DBNs have already been pre-trained and fine-tuned to model the MNIST datas
 They can be used to avoid long training steps, especially in examples of the package documentation.
 }
 \keyword{data}
-

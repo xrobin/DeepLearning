@@ -23,4 +23,3 @@ print(rbm)
 \seealso{
 \code{\link{DeepBeliefNet}}, \code{\link[base]{drop}}
 }
-

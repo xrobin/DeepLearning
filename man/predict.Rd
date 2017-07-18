@@ -35,4 +35,3 @@ predictions <- predict(rbm, mnist$test$x)
 dim(predictions) # 1000 columns, output size of the rbm
 ncol(predictions) == rbm$output$size
 }
-

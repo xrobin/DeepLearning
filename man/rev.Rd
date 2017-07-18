@@ -38,4 +38,3 @@ print(rbm)
 \seealso{
 \code{\link{RestrictedBolzmannMachine}}, \code{\link{DeepBeliefNet}}, \code{\link{rev}}
 }
-

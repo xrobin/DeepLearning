@@ -3,6 +3,7 @@
 \name{resample}
 \alias{resample}
 \alias{resample.DeepBeliefNet}
+\alias{resample.DeepBeliefNet}
 \alias{resample.RestrictedBolzmannMachine}
 \title{Sampling Methods for Deep Belief Nets and Restricted Bolzman Machines}
 \usage{
@@ -14,13 +15,13 @@ resample(...)
   ...)
 }
 \arguments{
+\item{\dots}{ignored}
+
 \item{object}{the model}
 
 \item{newdata}{a \code{\link{data.frame}} or \code{\link{matrix}} providing the data to sample. Must have the same columns than the input layer of the model.}
 
 \item{drop}{do not return additional dimensions}
-
-\item{\dots}{ignored}
 }
 \description{
 Sample from a \code{\link{DeepBeliefNet}} or \code{\link{RestrictedBolzmannMachine}} object
@@ -43,4 +44,3 @@ rbm <- pretrained.mnist[[1]]
 res <- resample(rbm, mnist$test$x)
 dim(res)
 }
-

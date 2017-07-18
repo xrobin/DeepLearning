@@ -2,8 +2,8 @@
 % Please edit documentation in R/clone.R
 \name{clone}
 \alias{clone}
-\alias{clone.DeepBeliefNet}
 \alias{clone.RestrictedBolzmannMachine}
+\alias{clone.DeepBeliefNet}
 \title{Clone a DBN or RBM}
 \usage{
 clone(x)
@@ -34,4 +34,3 @@ rbm3$W[1:10, 1:10] # Should be all 0s
 dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
 dbn2 <- clone(dbn)
 }
-

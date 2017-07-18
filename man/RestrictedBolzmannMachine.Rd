@@ -32,6 +32,7 @@ For performance purposes, the weights are stored in an environment. This means t
 and any modification you make to the new object will be propagated to the original one, and reciprocally.
 Use \code{\link{clone}} to control this and make a copy of the weights whenever you need it. Note that all the functions defined in the package do this by default.
 }
+
 \examples{
 rbm <- RestrictedBolzmannMachine(Layer(784, "continuous"), Layer(1000, "binary"))
 print(rbm)
@@ -40,4 +41,3 @@ methods(class="RestrictedBolzmannMachine")
 \seealso{
 \code{\link{DeepBeliefNet}}, which makes use of RestrictedBolzmannMachine objects, \code{\link{Layer}}.
 }
-

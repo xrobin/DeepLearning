@@ -18,4 +18,3 @@ as the number of RestrictedBolzmannMachine contained in the DeepBeliefNet (which
 dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
 length(dbn)
 }
-

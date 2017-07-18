@@ -31,6 +31,7 @@ It consists of a stack of \code{\link{RestrictedBolzmannMachine}} layers that wi
 and any modification you make to the new object will be propagated to the original one, and reciprocally.
 Use \code{\link{clone}} to control this and make a copy of the weights whenever you need it. Note that all the functions defined in the package do this by default.
 }
+
 \examples{
 dbn <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
 # Identical as
@@ -42,4 +43,3 @@ methods(class="DeepBeliefNet")
 \seealso{
 \code{\link{RestrictedBolzmannMachine}}, \code{\link{Layer}}
 }
-
