@@ -322,8 +322,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP DeepLearning_unrollDbnCpp(SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_DeepLearning_unrollDbnCpp", (DL_FUNC) &_DeepLearning_unrollDbnCpp, 1},
     {"_DeepLearning_predictRbmCpp", (DL_FUNC) &_DeepLearning_predictRbmCpp, 2},
@@ -351,7 +349,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_DeepLearning_setRbmBCpp", (DL_FUNC) &_DeepLearning_setRbmBCpp, 2},
     {"_DeepLearning_detectCores", (DL_FUNC) &_DeepLearning_detectCores, 0},
     {"_DeepLearning_unit_DbnGradient", (DL_FUNC) &_DeepLearning_unit_DbnGradient, 2},
-    {"DeepLearning_unrollDbnCpp", (DL_FUNC) &DeepLearning_unrollDbnCpp, 1},
     {NULL, NULL, 0}
 };
 
