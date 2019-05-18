@@ -9,7 +9,7 @@
 #' @export
 unroll <- function(x) {
 	if (is(x, "DeepBeliefNet")) {
-		return(.Call('DeepLearning_unrollDbnCpp', PACKAGE = 'DeepLearning', x))
+		return(unrollDbnCpp(x))
 	}
 	else {
 		stop("Expected a DeepBeliefNet")
