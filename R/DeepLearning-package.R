@@ -56,6 +56,10 @@
 #' data(mnist)
 #' 
 #' # Initialize a 784-1000-500-250-30 layers DBN to process the MNIST data set
+#' dbn.mnist <- DeepBeliefNet(
+#'     Layers(c(784, 1000, 500, 250, 30),
+#'            input="continuous",
+#'            output="gaussian"))
 #' dbn.mnist <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
 #' print(dbn.mnist)
 #' 
