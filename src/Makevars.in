@@ -1,4 +1,5 @@
 PKG_CXXFLAGS =  -I../inst/include\
 	@CUSTOM_I_FLAG@ `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="RcppEigen"))'` \
 	@CUSTOM_I_FLAG@ `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="Rcpp"))'` \
-	@CUSTOM_I_FLAG@ `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="BH"))'`
+	@CUSTOM_I_FLAG@ `$(R_HOME)/bin/Rscript -e 'cat(system.file("include", package="BH"))'` \
+	-DNDEBUG
