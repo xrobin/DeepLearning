@@ -18,7 +18,9 @@ namespace DeepLearning {
 	/* Conjugate gradients, based on R's  src/appl/optim.c, re-crafted to be stand-alone c++ code
 	 * Originally based on Pascal code
 	 * in J.C. Nash, `Compact Numerical Methods for Computers', 2nd edition,
-	 * converted by p2c then re-crafted by B.D. Ripley
+	 * converted by p2c then re-crafted by B.D. Ripley.
+	 * The code was copied from the R <https://www.r-project.org/> source code in
+	 * src/appl/optim.c.
 	 */
 	void cgmin(size_t n, double *Bvec, double *X, double *Fmin,
 			   optimfn fminfn, optimgr fmingr, int *fail,
@@ -156,10 +158,7 @@ namespace DeepLearning {
 							count = 0;
 							for (i = 0; i < n; i++) {
 								Bvec[i] = X[i] + steplength * t[i];
-								#pragma GCC diagnostic push
-								#pragma GCC diagnostic ignored "-Wfloat-equal"
 								if (reltest + X[i] == reltest + Bvec[i]) { // == comparison is safe here, taken from robust R code and using the same algorithm
-								#pragma GCC diagnostic pop
 									count++;
 								}
 									
