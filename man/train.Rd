@@ -91,7 +91,8 @@ trained.mnist <- train(unroll(pretrained.mnist), mnist$train$x, maxiters = 2000,
 # In this case the overhead is nearly 0
 diag <- list(rate = "each", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters) {
 	if (iter == 0) {
-		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
+		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, 
+		                                  width = NA, style = 3)
 	}
 	else if (iter == maxiters) {
 		setTxtProgressBar(DBNprogressBar, iter)

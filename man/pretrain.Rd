@@ -141,22 +141,31 @@ Note that diag functions incur a slight overhead as they involve a callback to R
 library(mnist)
 data(mnist)
 # Initialize a 784-1000-500-250-30 layers DBN to process the MNIST data set
-dbn.mnist <- DeepBeliefNet(Layers(c(784, 1000, 500, 250, 30), input="continuous", output="gaussian"))
+dbn.mnist <- DeepBeliefNet(
+    Layers(c(784, 1000, 500, 250, 30), 
+           input="continuous",
+           output="gaussian"))
 print(dbn.mnist)
 
 \dontrun{
 # Pre-train this DBN
 pretrained.mnist <- pretrain(dbn.mnist, mnist$train$x, 
-								 penalization = "l2", lambda=0.0002, epsilon=c(.1, .1, .1, .001), 
-								 batchsize = 100, maxiters=1000000)
+								 penalization = "l2",
+								 lambda=0.0002, 
+								 epsilon=c(.1, .1, .1, .001), 
+								 batchsize = 100,
+								 maxiters=1000000)
 }
 
 \dontrun{
 # Pretrain with a progress bar
 # In this case the overhead is around 1\%
-diag <- list(rate = "accelerate", data = NULL, f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
+diag <- list(rate = "accelerate", 
+             data = NULL,
+             f = function(rbm, batch, data, iter, batchsize, maxiters, layer) {
 	if (iter == 0) {
-		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, width = NA, style = 3)
+		DBNprogressBar <<- txtProgressBar(min = 0, max = maxiters, initial = 0, 
+		                                  width = NA, style = 3)
 	}
 	else if (iter == maxiters) {
 		setTxtProgressBar(DBNprogressBar, iter)
