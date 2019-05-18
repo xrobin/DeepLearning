@@ -17,6 +17,7 @@ namespace DeepLearning {
 			case(binary): return "binary";
 			case(continuous): return "continuous";
 		};
+		throw std::invalid_argument("Unknown Layer type!");
 	}
 	
 	unsigned int Layer::getSize() const {
