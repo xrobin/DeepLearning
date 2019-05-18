@@ -5,7 +5,7 @@ using Eigen::ArrayXXd;
 using Eigen::MatrixXd;
 #include <boost/numeric/conversion/cast.hpp>
 
-//#include <cassert> // assert
+#include <cassert> // assert
 #include <iostream>
 #include <fstream> // std::ofstream
 #include <stdexcept> // range_error
@@ -349,32 +349,32 @@ namespace DeepLearning {
 	
 	/* Setting values */
 	RBM& RBM::setB(ArrayX1d aNewB) {
-		//assert(b.rows() == aNewB.rows() && b.cols() == aNewB.cols());
+		assert(b.rows() == aNewB.rows() && b.cols() == aNewB.cols());
 		b = aNewB;
 		return *this;
 	}
 	RBM& RBM::setC(ArrayX1d aNewC) {
-		//assert(c.rows() == aNewC.rows() && c.cols() == aNewC.cols());
+		assert(c.rows() == aNewC.rows() && c.cols() == aNewC.cols());
 		c = aNewC;
 		return *this;
 	}
 	RBM& RBM::setW(Eigen::MatrixXd aNewW) {
-		//assert(W.rows() == aNewW.rows() && W.cols() == aNewW.cols());
+		assert(W.rows() == aNewW.rows() && W.cols() == aNewW.cols());
 		W = aNewW;
 		return *this;
 	}
 	RBM& RBM::setB(ArrayX1dMap aNewB) {
-		//assert(b.rows() == aNewB.rows() && b.cols() == aNewB.cols());
+		assert(b.rows() == aNewB.rows() && b.cols() == aNewB.cols());
 		b = aNewB;
 		return *this;
 	}
 	RBM& RBM::setC(ArrayX1dMap aNewC) {
-		//assert(c.rows() == aNewC.rows() && c.cols() == aNewC.cols());
+		assert(c.rows() == aNewC.rows() && c.cols() == aNewC.cols());
 		c = aNewC;
 		return *this;
 	}
 	RBM& RBM::setW(MatrixXdMap aNewW) {
-		//assert(W.rows() == aNewW.rows() && W.cols() == aNewW.cols());
+		assert(W.rows() == aNewW.rows() && W.cols() == aNewW.cols());
 		W = aNewW;
 		return *this;
 	}
