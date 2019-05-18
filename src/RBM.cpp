@@ -1,4 +1,3 @@
-#undef NDEBUG
 #include <Rcpp.h>
 
 #include <Eigen/Dense>

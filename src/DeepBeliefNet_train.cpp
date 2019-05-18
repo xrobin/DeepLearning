@@ -1,6 +1,5 @@
 /* This file implements the training (conjugate gradients) part of the DeepBeliefNet.
 */
-#undef NDEBUG
 #include <Eigen/Dense>
 using Eigen::MatrixXd;
 using Eigen::ArrayXXd;
