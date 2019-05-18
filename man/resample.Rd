@@ -3,7 +3,6 @@
 \name{resample}
 \alias{resample}
 \alias{resample.DeepBeliefNet}
-\alias{resample.DeepBeliefNet}
 \alias{resample.RestrictedBolzmannMachine}
 \title{Sampling Methods for Deep Belief Nets and Restricted Bolzman Machines}
 \usage{
@@ -11,8 +10,8 @@ resample(...)
 
 \method{resample}{DeepBeliefNet}(object, newdata, drop = TRUE, ...)
 
-\method{resample}{RestrictedBolzmannMachine}(object, newdata, drop = TRUE,
-  ...)
+\method{resample}{RestrictedBolzmannMachine}(object, newdata,
+  drop = TRUE, ...)
 }
 \arguments{
 \item{\dots}{ignored}

@@ -12,11 +12,12 @@
 pretrain(x, data, ...)
 
 \method{pretrain}{RestrictedBolzmannMachine}(x, data, miniters = 100,
-  maxiters = floor(dim(data)[1]/batchsize), batchsize = 100, momentum = 0,
-  penalization = c("l1", "l2", "none"), lambda = 0, lambda.b = lambda,
-  lambda.c = lambda, lambda.W = lambda, epsilon = ifelse(x$output$type ==
-  "gaussian", 0.001, 0.1), epsilon.b = epsilon, epsilon.c = epsilon,
-  epsilon.W = epsilon, train.b = TRUE, train.c = TRUE,
+  maxiters = floor(dim(data)[1]/batchsize), batchsize = 100,
+  momentum = 0, penalization = c("l1", "l2", "none"), lambda = 0,
+  lambda.b = lambda, lambda.c = lambda, lambda.W = lambda,
+  epsilon = ifelse(x$output$type == "gaussian", 0.001, 0.1),
+  epsilon.b = epsilon, epsilon.c = epsilon, epsilon.W = epsilon,
+  train.b = TRUE, train.c = TRUE,
   continue.function = continue.function.exponential,
   continue.function.frequency = 1000, continue.stop.limit = 30,
   diag = list(rate = diag.rate, data = diag.data, f = diag.function),
@@ -25,10 +26,11 @@ pretrain(x, data, ...)
 
 \method{pretrain}{DeepBeliefNet}(x, data, miniters = 100,
   maxiters = floor(dim(data)[1]/batchsize), batchsize = 100,
-  skip = numeric(0), momentum = 0, penalization = "l1", lambda = 2e-04,
-  lambda.b = lambda, lambda.c = lambda, lambda.W = lambda,
-  epsilon = 0.1, epsilon.b = epsilon, epsilon.c = epsilon,
-  epsilon.W = epsilon, train.b = TRUE, train.c = length(x) - 1,
+  skip = numeric(0), momentum = 0, penalization = "l1",
+  lambda = 2e-04, lambda.b = lambda, lambda.c = lambda,
+  lambda.W = lambda, epsilon = 0.1, epsilon.b = epsilon,
+  epsilon.c = epsilon, epsilon.W = epsilon, train.b = TRUE,
+  train.c = length(x) - 1,
   continue.function = continue.function.exponential,
   continue.function.frequency = 100, continue.stop.limit = 3,
   diag = list(rate = diag.rate, data = diag.data, f = diag.function),

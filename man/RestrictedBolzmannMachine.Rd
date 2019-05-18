@@ -4,8 +4,8 @@
 \alias{RestrictedBolzmannMachine}
 \title{Initialize a Restricted Bolzman Machine}
 \usage{
-RestrictedBolzmannMachine(input, output, weights = NULL, initialize = c("0",
-  "uniform"))
+RestrictedBolzmannMachine(input, output, weights = NULL,
+  initialize = c("0", "uniform"))
 }
 \arguments{
 \item{input, output}{\code{\link{Layer}} objects}

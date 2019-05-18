@@ -9,14 +9,16 @@
 \alias{continue.function.random}
 \title{Continue functions}
 \usage{
-continue.function.exponential(error, iter, batchsize, maxiters, layer = 0,
-  ic = AIC)
+continue.function.exponential(error, iter, batchsize, maxiters,
+  layer = 0, ic = AIC)
 
 continue.function.always(error, iter, batchsize, maxiters, layer = 0)
 
-continue.function.exponential.aic(error, iter, batchsize, maxiters, layer = 0)
+continue.function.exponential.aic(error, iter, batchsize, maxiters,
+  layer = 0)
 
-continue.function.exponential.bic(error, iter, batchsize, maxiters, layer = 0)
+continue.function.exponential.bic(error, iter, batchsize, maxiters,
+  layer = 0)
 
 continue.function.random(error, iter, batchsize, maxiters, layer = 0)
 }

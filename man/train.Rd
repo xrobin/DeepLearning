@@ -8,7 +8,8 @@
 \format{An object of class \code{list} of length 3.}
 \usage{
 train(x, data, miniters = 100, maxiters = 1000, batchsize = 100,
-  optim.control = list(), continue.function = continue.function.exponential,
+  optim.control = list(),
+  continue.function = continue.function.exponential,
   continue.function.frequency = 100, continue.stop.limit = 3,
   diag = list(rate = diag.rate, data = diag.data, f = diag.function),
   diag.rate = c("none", "each", "accelerate"), diag.data = NULL,

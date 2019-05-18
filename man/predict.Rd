@@ -8,7 +8,8 @@
 \usage{
 \method{predict}{DeepBeliefNet}(object, newdata, drop = TRUE, ...)
 
-\method{predict}{RestrictedBolzmannMachine}(object, newdata, drop = TRUE, ...)
+\method{predict}{RestrictedBolzmannMachine}(object, newdata, drop = TRUE,
+  ...)
 }
 \arguments{
 \item{object}{the model}

@@ -3,7 +3,6 @@
 \name{Layer}
 \alias{Layer}
 \alias{Layers}
-\alias{Layers}
 \title{Layer of a DeepBeliefNet}
 \usage{
 Layer(size, type)

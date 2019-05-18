@@ -10,8 +10,8 @@ reconstruct(object, newdata, ...)
 
 \method{reconstruct}{DeepBeliefNet}(object, newdata, drop = TRUE, ...)
 
-\method{reconstruct}{RestrictedBolzmannMachine}(object, newdata, drop = TRUE,
-  ...)
+\method{reconstruct}{RestrictedBolzmannMachine}(object, newdata,
+  drop = TRUE, ...)
 }
 \arguments{
 \item{object}{the \code{\link{RestrictedBolzmannMachine}} or \code{\link{DeepBeliefNet}} object}

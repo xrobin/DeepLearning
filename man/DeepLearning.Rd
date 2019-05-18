@@ -4,7 +4,6 @@
 \name{DeepLearning}
 \alias{DeepLearning}
 \alias{DeepLearning-package}
-\alias{DeepLearning-package}
 \title{Deep Learning Toolbox}
 \description{
 DeepLearning provides tools to train deep neural networks (or deep belief nets, DBN, represented by \code{\link{DeepBeliefNet}} objects) as 

@@ -7,19 +7,9 @@
 
 using namespace Rcpp;
 
-// detectCores
-unsigned int detectCores();
-RcppExport SEXP DeepLearning_detectCores() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(detectCores());
-    return rcpp_result_gen;
-END_RCPP
-}
 // unrollDbnCpp
 DeepLearning::DeepBeliefNet unrollDbnCpp(DeepLearning::DeepBeliefNet& aDBN);
-RcppExport SEXP DeepLearning_unrollDbnCpp(SEXP aDBNSEXP) {
+RcppExport SEXP _DeepLearning_unrollDbnCpp(SEXP aDBNSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +20,7 @@ END_RCPP
 }
 // predictRbmCpp
 Eigen::MatrixXd predictRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_predictRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_predictRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -42,7 +32,7 @@ END_RCPP
 }
 // predictDbnCpp
 Eigen::MatrixXd predictDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_predictDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_predictDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -54,7 +44,7 @@ END_RCPP
 }
 // sampleRbmCpp
 Eigen::MatrixXd sampleRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_sampleRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_sampleRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -66,7 +56,7 @@ END_RCPP
 }
 // sampleDbnCpp
 Eigen::MatrixXd sampleDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_sampleDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_sampleDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -78,7 +68,7 @@ END_RCPP
 }
 // reconstructRbmCpp
 Eigen::MatrixXd reconstructRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_reconstructRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_reconstructRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -90,7 +80,7 @@ END_RCPP
 }
 // reconstructDbnCpp
 Eigen::MatrixXd reconstructDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_reconstructDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_reconstructDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -102,7 +92,7 @@ END_RCPP
 }
 // pretrainRbmCpp
 DeepLearning::RBM pretrainRbmCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const DeepLearning::PretrainParameters& params, const std::unique_ptr<DeepLearning::PretrainProgress>& diag, const DeepLearning::ContinueFunction& cont);
-RcppExport SEXP DeepLearning_pretrainRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP, SEXP paramsSEXP, SEXP diagSEXP, SEXP contSEXP) {
+RcppExport SEXP _DeepLearning_pretrainRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP, SEXP paramsSEXP, SEXP diagSEXP, SEXP contSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -117,7 +107,7 @@ END_RCPP
 }
 // pretrainDbnCpp
 DeepLearning::DeepBeliefNet pretrainDbnCpp(DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const std::vector<DeepLearning::PretrainParameters>& params, const std::unique_ptr<DeepLearning::PretrainProgress>& diag, DeepLearning::ContinueFunction& cont, const Rcpp::IntegerVector& aSkip);
-RcppExport SEXP DeepLearning_pretrainDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP, SEXP paramsSEXP, SEXP diagSEXP, SEXP contSEXP, SEXP aSkipSEXP) {
+RcppExport SEXP _DeepLearning_pretrainDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP, SEXP paramsSEXP, SEXP diagSEXP, SEXP contSEXP, SEXP aSkipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -133,7 +123,7 @@ END_RCPP
 }
 // trainDbnCpp
 DeepLearning::DeepBeliefNet trainDbnCpp(DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix, const DeepLearning::TrainParameters& trainParams, const std::unique_ptr<DeepLearning::TrainProgress>& diag, const DeepLearning::ContinueFunction& cont);
-RcppExport SEXP DeepLearning_trainDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP, SEXP trainParamsSEXP, SEXP diagSEXP, SEXP contSEXP) {
+RcppExport SEXP _DeepLearning_trainDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP, SEXP trainParamsSEXP, SEXP diagSEXP, SEXP contSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -148,7 +138,7 @@ END_RCPP
 }
 // reverseRbmCpp
 DeepLearning::RBM reverseRbmCpp(DeepLearning::RBM& anRBM);
-RcppExport SEXP DeepLearning_reverseRbmCpp(SEXP anRBMSEXP) {
+RcppExport SEXP _DeepLearning_reverseRbmCpp(SEXP anRBMSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -159,7 +149,7 @@ END_RCPP
 }
 // reverseDbnCpp
 DeepLearning::DeepBeliefNet reverseDbnCpp(DeepLearning::DeepBeliefNet& aDBN);
-RcppExport SEXP DeepLearning_reverseDbnCpp(SEXP aDBNSEXP) {
+RcppExport SEXP _DeepLearning_reverseDbnCpp(SEXP aDBNSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -170,7 +160,7 @@ END_RCPP
 }
 // energyRbmCpp
 DeepLearning::ArrayX1d energyRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_energyRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_energyRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -182,7 +172,7 @@ END_RCPP
 }
 // energyDbnCpp
 DeepLearning::ArrayX1d energyDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_energyDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_energyDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -194,7 +184,7 @@ END_RCPP
 }
 // errorRbmCpp
 DeepLearning::ArrayX1d errorRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_errorRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_errorRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -206,7 +196,7 @@ END_RCPP
 }
 // errorDbnCpp
 DeepLearning::ArrayX1d errorDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_errorDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_errorDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -218,7 +208,7 @@ END_RCPP
 }
 // errorSumRbmCpp
 double errorSumRbmCpp(const DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_errorSumRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_errorSumRbmCpp(SEXP anRBMSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -230,7 +220,7 @@ END_RCPP
 }
 // errorSumDbnCpp
 double errorSumDbnCpp(const DeepLearning::DeepBeliefNet& aDBN, const Eigen::Map<Eigen::MatrixXd>& aDataMatrix);
-RcppExport SEXP DeepLearning_errorSumDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_errorSumDbnCpp(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -242,7 +232,7 @@ END_RCPP
 }
 // extractRbmWCpp
 DeepLearning::MatrixXdMap extractRbmWCpp(const DeepLearning::RBM& anRBM);
-RcppExport SEXP DeepLearning_extractRbmWCpp(SEXP anRBMSEXP) {
+RcppExport SEXP _DeepLearning_extractRbmWCpp(SEXP anRBMSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -253,7 +243,7 @@ END_RCPP
 }
 // extractRbmCCpp
 DeepLearning::ArrayX1d extractRbmCCpp(const DeepLearning::RBM& anRBM);
-RcppExport SEXP DeepLearning_extractRbmCCpp(SEXP anRBMSEXP) {
+RcppExport SEXP _DeepLearning_extractRbmCCpp(SEXP anRBMSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -264,7 +254,7 @@ END_RCPP
 }
 // extractRbmBCpp
 DeepLearning::ArrayX1d extractRbmBCpp(const DeepLearning::RBM& anRBM);
-RcppExport SEXP DeepLearning_extractRbmBCpp(SEXP anRBMSEXP) {
+RcppExport SEXP _DeepLearning_extractRbmBCpp(SEXP anRBMSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -275,7 +265,7 @@ END_RCPP
 }
 // setRbmWCpp
 DeepLearning::RBM& setRbmWCpp(DeepLearning::RBM& anRBM, const Eigen::Map<Eigen::MatrixXd>& aNewW);
-RcppExport SEXP DeepLearning_setRbmWCpp(SEXP anRBMSEXP, SEXP aNewWSEXP) {
+RcppExport SEXP _DeepLearning_setRbmWCpp(SEXP anRBMSEXP, SEXP aNewWSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -287,7 +277,7 @@ END_RCPP
 }
 // setRbmCCpp
 DeepLearning::RBM& setRbmCCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewC);
-RcppExport SEXP DeepLearning_setRbmCCpp(SEXP anRBMSEXP, SEXP aNewCSEXP) {
+RcppExport SEXP _DeepLearning_setRbmCCpp(SEXP anRBMSEXP, SEXP aNewCSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -299,7 +289,7 @@ END_RCPP
 }
 // setRbmBCpp
 DeepLearning::RBM& setRbmBCpp(DeepLearning::RBM& anRBM, const DeepLearning::ArrayX1d& aNewB);
-RcppExport SEXP DeepLearning_setRbmBCpp(SEXP anRBMSEXP, SEXP aNewBSEXP) {
+RcppExport SEXP _DeepLearning_setRbmBCpp(SEXP anRBMSEXP, SEXP aNewBSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -309,9 +299,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// detectCores
+unsigned int detectCores();
+RcppExport SEXP _DeepLearning_detectCores() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(detectCores());
+    return rcpp_result_gen;
+END_RCPP
+}
 // unit_DbnGradient
 SEXP unit_DbnGradient(SEXP& aDBN, SEXP& aDataMatrix);
-RcppExport SEXP DeepLearning_unit_DbnGradient(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
+RcppExport SEXP _DeepLearning_unit_DbnGradient(SEXP aDBNSEXP, SEXP aDataMatrixSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -322,33 +322,36 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP DeepLearning_unrollDbnCpp(SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
-    {"DeepLearning_detectCores", (DL_FUNC) &DeepLearning_detectCores, 0},
+    {"_DeepLearning_unrollDbnCpp", (DL_FUNC) &_DeepLearning_unrollDbnCpp, 1},
+    {"_DeepLearning_predictRbmCpp", (DL_FUNC) &_DeepLearning_predictRbmCpp, 2},
+    {"_DeepLearning_predictDbnCpp", (DL_FUNC) &_DeepLearning_predictDbnCpp, 2},
+    {"_DeepLearning_sampleRbmCpp", (DL_FUNC) &_DeepLearning_sampleRbmCpp, 2},
+    {"_DeepLearning_sampleDbnCpp", (DL_FUNC) &_DeepLearning_sampleDbnCpp, 2},
+    {"_DeepLearning_reconstructRbmCpp", (DL_FUNC) &_DeepLearning_reconstructRbmCpp, 2},
+    {"_DeepLearning_reconstructDbnCpp", (DL_FUNC) &_DeepLearning_reconstructDbnCpp, 2},
+    {"_DeepLearning_pretrainRbmCpp", (DL_FUNC) &_DeepLearning_pretrainRbmCpp, 5},
+    {"_DeepLearning_pretrainDbnCpp", (DL_FUNC) &_DeepLearning_pretrainDbnCpp, 6},
+    {"_DeepLearning_trainDbnCpp", (DL_FUNC) &_DeepLearning_trainDbnCpp, 5},
+    {"_DeepLearning_reverseRbmCpp", (DL_FUNC) &_DeepLearning_reverseRbmCpp, 1},
+    {"_DeepLearning_reverseDbnCpp", (DL_FUNC) &_DeepLearning_reverseDbnCpp, 1},
+    {"_DeepLearning_energyRbmCpp", (DL_FUNC) &_DeepLearning_energyRbmCpp, 2},
+    {"_DeepLearning_energyDbnCpp", (DL_FUNC) &_DeepLearning_energyDbnCpp, 2},
+    {"_DeepLearning_errorRbmCpp", (DL_FUNC) &_DeepLearning_errorRbmCpp, 2},
+    {"_DeepLearning_errorDbnCpp", (DL_FUNC) &_DeepLearning_errorDbnCpp, 2},
+    {"_DeepLearning_errorSumRbmCpp", (DL_FUNC) &_DeepLearning_errorSumRbmCpp, 2},
+    {"_DeepLearning_errorSumDbnCpp", (DL_FUNC) &_DeepLearning_errorSumDbnCpp, 2},
+    {"_DeepLearning_extractRbmWCpp", (DL_FUNC) &_DeepLearning_extractRbmWCpp, 1},
+    {"_DeepLearning_extractRbmCCpp", (DL_FUNC) &_DeepLearning_extractRbmCCpp, 1},
+    {"_DeepLearning_extractRbmBCpp", (DL_FUNC) &_DeepLearning_extractRbmBCpp, 1},
+    {"_DeepLearning_setRbmWCpp", (DL_FUNC) &_DeepLearning_setRbmWCpp, 2},
+    {"_DeepLearning_setRbmCCpp", (DL_FUNC) &_DeepLearning_setRbmCCpp, 2},
+    {"_DeepLearning_setRbmBCpp", (DL_FUNC) &_DeepLearning_setRbmBCpp, 2},
+    {"_DeepLearning_detectCores", (DL_FUNC) &_DeepLearning_detectCores, 0},
+    {"_DeepLearning_unit_DbnGradient", (DL_FUNC) &_DeepLearning_unit_DbnGradient, 2},
     {"DeepLearning_unrollDbnCpp", (DL_FUNC) &DeepLearning_unrollDbnCpp, 1},
-    {"DeepLearning_predictRbmCpp", (DL_FUNC) &DeepLearning_predictRbmCpp, 2},
-    {"DeepLearning_predictDbnCpp", (DL_FUNC) &DeepLearning_predictDbnCpp, 2},
-    {"DeepLearning_sampleRbmCpp", (DL_FUNC) &DeepLearning_sampleRbmCpp, 2},
-    {"DeepLearning_sampleDbnCpp", (DL_FUNC) &DeepLearning_sampleDbnCpp, 2},
-    {"DeepLearning_reconstructRbmCpp", (DL_FUNC) &DeepLearning_reconstructRbmCpp, 2},
-    {"DeepLearning_reconstructDbnCpp", (DL_FUNC) &DeepLearning_reconstructDbnCpp, 2},
-    {"DeepLearning_pretrainRbmCpp", (DL_FUNC) &DeepLearning_pretrainRbmCpp, 5},
-    {"DeepLearning_pretrainDbnCpp", (DL_FUNC) &DeepLearning_pretrainDbnCpp, 6},
-    {"DeepLearning_trainDbnCpp", (DL_FUNC) &DeepLearning_trainDbnCpp, 5},
-    {"DeepLearning_reverseRbmCpp", (DL_FUNC) &DeepLearning_reverseRbmCpp, 1},
-    {"DeepLearning_reverseDbnCpp", (DL_FUNC) &DeepLearning_reverseDbnCpp, 1},
-    {"DeepLearning_energyRbmCpp", (DL_FUNC) &DeepLearning_energyRbmCpp, 2},
-    {"DeepLearning_energyDbnCpp", (DL_FUNC) &DeepLearning_energyDbnCpp, 2},
-    {"DeepLearning_errorRbmCpp", (DL_FUNC) &DeepLearning_errorRbmCpp, 2},
-    {"DeepLearning_errorDbnCpp", (DL_FUNC) &DeepLearning_errorDbnCpp, 2},
-    {"DeepLearning_errorSumRbmCpp", (DL_FUNC) &DeepLearning_errorSumRbmCpp, 2},
-    {"DeepLearning_errorSumDbnCpp", (DL_FUNC) &DeepLearning_errorSumDbnCpp, 2},
-    {"DeepLearning_extractRbmWCpp", (DL_FUNC) &DeepLearning_extractRbmWCpp, 1},
-    {"DeepLearning_extractRbmCCpp", (DL_FUNC) &DeepLearning_extractRbmCCpp, 1},
-    {"DeepLearning_extractRbmBCpp", (DL_FUNC) &DeepLearning_extractRbmBCpp, 1},
-    {"DeepLearning_setRbmWCpp", (DL_FUNC) &DeepLearning_setRbmWCpp, 2},
-    {"DeepLearning_setRbmCCpp", (DL_FUNC) &DeepLearning_setRbmCCpp, 2},
-    {"DeepLearning_setRbmBCpp", (DL_FUNC) &DeepLearning_setRbmBCpp, 2},
-    {"DeepLearning_unit_DbnGradient", (DL_FUNC) &DeepLearning_unit_DbnGradient, 2},
     {NULL, NULL, 0}
 };
 
