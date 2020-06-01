@@ -173,7 +173,7 @@ test_that("Extraction of RBM with [[.DeepBeliefNet", {
 	# expect_that(dbn[[-(2:3)]], equals(RestrictedBolzmannMachine(l3g, l4b)))
 	
 	# But not in other
-	expect_that(dbn[[-3]], throws_error("attempt to select more than one element"))
+	expect_that(dbn[[-3]], throws_error())
 	
 	
 })
