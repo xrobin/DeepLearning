@@ -9,6 +9,3 @@ r_github_packages: xrobin/mnist
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
-
-# Ubuntu 14.04 Trusty support with GCC 4.8
-dist: trusty
